@@ -7,6 +7,16 @@
     <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' type="text/css" href="css/style.css">
+
+    
+    <script type="text/javascript" src="dataLoading.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="combinationMatrix.js"></script>
+    <script type="text/javascript" src="brushChart.js"></script>
+    <script type="text/javascript" src="lineChart.js"></script>
+    <script type="text/javascript" src="connectionLine.js"></script>
+    <script type="text/javascript" src="CalTreData.js"></script>
+    <script type="text/javascript" src="groupset.js"></script>
 </head>
 
 <body class="group-body">
@@ -14,43 +24,49 @@
         paraFontSize = '12px'
     </script> -->
     <div style="height:100%; width:100%">
-        <div id='layout-left' style='height:30px'>
-            <form class='parameters'>
+        <div id='layout-left' style='height:100%'>
+            <form class='parameter-dataset'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px;width:100%;'>Select the dataset</div><select
+                    style="width: 70%;">
+                    <!-- <option value="Category" style='font-size:12px'>Category</option> -->
+                </select>
+            </form>
+            <form class='parameter-number'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Number of categories</div><input value=3
                     style='width:60%;' type=range min=2 max=4 step=1></input><label
-                    style='margin-top:1em;font-size:12px'>3</label>
+                    style='margin-top:1em;font-size:12px;'>3</label>
             </form>
-            <form class='parameters'>
+            <form class='parameter-empty'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Include empty sets</div><label
                     style='margin-top:1em;font-size:12px'><input value='empty' name='input' style='width:20%;'
                         type=radio checked></input>No</label><label style='margin-top:1em;font-size:12px'><input
                         value='non-empty' name='input' style='width:20%;' type=radio></input>Yes</label>
             </form>
-            <form class='parameters'>
+            <form class='parameter-height'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Height of Sets</div><input value=60
                     style='width:60%;' type=range min=30 max=150 step=1></input><label
                     style='margin-top:1em;font-size:12px'>60</label>
             </form>
 
-            <form class='parameters'>
+            <form class='parameter-widthline'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Width of lines</div><input value=3
                     style='width:60%;' type=range min=1 max=5 step=1></input><label
                     style='margin-top:1em;font-size:12px'>3</label>
             </form>
-            <form class='parameters'>
+            <form class='parameter-first'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>First,aggregate by:</div><select>
                     <option value="Category" style='font-size:12px'>Category</option>
                 </select>
             </form>
-            <form class='parameters'>
+            <form class='parameter-second'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Then,aggregate by:</div><select>
                     <option value="Trend" style='font-size:12px'>Trend</option>
                 </select>
             </form>
-            <form class='parameters'>
+            <form class='parameter-expand'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Aggeragates</div><label
                     style='margin-top:1em;font-size:12px'><input value='collapse' name='input' style='width:20px;'
-                        type=radio checked></input>Collapse all</label><label
+                        type=radio checked></input>Collapse all</label><br><label
                     style='margin-top:1em;font-size:12px'><input value='expand' name='input' style='width:20px;'
                         type=radio></input>Expand all</label>
             </form>
@@ -68,538 +84,192 @@
 
 
     <script>
+        // -------------------------------------------------------------------
+        // Init the all global variables
+        var dataIndex,      // the data index to be used in dataLoading
+            firstAggeragate,       // the attribute that we fisrt aggregate;
+            secondAggeragate,       // the second attribute that we aggregate;
+            svgLine,               // the svg of line chart;
+            svgMatrix,                // the svg of combination matrix;
+            lineWidth,                   // the width of lines
+            nPara,                   // how many categories we created
+            setHeight,            // the height of the groups
+            isEmpty,         // if it shows the empty groups;
+            dataset,            // the raw dataset;
+            dataJson       // the information of dataset, such as the attributes etc. 
+
+
+
+        // Add the dataset to the selections
+        dataIndex = d3.select('.parameter-dataset')
 
         // add the options for the first aggregation
-        d3.select(firstAggeragate)
-            .select("select")
-            .selectAll("option")
-            .data(
-                ["Category", "Trend"].concat(
-                    dataJson.attributes
-                        .filter((d) => d.type == "categorical")
-                        .map((d) => d.name)
-                )
-            )
-            .join("option")
-            .text((d) => d)
-            .attr("value", (d) => d);
-
-
-        //   add the optiosn for the second aggregation
-        d3.select(secondAggeragate)
-            .select("select")
-            .selectAll("option")
-            .data(
-                ["Trend", "Category"].concat(
-                    dataJson.attributes
-                        .filter((d) => d.type == "categorical")
-                        .map((d) => d.name)
-                )
-            )
-            .join("option")
-            .text((d) => d)
-            .attr("value", (d) => d);
-
-
-
-
-
-        var svgLine = d3
-            .select(ui)
+        firstAggeragate = d3.select('.parameter-first');
+        secondAggeragate = d3.select('.parameter-second');
+        nPara = d3.select('.parameter-number');
+        setHeight = d3.select('.parameter-height');
+        svgLine = d3
             .select("#div-line")
             .append("svg")
             .attr(
                 "width",
-                d3.select(ui).select("#div-line").node().getBoundingClientRect().width
+                d3.select("#div-line").node().getBoundingClientRect().width
             )
             .attr(
                 "height",
-                d3.select(ui).select("#div-line").node().getBoundingClientRect().height
+                d3.select("#div-line").node().getBoundingClientRect().height
             ); // create the svg for line chart;
 
-        brushChart({
-            dataJson: dataJson,
-            node: svgLine.node(),
-            n: +d3.select(nPara).select("input").node().value,
-            data: dataset,
-            isEmpty: isEmpty
-        }); // visualize the brush
-        LineChart({
-            data: dataset,
-            dataJson: dataJson,
-            node: svgLine.node(),
-            n: +d3.select(nPara).select("input").node().value,
-            brushedAttributes: svgLine.select("#time-brush").node().value,
-            lineWidth: +d3.select(lineWidth).select("input").node().value
-        }); // visualize the line chart
-        // debugger;
-
-        connectionLine({
-            selfNode: svgLine
-                .node()
-                .parentElement.parentElement.querySelector("#layout-right-top-left"),
-            dataFromFuzzy: svgLine.node().parentElement.value,
-            dataJson: dataJson,
-            dataset: dataset
-        }); // visualize the connected lines
-
-        // -----------------------------------------------------------------
-        // visualize the combination matrix
-        var svgMatrix = d3
-            .select(ui)
+        svgMatrix = d3
             .select("#div-matrix")
             .append("svg")
             .attr(
                 "width",
-                d3.select(ui).select("#div-matrix").node().getBoundingClientRect().width
+                d3.select("#div-matrix").node().getBoundingClientRect().width
             )
             .attr(
                 "height",
-                d3.select(ui).select("#div-matrix").node().getBoundingClientRect().height
+                d3.select("#div-matrix").node().getBoundingClientRect().height
             ); // create svg for matrix
-        debugger;
-        renderCombinationMatrix({
-            node: svgMatrix.node(),
-            dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: null,
-            dataset: dataset,
-            id: dataJson.id,
-            attributesCut: dataJson.temporalAttributes,
-            // degrees: [1, 2, 3],
-            // setMember: [],
-            // probability: [],
-            dataJson: dataJson,
-            circleType: "circle",
-            type: "percentage",
-            empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-            brushedAttributes: svgLine.select("#time-brush").node().value,
-            yHeight: +d3.select(setInterval).select("input").node().value,
-            lineWidth: +d3.select(lineWidth).select("input").node().value,
-            secondAggeragateAttribute: d3
-                .select(secondAggeragate)
-                .select("select")
-                .node().value,
-            firstAggeragateAttribute: d3.select(firstAggeragate).select("select").node()
-                .value
-        }); // visualize the combination sets
 
-        // ------------------------------------------------------------------------
-        // change the width of lines
-        lineWidth.addEventListener("input", (d) => {
-            var inputValue = d.currentTarget.querySelector("input").value;
-            d.currentTarget.querySelector("label").innerText = inputValue;
-            LineChart({
-                data: dataset,
-                dataJson: dataJson,
-                node: svgLine.node(),
-                n: +d3.select(nPara).select("input").node().value,
-                brushedAttributes: svgLine.select("#time-brush").node().value,
-                lineWidth: inputValue
-            }); // visualize the line chart
+        lineWidth = d3.select('.parameter-widthline');
 
-            renderCombinationMatrix({
-                node: svgMatrix.node(),
-                dataFromFuzzy: svgLine.node().parentElement.value,
-                orderCate: null,
-                dataset: dataset,
-                id: dataJson.id,
-                attributesCut: dataJson.temporalAttributes,
-                // degrees: [1, 2, 3],
-                // setMember: [],
-                // probability: [],
-                dataJson: dataJson,
-                circleType: "circle",
-                type: "percentage",
-                empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                    ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                    : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                brushedAttributes: svgLine.select("#time-brush").node().value,
-                yHeight: +d3.select(setInterval).select("input").node().value,
-                lineWidth: inputValue,
-                secondAggeragateAttribute: d3
-                    .select(secondAggeragate)
-                    .select("select")
-                    .node().value,
-                firstAggeragateAttribute: d3
-                    .select(firstAggeragate)
-                    .select("select")
-                    .node().value
-            }); // visualize the combination sets
-        });
+        isEmpty = d3.select('.parameter-empty');
+        // -------------------------------------------------------------------------
+        // load the data from remote server
 
-        // -----------------------------------------------------------------
-        // change the parameters to update the related visualizations;
-        nPara.addEventListener("input", (e) => {
-            debugger;
-            var inputValue = e.currentTarget.querySelector("input").value;
-            e.currentTarget.querySelector("label").innerText = inputValue;
-            // h = e.target.value;
-            LineChart({
-                data: dataset,
-                dataJson: dataJson,
-                node: svgLine.node(),
-                n: +inputValue,
-                brushedAttributes: svgLine.select("#time-brush").node().value,
-                lineWidth: +d3.select(lineWidth).select("input").node().value
-            });
-            debugger;
-            connectionLine({
-                selfNode: svgLine
-                    .node()
-                    .parentElement.parentElement.querySelector("#layout-right-top-left"),
-                dataFromFuzzy: svgLine.node().parentElement.value,
-                dataJson: dataJson,
-                dataset: dataset
-            }); // visualize the connected lines
+        d3
+            .json("https://file-server-liqun.herokuapp.com/files/index.json")
+            .then((d) => {
+                var API_ENDPOINT = "https://file-server-liqun.herokuapp.com/files/";
+                var promise = [];
+                for (var i of d) {
+                    var promiseSmall = d3.json(API_ENDPOINT + i);
+                    promise.push(promiseSmall)
+                }
+                Promise.all(promise).then(d1 => {
+                    var indexSelection = d1.map(e => {
+                        var output = {};
+                        output.Title = e.name || `${set} (ERROR)`;
+                        output.Item = e.name.replace(/\W/g, "_").replace(/^([0-9])/, "_$1");
+                        if (!e.file) {
+                            e.file = "__undefined__.csv";
+                        }
+                        output.dataUrl = e.file.match(/^https?:/) ? e.file : API_ENDPOINT + e.file;
+                        output.json = e;
+                        // res.push(output)
+                        // debugger;
 
-            renderCombinationMatrix({
-                node: svgMatrix.node(),
-                dataFromFuzzy: svgLine.node().parentElement.value,
-                orderCate: svgLine.node().parentElement.value[0].name,
-                dataset: dataset,
-                id: dataJson.id,
-                attributesCut: dataJson.temporalAttributes,
-                // degrees: [1, 2, 3],
-                // setMember: [],
-                // probability: [],
-                dataJson: dataJson,
-                circleType: "circle",
-                type: "percentage",
-                empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                    ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                    : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                brushedAttributes: svgLine.select("#time-brush").node().value,
-                yHeight: +d3.select(setInterval).select("input").node().value,
-                lineWidth: +d3.select(lineWidth).select("input").node().value,
-                secondAggeragateAttribute: d3
-                    .select(secondAggeragate)
-                    .select("select")
-                    .node().value,
-                firstAggeragateAttribute: d3
-                    .select(firstAggeragate)
-                    .select("select")
-                    .node().value
-            });
-
-            d3.select("#layout-right-top-left")
-                .selectAll(".connect-area")
-                .on("click", (d) => {
-                    debugger;
-                    renderCombinationMatrix({
-                        node: svgMatrix.node(),
-                        dataFromFuzzy: svgLine.node().parentElement.value,
-                        orderCate: d.currentTarget.__data__.name,
-                        dataset: dataset,
-                        id: dataJson.id,
-                        attributesCut: dataJson.temporalAttributes,
-                        // degrees: [1, 2, 3],
-                        // setMember: [],
-                        // probability: [],
-                        dataJson: dataJson,
-                        circleType: "circle",
-                        type: "percentage",
-                        empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                            ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                            : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                        brushedAttributes: svgLine.select("#time-brush").node().value,
-                        yHeight: +d3.select(setInterval).select("input").node().value,
-                        lineWidth: +d3.select(lineWidth).select("input").node().value,
-                        secondAggeragateAttribute: d3
-                            .select(secondAggeragate)
-                            .select("select")
-                            .node().value,
-                        firstAggeragateAttribute: d3
-                            .select(firstAggeragate)
-                            .select("select")
-                            .node().value
+                        return output
                     });
-                }); // when click the connection-line to order the sets
-        });
+                    dataIndex.select('select')
+                        .selectAll('option')
+                        .data(indexSelection)
+                        .join('option')
+                        .attr('value', e => e.Item)
+                        .text(e => e.Item)
 
-        setInterval.addEventListener("input", (d) => {
-            debugger;
-            d.currentTarget.querySelector(
-                "label"
-            ).innerText = d.currentTarget.querySelector("input").value;
+                    d3.csv(indexSelection[0].dataUrl).then(d => {
 
-            renderCombinationMatrix({
-                node: svgMatrix.node(),
-                dataFromFuzzy: svgLine.node().parentElement.value,
-                orderCate: svgLine.node().parentElement.value[0].name,
-                dataset: dataset,
-                id: dataJson.id,
-                attributesCut: dataJson.temporalAttributes,
-                // degrees: [1, 2, 3],
-                // setMember: [],
-                // probability: [],
-                dataJson: dataJson,
-                circleType: "circle",
-                type: "percentage",
-                empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                    ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                    : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                brushedAttributes: svgLine.select("#time-brush").node().value,
-                yHeight: +d.currentTarget.querySelector("input").value,
-                lineWidth: +d3.select(lineWidth).select("input").node().value,
-                secondAggeragateAttribute: d3
-                    .select(secondAggeragate)
-                    .select("select")
-                    .node().value,
-                firstAggeragateAttribute: d3
-                    .select(firstAggeragate)
-                    .select("select")
-                    .node().value
-            }); // visualize the combination matrix
-        });
+                        // ---------------------------------
+                        // the dataset and dataJson
+                        dataset = d.map((e) => {e.color = get_random_color(); return e})
+                        dataJson = dealDataJson(indexSelection[0]);
 
-        // -----------------------------------------------------------------
-        // change the selection if the empty value is empyt or non-empty
-        isEmpty.addEventListener("input", (d) => {
-            var emptyValue;
-            if (d3.select(d.currentTarget).selectAll("input")._groups[0][0].checked) {
-                emptyValue = d3.select(d.currentTarget).selectAll("input")._groups[0][0]
-                    .value;
-            } else {
-                emptyValue = d3.select(d.currentTarget).selectAll("input")._groups[0][1]
-                    .value;
-            }
-            renderCombinationMatrix({
-                node: svgMatrix.node(),
-                dataFromFuzzy: svgLine.node().parentElement.value,
-                orderCate: svgLine.node().parentElement.value[0].name,
-                dataset: dataset,
-                id: dataJson.id,
-                attributesCut: dataJson.temporalAttributes,
-                // degrees: [1, 2, 3],
-                // setMember: [],
-                // probability: [],
-                dataJson: dataJson,
-                circleType: "circle",
-                type: "percentage",
-                empty: emptyValue,
-                brushedAttributes: svgLine.select("#time-brush").node().value,
-                yHeight: +d3.select(setInterval).select("input").node().value,
-                lineWidth: +d3.select(lineWidth).select("input").node().value,
-                secondAggeragateAttribute: d3
-                    .select(secondAggeragate)
-                    .select("select")
-                    .node().value,
-                firstAggeragateAttribute: d3
-                    .select(firstAggeragate)
-                    .select("select")
-                    .node().value
-            }); // visualize the combination matrix
-        });
+                        // ---------------------------------------------
+                        // Add the options for the aggregates
+                        firstAggeragate
+                            .select("select")
+                            .selectAll("option")
+                            .data(
+                                ["Category", "Trend"].concat(
+                                    dataJson.attributes
+                                        .filter((d) => d.type == "categorical")
+                                        .map((d) => d.name)
+                                )
+                            )
+                            .join("option")
+                            .text((d) => d)
+                            .attr("value", (d) => d);
 
-        // -----------------------------------------------------------------
-        // When we brush the time period;
-        // debugger;
-        svgLine
-            .select("#time-brush")
-            .node()
-            .addEventListener("input", (d) => {
-                // debugger;
-                LineChart({
-                    data: dataset,
-                    dataJson: dataJson,
-                    node: svgLine.node(),
-                    n: +d3.select(nPara).select("input").node().value,
-                    brushedAttributes: d.currentTarget.value,
-                    lineWidth: +d3.select(lineWidth).select("input").node().value
-                }); // visualize the line chart
-                renderCombinationMatrix({
-                    node: svgMatrix.node(),
-                    dataFromFuzzy: svgLine.node().parentElement.value,
-                    orderCate: svgLine.node().parentElement.value[0].name,
-                    dataset: dataset,
-                    id: dataJson.id,
-                    attributesCut: dataJson.temporalAttributes,
-                    dataJson: dataJson,
-                    circleType: "circle",
-                    type: "percentage",
-                    empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                        ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                        : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                    brushedAttributes: d.currentTarget.value,
-                    yHeight: +d3.select(setInterval).select("input").node().value,
-                    lineWidth: +d3.select(lineWidth).select("input").node().value,
-                    secondAggeragateAttribute: d3
-                        .select(secondAggeragate)
-                        .select("select")
-                        .node().value,
-                    firstAggeragateAttribute: d3
-                        .select(firstAggeragate)
-                        .select("select")
-                        .node().value
-                }); // visualize the combination matrix
-            }); // when we brush
+                        //   add the optiosn for the second aggregation
+                        secondAggeragate
+                            .select("select")
+                            .selectAll("option")
+                            .data(
+                                ["Trend", "Category"].concat(
+                                    dataJson.attributes
+                                        .filter((d) => d.type == "categorical")
+                                        .map((d) => d.name)
+                                )
+                            )
+                            .join("option")
+                            .text((d) => d)
+                            .attr("value", (d) => d);
 
-        svgLine.select("#cardinality-button").on("click", (d) => {
-            renderCombinationMatrix({
-                node: svgMatrix.node(),
-                dataFromFuzzy: svgLine.node().parentElement.value,
-                orderCate: "cardinality",
-                dataset: dataset,
-                id: dataJson.id,
-                attributesCut: dataJson.temporalAttributes,
-                circleType: "circle",
-                dataJson: dataJson,
-                type: "percentage",
-                empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                    ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                    : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                brushedAttributes: svgLine.select("#time-brush").node().value,
-                yHeight: +d3.select(setInterval).select("input").node().value,
-                lineWidth: +d3.select(lineWidth).select("input").node().value,
-                secondAggeragateAttribute: d3
-                    .select(secondAggeragate)
-                    .select("select")
-                    .node().value,
-                firstAggeragateAttribute: d3
-                    .select(firstAggeragate)
-                    .select("select")
-                    .node().value
-            }); // visualize the combination matrix
-            // d3.select(d.path[4].querySelector("#div-matrix").querySelector("svg"))
-            //   .selectAll(".set")
-            //   .sort((a, b) => a.childNode.length - b.childNode.length);
-        }); // when click the cardinality button
 
-        d3.select(ui)
-            .select(".trend-groups")
-            .selectAll("image")
-            .on("click", (d) => {
-                debugger;
-                renderCombinationMatrix({
-                    node: svgMatrix.node(),
-                    dataFromFuzzy: svgLine.node().parentElement.value,
-                    orderCate: d.currentTarget.__data__,
-                    dataset: dataset,
-                    id: dataJson.id,
-                    attributesCut: dataJson.temporalAttributes,
-                    circleType: "circle",
-                    dataJson: dataJson,
-                    type: "percentage",
-                    empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                        ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                        : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                    brushedAttributes: svgLine.select("#time-brush").node().value,
-                    yHeight: +d3.select(setInterval).select("input").node().value,
-                    lineWidth: +d3.select(lineWidth).select("input").node().value,
-                    secondAggeragateAttribute: d3
-                        .select(secondAggeragate)
-                        .select("select")
-                        .node().value,
-                    firstAggeragateAttribute: d3
-                        .select(firstAggeragate)
-                        .select("select")
-                        .node().value
-                }); // visualize the combination matrix
-                // debugger;
-            }); // when click the trend buttons;
+                        // -------------------------------------------------------
+                        // init the visualization
+                        debugger;
+                        brushChart({
+                            dataJson: dataJson,
+                            node: svgLine.node(),
+                            n: +nPara.select('input').node().value,
+                            data: dataset,
+                            isEmpty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value
+                        }); // visualize the brush
+                        LineChart({
+                            data: dataset,
+                            dataJson: dataJson,
+                            node: svgLine.node(),
+                            n: +nPara.select('input').node().value,
+                            brushedAttributes: svgLine.select("#time-brush").node().value,
+                            lineWidth: +lineWidth.select("input").node().value
+                        }); // visualize the line chart
+                        // debugger;
 
-        d3.select("#layout-right-top-left")
-            .selectAll(".connect-area")
-            .on("click", (d) => {
-                debugger;
-                renderCombinationMatrix({
-                    node: svgMatrix.node(),
-                    dataFromFuzzy: svgLine.node().parentElement.value,
-                    orderCate: d.currentTarget.__data__.name,
-                    dataset: dataset,
-                    id: dataJson.id,
-                    attributesCut: dataJson.temporalAttributes,
-                    // degrees: [1, 2, 3],
-                    // setMember: [],
-                    // probability: [],
-                    dataJson: dataJson,
-                    circleType: "circle",
-                    type: "percentage",
-                    empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                        ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                        : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                    brushedAttributes: svgLine.select("#time-brush").node().value,
-                    yHeight: +d3.select(setInterval).select("input").node().value,
-                    lineWidth: +d3.select(lineWidth).select("input").node().value,
-                    secondAggeragateAttribute: d3
-                        .select(secondAggeragate)
-                        .select("select")
-                        .node().value,
-                    firstAggeragateAttribute: d3
-                        .select(firstAggeragate)
-                        .select("select")
-                        .node().value
-                });
-            }); // when click the connection-line to order the sets
+                        connectionLine({
+                            selfNode: svgLine
+                                .node()
+                                .parentElement.parentElement.querySelector("#layout-right-top-left"),
+                            dataFromFuzzy: svgLine.node().parentElement.value,
+                            dataJson: dataJson,
+                            dataset: dataset
+                        }); // visualize the connected lines
 
-        d3.select(firstAggeragate)
-            .select("select")
-            .on("change", (d) => {
-                debugger;
-                renderCombinationMatrix({
-                    node: svgMatrix.node(),
-                    dataFromFuzzy: svgLine.node().parentElement.value,
-                    orderCate: svgLine.node().parentElement.value[0].name,
-                    dataset: dataset,
-                    id: dataJson.id,
-                    attributesCut: dataJson.temporalAttributes,
-                    // degrees: [1, 2, 3],
-                    // setMember: [],
-                    // probability: [],
-                    dataJson: dataJson,
-                    circleType: "circle",
-                    type: "percentage",
-                    empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                        ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                        : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                    brushedAttributes: svgLine.select("#time-brush").node().value,
-                    yHeight: +d3.select(setInterval).select("input").node().value,
-                    lineWidth: +d3.select(lineWidth).select("input").node().value,
-                    secondAggeragateAttribute: d3
-                        .select(secondAggeragate)
-                        .select("select")
-                        .node().value,
-                    firstAggeragateAttribute: d.currentTarget.value
-                });
-            }); // when we click the second aggeragate option;
+                        renderCombinationMatrix({
+                            node: svgMatrix.node(),
+                            dataFromFuzzy: svgLine.node().parentElement.value,
+                            orderCate: null,
+                            dataset: dataset,
+                            id: dataJson.id,
+                            attributesCut: dataJson.temporalAttributes,
+                            // degrees: [1, 2, 3],
+                            // setMember: [],
+                            // probability: [],
+                            dataJson: dataJson,
+                            circleType: "circle",
+                            type: "percentage",
+                            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value,
+                            brushedAttributes: svgLine.select("#time-brush").node().value,
+                            yHeight: +setHeight.select("input").node().value,
+                            lineWidth: +lineWidth.select("input").node().value,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                                .value
+                        }); // visualize the combination sets
 
-        d3.select(secondAggeragate)
-            .select("select")
-            .on("change", (d) => {
-                debugger;
-                renderCombinationMatrix({
-                    node: svgMatrix.node(),
-                    dataFromFuzzy: svgLine.node().parentElement.value,
-                    orderCate: svgLine.node().parentElement.value[0].name,
-                    dataset: dataset,
-                    id: dataJson.id,
-                    attributesCut: dataJson.temporalAttributes,
-                    // degrees: [1, 2, 3],
-                    // setMember: [],
-                    // probability: [],
-                    dataJson: dataJson,
-                    circleType: "circle",
-                    type: "percentage",
-                    empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-                        ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-                        : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-                    brushedAttributes: svgLine.select("#time-brush").node().value,
-                    yHeight: +d3.select(setInterval).select("input").node().value,
-                    lineWidth: +d3.select(lineWidth).select("input").node().value,
-                    secondAggeragateAttribute: d.currentTarget.value,
-                    firstAggeragateAttribute: d3
-                        .select(firstAggeragate)
-                        .select("select")
-                        .node().value
-                });
-            }); // when we click the second aggeragate option;
+                    })
+                })
+            })
+
     </script>
-
-
-    <script type="text/javascript" src="main.js"></script>
-    <script type="text/javascript" src="combinatiomMatrix.js"></script>
 </body>
 
 </html>

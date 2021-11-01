@@ -1,12 +1,18 @@
+body{
+    font-size:12px;
+}
+
 #layout-left {
     width:10%;
     float: left;
     height: 100%;
+    font-size: 12px;
     }
 #layout-right {
-    width:90%;
+    width:70%;
     float: left;
     height: 100%;
+    font-size: 12px;
     }
 .parameters {
     margin-left: 15px;
