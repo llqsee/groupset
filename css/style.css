@@ -1,0 +1,14 @@
+#layout-left {
+    width:10%;
+    float: left;
+    height: 100%;
+    }
+#layout-right {
+    width:90%;
+    float: left;
+    height: 100%;
+    }
+.parameters {
+    margin-left: 15px;
+    float:left;
+    }

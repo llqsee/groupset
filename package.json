@@ -1,0 +1,29 @@
+{
+  "name": "setchange",
+  "version": "1.0.0",
+  "description": "This is a visualization to analyze the changes over time based on sets.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack",
+    "server": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liqunliucn/SetChange.git"
+  },
+  "author": "Liqun Liu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liqunliucn/SetChange/issues"
+  },
+  "homepage": "https://github.com/liqunliucn/SetChange#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "path": "^0.12.7",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
