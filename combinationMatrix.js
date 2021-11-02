@@ -1102,7 +1102,7 @@ function renderCombinationMatrix({
         .attr("opacity", 0)
         .attr("stroke-width", 0)
         .on("mouseover", (d) => {
-          debugger;
+          // debugger;
           d3.select(d.currentTarget)
             .attr("fill", "#dedede")
             .attr("stroke", "none")
@@ -1196,7 +1196,7 @@ function renderCombinationMatrix({
               .attr("x", xCardinality(0))
               .attr("y", y_step * 0.5 - 0.5 * 0.8 * y_step_group)
               .attr("width", (d) => {
-                debugger;
+                // debugger;
                 return xCardinality(d.childNode.length) - xCardinality(0);
               })
               .attr("height", y_step_group * 0.8)
@@ -1297,7 +1297,7 @@ function renderCombinationMatrix({
   
       // ---------------------------------------------------------------------
       // render the names for each sub set
-      debugger;
+      // debugger;
       if (secondAggeragateAttribute == "Trend") {
         var xRangeTrend = [
           d3.select(node).attr("width") * 0.15 - 0.5 * x_step,

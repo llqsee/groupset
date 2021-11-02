@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' type="text/css" href="css/style.css">
 
-    
+
     <script type="text/javascript" src="dataLoading.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript" src="combinationMatrix.js"></script>
@@ -24,7 +24,7 @@
         paraFontSize = '12px'
     </script> -->
     <div style="height:100%; width:100%">
-        <div id='layout-left' style='height:100%'>
+        <div id='layout-left'>
             <form class='parameter-dataset'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px;width:100%;'>Select the dataset</div><select
                     style="width: 70%;">
@@ -71,12 +71,12 @@
                         type=radio></input>Expand all</label>
             </form>
         </div>
-        <div id='layout-right' style="height:100%">
+        <div id='layout-right'>
             <div id='layout-right-top' style="width:100%;height:30%;float:left;">
                 <div id='layout-right-top-left' style=width:15%;height:100%;float:left></div>
                 <div style='width:85%;height:100%;float:left;' id='div-line'></div>
             </div>
-            <div style='width:100%;height:400px;float:left;overflow-y:scroll;overflow-x:hidden' id='div-matrix'>
+            <div style='width:100%;height:70%;float:left;overflow-y:scroll;overflow-x:hidden' id='div-matrix'>
             </div>
         </div>
     </div>
@@ -173,7 +173,7 @@
 
                         // ---------------------------------
                         // the dataset and dataJson
-                        dataset = d.map((e) => {e.color = get_random_color(); return e})
+                        dataset = d.map((e) => { e.color = get_random_color(); return e })
                         dataJson = dealDataJson(indexSelection[0]);
 
                         // ---------------------------------------------
@@ -265,6 +265,8 @@
                                 .value
                         }); // visualize the combination sets
 
+                        ChangeParameter();
+                      
                     })
                 })
             })
