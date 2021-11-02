@@ -10,7 +10,7 @@
 
 
     <script type="text/javascript" src="dataLoading.js"></script>
-    <script type="text/javascript" src="main.js"></script>
+    <!-- <script type="text/javascript" src="main.js"></script> -->
     <script type="text/javascript" src="combinationMatrix.js"></script>
     <script type="text/javascript" src="brushChart.js"></script>
     <script type="text/javascript" src="lineChart.js"></script>
@@ -174,7 +174,7 @@
                         // ---------------------------------
                         // the dataset and dataJson
                         dataset = d.map((e) => { e.color = get_random_color(); return e })
-                        dataJson = dealDataJson(indexSelection[0]);
+                        dataJson = dealDataJson(indexSelection[0],dataset);
 
                         // ---------------------------------------------
                         // Add the options for the aggregates
@@ -210,7 +210,7 @@
 
                         // -------------------------------------------------------
                         // init the visualization
-                        debugger;
+                        // debugger;
                         brushChart({
                             dataJson: dataJson,
                             node: svgLine.node(),
@@ -282,10 +282,8 @@
                         var index = indexSelection.find(e => e.Item == d.currentTarget.value);
                         d3.csv(index.dataUrl).then(
                             e => {
-                                debugger;
-                                dataJson = index.json;
                                 dataset = e.map((e) => { e.color = get_random_color(); return e })
-
+                                dataJson = dealDataJson(index,dataset);
                                 // ---------------------------------------------
                                 // Add the options for the aggregates
                                 firstAggeragate
@@ -321,6 +319,14 @@
                                 // -------------------------------------------------------
                                 // init the visualization after changing the dataset
                                 // debugger;
+                                svgLine.selectAll('*').remove();
+                                d3.select(svgLine
+                                    .node()
+                                    .parentElement.parentElement.querySelector("#layout-right-top-left")).selectAll('*').remove();
+                                svgMatrix.selectAll('*').remove();
+                                svgLine.node().parentElement.value = null;
+
+
                                 brushChart({
                                     dataJson: dataJson,
                                     node: svgLine.node(),
@@ -330,7 +336,8 @@
                                         ? isEmpty.selectAll('input')._groups[0][1].value
                                         : isEmpty.selectAll('input')._groups[0][0].value
                                 }); // visualize the brush
-                                debugger;
+                                // debugger;
+                                // svgLine.node().parentElement.value = null;
                                 LineChart({
                                     data: dataset,
                                     dataJson: dataJson,
@@ -381,16 +388,7 @@
                         )
                     })
                 })
-
-
             })
-
-
-
-
-
-
-
     </script>
 </body>
 

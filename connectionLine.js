@@ -159,7 +159,7 @@ function connectionLine({ selfNode, dataFromFuzzy, dataJson, dataset } = {}) {
         .attr("stroke-width", 0)
         .attr("opacity", 0)
         .on("mouseover", (d) => {
-            // debugger;
+
             d3.select(d.currentTarget).attr("fill", "#dedede").attr("opacity", 0.3);
             d3.select(d.path[3])
                 .select("#div-line")
@@ -178,7 +178,6 @@ function connectionLine({ selfNode, dataFromFuzzy, dataJson, dataset } = {}) {
                 .attr("opacity", 0.3); // highlight the connection area in combination matrix
         })
         .on("mouseout", (d) => {
-            // debugger;
             d3.select(d.currentTarget).attr("fill", "#dedede").attr("opacity", 0);
             d3.select(d.path[3])
                 .select("#div-line")

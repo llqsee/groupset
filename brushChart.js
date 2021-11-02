@@ -1,4 +1,5 @@
 function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
+     debugger;
     var min = d3.min(
         dataJson.temporalAttributes.map((d) => d3.min(dataset.map((e) => +e[d])))
     ),
@@ -75,7 +76,6 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
         // const [x0, x1] = selection.map((d) =>
         //   scalePointPosition({ xpos: d, xScale: x })
         // );
-        debugger;
         // d3.select(this)
         //   .transition()
         //   .call(
@@ -92,34 +92,8 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
         var selectedAttributes = dataJson.temporalAttributes.filter(
             (d, i) => i >= indexX0 && i <= indexX1
         ); // extract the attributes
-        debugger;
-        // LineChart({
-        //   data: data,
-        //   dataJson: dataJson,
-        //   node: node,
-        //   n: n,
-        //   brushedAttributes: selectedAttributes
-        // }); // visualize the line chart
-
-        // renderCombinationMatrix({
-        //   node: node.parentElement.parentElement.parentElement
-        //     .querySelector("#div-matrix")
-        //     .querySelector("svg"),
-        //   dataFromFuzzy: node.parentElement.value,
-        //   orderCate: node.parentElement.value[0].name,
-        //   dataset: data,
-        //   id: dataJson.id,
-        //   attributesCut: dataJson.temporalAttributes,
-        //   // degrees: [1, 2, 3],
-        //   // setMember: [],
-        //   // probability: [],
-        //   circleType: "circle",
-        //   type: "percentage",
-        //   empty: d3.select(isEmpty).selectAll("input")._groups[0][1].checked
-        //     ? d3.select(isEmpty).selectAll("input")._groups[0][1].value
-        //     : d3.select(isEmpty).selectAll("input")._groups[0][0].value,
-        //   brushedAttributes: selectedAttributes
-        // }); // visualize the combination matrix
+  
+      
 
         d3.select(this).node().parentElement.value = selectedAttributes;
         d3.select(this)

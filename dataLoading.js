@@ -1,5 +1,5 @@
 
-function dealDataJson(finalDataIndex) {
+function dealDataJson(finalDataIndex,dataset) {
     if (finalDataIndex.json.temporalAttributes.length == 0) {
         var reg = new RegExp(
             finalDataIndex.json.attributes.filter((e) => e.type == "regExp")[0].name
@@ -45,7 +45,6 @@ function get_random_color() {
 // }
 
 // async function datasetIndex(sets) {
-//     // debugger;
 //     const res = [];
 //     for (const set of sets) {
 //         const d = {},

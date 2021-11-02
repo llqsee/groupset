@@ -127,7 +127,7 @@ function renderCombinationMatrix({
         widthMatrixLeft -
         x_step * categories.length;
       var widthMultipleLine = width * 0.85;
-      // debugger;
+
   
       d3.select(node).attr(
         "height",
@@ -754,7 +754,7 @@ function renderCombinationMatrix({
         .data((d) => [d])
         .join("g")
         .attr("id", "oneAttribute-bar-groups");
-      // debugger;
+ 
       var xOneAttribute = d3
         .scaleLinear()
         .domain([0, d3.max(data.map((d) => d.Average)) * 1.9])
@@ -881,7 +881,7 @@ function renderCombinationMatrix({
             `translate(0,${y_step_group + Number(d.id.split("_")[1] * y_step)})`
         )
         // .attr("transform", (d) => {
-        //   // debugger;
+
         //   return `translate(0,${(Number(d.id.split("_")[1]) + 1) * y_step})`;
         // })
         .attr("class", "subset-line-text");
@@ -902,14 +902,14 @@ function renderCombinationMatrix({
       //   .attr("fill", "red");
   
       var lineSet = groupLineText.selectAll(".subset-line").data((d) => {
-        // debugger;
+
         d.childNode.map(
           (e) => ((e.name = d.name), (e.groupMin = d.min), (e.groupMax = d.max))
         );
         return d.childNode;
       });
       var textSet = groupLineText.selectAll(".subset-text").data((d) => {
-        // debugger;
+
         d.childNode.map(
           (e) => ((e.name = d.name), (e.groupMin = d.min), (e.groupMax = d.max))
         );
@@ -922,7 +922,7 @@ function renderCombinationMatrix({
             .append("path")
             .attr("class", "subset-line")
             .attr("d", (d, i, s) => {
-              // debugger;
+
               return path1(d, d.groupMin, d.groupMax);
             })
             .attr("stroke", (d) => d.color)
@@ -936,7 +936,7 @@ function renderCombinationMatrix({
                 .transition(t)
                 .attr("class", "subset-line")
                 .attr("d", (d, i, s) => {
-                  // debugger;
+
                   return path1(d, d.groupMin, d.groupMax);
                 })
                 .attr("stroke", (d) => d.color)
@@ -946,7 +946,7 @@ function renderCombinationMatrix({
           ),
         (exit) => exit.remove()
       );
-      // debugger;
+
       textSet.join(
         (enter) =>
           enter
@@ -1027,7 +1027,7 @@ function renderCombinationMatrix({
       //         .attr("fill", "none")
       //         .attr("class", "set-line")
       //         .attr("transform", (d) => `translate(0,${y(d.name)})`);
-      //       debugger;
+
       //       bothEnter
       //         .append("text")
       //         .text((d) => d[id])
@@ -1068,7 +1068,7 @@ function renderCombinationMatrix({
       //         .attr(
       //           "transform",
       //           (d, i) =>
-      //             // debugger;
+
       //             `translate(${xLine(attributesCut[attributesCut.length - 1])},${
       //               y_step * i + y_step
       //               // -
@@ -1102,7 +1102,7 @@ function renderCombinationMatrix({
         .attr("opacity", 0)
         .attr("stroke-width", 0)
         .on("mouseover", (d) => {
-          // debugger;
+
           d3.select(d.currentTarget)
             .attr("fill", "#dedede")
             .attr("stroke", "none")
@@ -1175,11 +1175,11 @@ function renderCombinationMatrix({
         .attr("stroke-width", 2)
         .attr("stroke", "#dedede")
         .attr("stroke-dasharray", "3,6");
-      // debugger;
+
   
       // ------------------------------------------------
       // visualize the cardinality for each subset;
-      // debugger;
+
       var cardinalitySubSet = groupLineText
         .selectAll(".cardinality-bar-groups-subset")
         .data((d) => [d])
@@ -1196,7 +1196,7 @@ function renderCombinationMatrix({
               .attr("x", xCardinality(0))
               .attr("y", y_step * 0.5 - 0.5 * 0.8 * y_step_group)
               .attr("width", (d) => {
-                // debugger;
+
                 return xCardinality(d.childNode.length) - xCardinality(0);
               })
               .attr("height", y_step_group * 0.8)
@@ -1208,7 +1208,7 @@ function renderCombinationMatrix({
                 .attr("x", xCardinality(0))
                 .attr("y", y_step * 0.5 - 0.5 * 0.8 * y_step_group)
                 .attr("width", (d) => {
-                  // debugger;
+
                   return xCardinality(d.childNode.length) - xCardinality(0);
                 })
             ),
@@ -1297,7 +1297,7 @@ function renderCombinationMatrix({
   
       // ---------------------------------------------------------------------
       // render the names for each sub set
-      // debugger;
+
       if (secondAggeragateAttribute == "Trend") {
         var xRangeTrend = [
           d3.select(node).attr("width") * 0.15 - 0.5 * x_step,
@@ -1679,7 +1679,7 @@ function renderCombinationMatrix({
         .attr("fill", "#dedede")
         .attr("opacity", 0);
       // .on("mouseenter", (d) => {
-      //   debugger;
+
       //   d3.select(d.currentTarget).attr("opcacity", 0.3);
       // })
       // .on("mouseout", (d) => {

@@ -10,7 +10,7 @@ function CalTreData({
 } = {}) {
     var keys = brushedAttributes; // extract the attributes that are going to be calculated, like ['time1', 'time2',...,'time24']
     var timeLength = keys.length; // calculate the length of time points
-    // debugger;
+     debugger;
     //   loop the dataset with map, calculate the every attributes we extracted to give them a corresponding categories;
     var dataCategories = dataFromFuzzy
         .map((d) => d.name)
@@ -89,7 +89,7 @@ function CalTreData({
             }
         }); // add two attribute to dataset like {low:3,middle:5,hight:5} and {up:3,down:5,stable:7}
     } // we determine if the there is aggeragate by trend or category and then, we add the attributes to elements
-    debugger;
+
     // --------------------------------------------------------------
     // Create the tree data with the first level set
     if (firstAggeragateAttribute == "Category") {
@@ -165,7 +165,7 @@ function CalTreData({
             return e;
         }); //   create the tree data
     } else {
-        debugger;
+
         var arrayForUnique = dataset.map((d) => d[firstAggeragateAttribute]);
         var uniqueArray = arrayForUnique.filter(
             (d, i) => arrayForUnique.findIndex((e) => e == d) == i
@@ -180,7 +180,7 @@ function CalTreData({
             return e;
         }); //   create the tree data
     }
-    // debugger;
+
     // --------------------------------------------------------------------
     // We create the second level set
     for (var datum of dataset) {
@@ -218,7 +218,7 @@ function CalTreData({
                     // ).childNode.id = 1;
                 } else {
                     // if there is no subset can cater the datum, we create a new one;
-                    // debugger;
+
                     tree.childNode.push({
                         id: tree.id + "_" + tree.childNode.length,
                         value: datum[secondAggeragateAttribute],
@@ -230,22 +230,22 @@ function CalTreData({
     }
 
     // for (var datum of dataset) {
-    //   // debugger;
+
     //   var isTrueSet = treeData1.filter(
     //     (d) => JSON.stringify(d.value) == JSON.stringify(datum.category)
     //   );
     //   // if (isTrueSet == null) {
-    //   //   debugger;
+
     //   // }
     //   if (isTrueSet != null) {
-    //     // debugger;
+
     //     var iIndex = 0;
     //     var thisSet = isTrueSet.find(
     //       (d) => JSON.stringify(d.valueTrend) == JSON.stringify(datum.trend)
     //     );
-    //     // if (thisSet != null) debugger;
+
     //     if (thisSet != null) {
-    //       // debugger;
+
     //       // var thisIndex = thisSet.indexOf(treeData1);
     //       treeData1 = treeData1.map((d) => {
     //         if (
@@ -264,9 +264,9 @@ function CalTreData({
     //         (d) => JSON.stringify(d.value) == JSON.stringify(isTrueSet[0].value)
     //       );
     //       // if (thisIndex == -1) {
-    //       //   debugger;
+
     //       // }
-    //       // debugger;
+ 
     //       var newSet = {
     //         value: isTrueSet[0].value,
     //         valueTrend: datum.trend,
@@ -295,7 +295,7 @@ function CalTreData({
     //   //   //   isTrueSet != null &&
     //   //   //   JSON.stringify(isTrueSet.dataForTrend) != JSON.stringify(datum.valueTrend)
     //   //   // ) {
-    //   //   //   debugger;
+
     //   //   //   var index = isTrueSet.indexOf(treeData1);
     //   //   //   var newSet = {
     //   //   //     value: isTrueSet.value,
@@ -310,7 +310,7 @@ function CalTreData({
     //   //   //   ];
     //   //   // }
     // }
-    // debugger;
+
 
     treeData1.map((d) => {
         d.childNode.map((e) => {
@@ -378,7 +378,7 @@ function CalTreData({
         return d;
     });
 
-    // debugger;
+
     // calculate the Average attributes for each set
     treeData1.map((d) => {
         d["Average"] = 0;
@@ -390,7 +390,7 @@ function CalTreData({
             var valueSubSet = []; // init the array to save the average values for all teams in each subset
             // add the average values for each e (sub sets)
             for (var i of e.childNode) {
-                // debugger;
+
                 // e.childNode is the team;
                 a.push(i);
                 valueSubSet.push(
@@ -440,7 +440,7 @@ function CalTreData({
     //   d["Average"] = d["Average"] / i;
     //   return d;
     // });
-    debugger;
+
 
     return treeData1;
 }

@@ -73,7 +73,7 @@ function LineChart({
                     .attr("stroke", (d) => d.color)
                     .call((enter) => enter.transition(t))
                     .on("mouseover", (d) => {
-                        debugger;
+
                         d3.select(d.currentTarget.parentElement.parentElement)
                             .selectAll(".line")
                             .selectAll("path")
@@ -309,9 +309,9 @@ function LineChart({
     debugger;
     if (node.parentElement.value == null) {
         if (dataJson.config.length == 0) {
-            var min = dataJson.min,
-                max = dataJson.max,
-                step = (max - min) / +n;
+            // var min = dataJson.min,
+            //     max = dataJson.max,
+               var step = (max - min) / +n;
             if (n == 2) {
                 var categoryData = [
                     { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
@@ -344,9 +344,9 @@ function LineChart({
     } else {
         if (n != node.parentElement.value.length) {
             if (dataJson.config.length == 0) {
-                var min = dataJson.min,
-                    max = dataJson.max,
-                    step = (max - min) / +n;
+                // var min = dataJson.min,
+                //     max = dataJson.max,
+                 var step = (max - min) / +n;
                 if (n == 2) {
                     var categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
