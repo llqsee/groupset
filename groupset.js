@@ -3,7 +3,7 @@ function ChangeParameter() {
     // change the width of lines
 
     dataIndex.select('select').node().addEventListener('input', d=> {
-        debugger;
+        
         d.currentTarget;
     })
 
@@ -300,7 +300,7 @@ function ChangeParameter() {
     d3.select("#layout-right-top-left")
         .selectAll(".connect-area")
         .on("click", (d) => {
-            debugger;
+            // var inputValue = d.currentTarget.value;
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
@@ -324,13 +324,14 @@ function ChangeParameter() {
                     .select("select")
                     .node().value,
                 firstAggeragateAttribute: firstAggeragate.select("select").node()
-                    .value
+                .value
             });
         }); // when click the connection-line to order the sets
 
-    d3.select(firstAggeragate)
-        .select("select")
-        .on("change", (d) => {
+    firstAggeragate
+        .select("select").node()
+        .addEventListener("input", (d) => {
+            var inputValue = d.currentTarget.value;
             debugger;
             renderCombinationMatrix({
                 node: svgMatrix.node(),
@@ -354,13 +355,14 @@ function ChangeParameter() {
                 secondAggeragateAttribute: secondAggeragate
                     .select("select")
                     .node().value,
-                firstAggeragateAttribute: d.currentTarget.value
+                firstAggeragateAttribute: inputValue
             });
         }); // when we click the second aggeragate option;
 
-    d3.select(secondAggeragate)
-        .select("select")
-        .on("change", (d) => {
+    secondAggeragate
+        .select("select").node()
+        .addEventListener("input", (d) => {
+            var inputValue = d.currentTarget.value;
             debugger;
             renderCombinationMatrix({
                 node: svgMatrix.node(),
@@ -381,7 +383,7 @@ function ChangeParameter() {
                 brushedAttributes: svgLine.select("#time-brush").node().value,
                 yHeight: +setHeight.select("input").node().value,
                 lineWidth: +lineWidth.select("input").node().value,
-                secondAggeragateAttribute: d.currentTarget.value,
+                secondAggeragateAttribute: inputValue,
                 firstAggeragateAttribute: firstAggeragate.select("select").node()
                     .value
             });
