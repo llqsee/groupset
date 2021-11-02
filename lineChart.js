@@ -9,7 +9,7 @@ function LineChart({
 }) {
     // -------------------------------------------------------------
     // parse the input data and nodes' parameters;
-    // debugger;
+    debugger;
     var min = d3.min(
         dataJson.temporalAttributes.map((d) => d3.min(dataset.map((e) => +e[d])))
     ),

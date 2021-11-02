@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>GroupSet</title>
-    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' type="text/css" href="css/style.css">
 
@@ -266,10 +266,130 @@
                         }); // visualize the combination sets
 
                         ChangeParameter();
-                      
+
+                    })
+
+
+
+
+
+
+
+                    // ----------------------------------------------------------------
+                    // When we change the dataset
+                    dataIndex.select('select').node().addEventListener("input", d => {
+                        debugger
+                        var index = indexSelection.find(e => e.Item == d.currentTarget.value);
+                        d3.csv(index.dataUrl).then(
+                            e => {
+                                debugger;
+                                dataJson = index.json;
+                                dataset = e.map((e) => { e.color = get_random_color(); return e })
+
+                                // ---------------------------------------------
+                                // Add the options for the aggregates
+                                firstAggeragate
+                                    .select("select")
+                                    .selectAll("option")
+                                    .data(
+                                        ["Category", "Trend"].concat(
+                                            dataJson.attributes
+                                                .filter((d) => d.type == "categorical")
+                                                .map((d) => d.name)
+                                        )
+                                    )
+                                    .join("option")
+                                    .text((d) => d)
+                                    .attr("value", (d) => d);
+
+                                //   add the optiosn for the second aggregation
+                                secondAggeragate
+                                    .select("select")
+                                    .selectAll("option")
+                                    .data(
+                                        ["Trend", "Category"].concat(
+                                            dataJson.attributes
+                                                .filter((d) => d.type == "categorical")
+                                                .map((d) => d.name)
+                                        )
+                                    )
+                                    .join("option")
+                                    .text((d) => d)
+                                    .attr("value", (d) => d);
+
+
+                                // -------------------------------------------------------
+                                // init the visualization after changing the dataset
+                                // debugger;
+                                brushChart({
+                                    dataJson: dataJson,
+                                    node: svgLine.node(),
+                                    n: +nPara.select('input').node().value,
+                                    data: dataset,
+                                    isEmpty: isEmpty.selectAll('input')._groups[0][1].checked
+                                        ? isEmpty.selectAll('input')._groups[0][1].value
+                                        : isEmpty.selectAll('input')._groups[0][0].value
+                                }); // visualize the brush
+                                debugger;
+                                LineChart({
+                                    data: dataset,
+                                    dataJson: dataJson,
+                                    node: svgLine.node(),
+                                    n: +nPara.select('input').node().value,
+                                    brushedAttributes: svgLine.select("#time-brush").node().value,
+                                    lineWidth: +lineWidth.select("input").node().value
+                                }); // visualize the line chart
+                                // debugger;
+
+                                connectionLine({
+                                    selfNode: svgLine
+                                        .node()
+                                        .parentElement.parentElement.querySelector("#layout-right-top-left"),
+                                    dataFromFuzzy: svgLine.node().parentElement.value,
+                                    dataJson: dataJson,
+                                    dataset: dataset
+                                }); // visualize the connected lines
+
+                                renderCombinationMatrix({
+                                    node: svgMatrix.node(),
+                                    dataFromFuzzy: svgLine.node().parentElement.value,
+                                    orderCate: null,
+                                    dataset: dataset,
+                                    id: dataJson.id,
+                                    attributesCut: dataJson.temporalAttributes,
+                                    // degrees: [1, 2, 3],
+                                    // setMember: [],
+                                    // probability: [],
+                                    dataJson: dataJson,
+                                    circleType: "circle",
+                                    type: "percentage",
+                                    empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                        ? isEmpty.selectAll('input')._groups[0][1].value
+                                        : isEmpty.selectAll('input')._groups[0][0].value,
+                                    brushedAttributes: svgLine.select("#time-brush").node().value,
+                                    yHeight: +setHeight.select("input").node().value,
+                                    lineWidth: +lineWidth.select("input").node().value,
+                                    secondAggeragateAttribute: secondAggeragate
+                                        .select("select")
+                                        .node().value,
+                                    firstAggeragateAttribute: firstAggeragate.select("select").node()
+                                        .value
+                                }); // visualize the combination sets
+
+                                ChangeParameter();
+                            }
+                        )
                     })
                 })
+
+
             })
+
+
+
+
+
+
 
     </script>
 </body>
