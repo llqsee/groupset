@@ -311,7 +311,7 @@ function LineChart({
         if (dataJson.config.length == 0) {
             // var min = dataJson.min,
             //     max = dataJson.max,
-               var step = (max - min) / +n;
+            var step = (max - min) / +n;
             if (n == 2) {
                 var categoryData = [
                     { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
@@ -346,7 +346,7 @@ function LineChart({
             if (dataJson.config.length == 0) {
                 // var min = dataJson.min,
                 //     max = dataJson.max,
-                 var step = (max - min) / +n;
+                var step = (max - min) / +n;
                 if (n == 2) {
                     var categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
@@ -388,6 +388,72 @@ function LineChart({
             var categoryData = node.parentElement.value;
         }
     }
+
+
+    // -------------------------------------------------------------
+    // Visualize the distribution in the brushed area
+    var data4Dis = [];
+    dataJson.temporalAttributes.map(d => {
+        var e = {};
+        e.name = d;
+        // categoryData.map(f => e[f.name] = []);
+        categoryData.map(f => e[f.name] = []);
+        data4Dis.push(e);
+        return e;
+    })            // init the data4Dis
+
+
+    dataset.map(d => {
+        dataJson.temporalAttributes.map(e => {
+            var category = categoryData.find((f, i) => i < (categoryData.length - 1)
+                ? +d[e] >= +f.edgeMin && +d[e] < +f.edgeMax : +d[e] > +f.edgeMin)
+            if (category != null) {
+                // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
+                data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
+            }
+
+        })
+    })    // Add the values into data4Dis;
+
+    var stack = d3.stack().keys(categoryData.map(d => d.name))
+        .value((data, key) => data[key])
+        .order(d3.stackOrderAscending)
+        .offset(d3.stackOffsetNone);
+
+    var distributionData = stack(data4Dis)
+    //  .value((data4Dis, key) => data4Dis[key])
+
+    var xBrush = d3
+        .scalePoint()
+        .range([margin.left + widthTrend, width - margin.right - widthAttribute])
+        .domain(dataJson.temporalAttributes); // create the scale for the brush
+
+    var yBrush = d3.scaleLinear().domain([dataJson.min, dataJson.max])
+        .range([heightLine + heightBrush, heightLine]);
+
+    if (d3.select(node).select('#distribution').node() == null) {
+        d3.select(node).append('g').attr('id', 'distribution')
+    }
+
+    function get_random_color() {
+        var color = "";
+        for (var i = 0; i < 3; i++) {
+            var sub = Math.floor(Math.random() * 256).toString(16);
+            color += sub.length == 1 ? "0" + sub : sub;
+        }
+        return "#" + color;
+    }
+
+    d3.select(node).select('#distribution').selectAll('.distribution-group')
+        .data(distributionData).join('g').attr('opacity', 0.4)
+        .attr('fill', d => get_random_color()).attr('class', 'distribution-group')
+        .selectAll('rect')
+        .data(d => d)
+        .join('rect')
+        .attr('x', d => xBrush(d.data.name) - 10)
+        .attr('width', 10)
+        .attr('y', d => yBrush(d[1]))
+        .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
 
     // -------------------------------------------------------------
     // Add category lines (the lines to display the categories' range)
