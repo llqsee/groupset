@@ -5,13 +5,13 @@
 // const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
-    mode: 'none',
-    devtool: 'eval-source-map',
-    entry: __dirname + "/main.js",
-    output: {
-        path: __dirname + "/public",
-        filename: "bundle.js"
-    },
+    // mode: 'none',
+    // devtool: 'eval-source-map',
+    // entry: __dirname + "/main.js",
+    // output: {
+    //     path: __dirname + "/public",
+    //     filename: "bundle.js"
+    // },
 
 
 

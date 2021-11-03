@@ -20,8 +20,9 @@ function LineChart({
         width = d3.select(node).attr("width"),
         height = d3.select(node).attr("height"),
         t = d3.select(node).transition().duration(750),
-        heightLine = height * 0.7,
-        heightBrush = height * 0.13;
+        heightLine = height * 0.6,
+        heightDistribution = height * 0.15,
+        heightBrush = height * 0.1;
     var widthAttribute = 100;
     var oneAttribute = oneAttribute || "Average";
     var lineWidth = lineWidth || 2;
@@ -417,19 +418,19 @@ function LineChart({
 
     var stack = d3.stack().keys(categoryData.map(d => d.name))
         .value((data, key) => data[key])
-        .order(d3.stackOrderAscending)
-        .offset(d3.stackOffsetNone);
+        // .order(d3.stackOrderAscending)
+        // .offset(d3.stackOffsetNone);
 
     var distributionData = stack(data4Dis)
     //  .value((data4Dis, key) => data4Dis[key])
-
+distributionData.map((d,i) => d.color = colorbrewer.YlGn[distributionData.length][i])
     var xBrush = d3
         .scalePoint()
         .range([margin.left + widthTrend, width - margin.right - widthAttribute])
         .domain(dataJson.temporalAttributes); // create the scale for the brush
 
-    var yBrush = d3.scaleLinear().domain([dataJson.min, dataJson.max])
-        .range([heightLine + heightBrush, heightLine]);
+    var yBrush = d3.scaleLinear().domain([0, dataset.length])
+        .range([heightLine + heightDistribution, heightLine]);
 
     if (d3.select(node).select('#distribution').node() == null) {
         d3.select(node).append('g').attr('id', 'distribution')
@@ -444,16 +445,57 @@ function LineChart({
         return "#" + color;
     }
 
-    d3.select(node).select('#distribution').selectAll('.distribution-group')
-        .data(distributionData).join('g').attr('opacity', 0.4)
-        .attr('fill', d => get_random_color()).attr('class', 'distribution-group')
+    d3.select(node)
+        .select('#distribution')
+        .selectAll('.distribution-group')
+        .data(distributionData)
+        .join('g')
+        // .attr('opacity', 0.4)
+        .attr('fill', d => d.color)
+        .attr('class', 'distribution-group')
         .selectAll('rect')
         .data(d => d)
         .join('rect')
-        .attr('x', d => xBrush(d.data.name) - 10)
-        .attr('width', 10)
+        .attr('stroke-width', 0)
+        .attr('x', d => xBrush(d.data.name) - xBrush.step() * 0.5)
+        .attr('width', xBrush.step())
         .attr('y', d => yBrush(d[1]))
         .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
+
+    var legendStep = heightDistribution / distributionData.length;
+    var legendData = categoryData.map((d,i) => {var e = {}; e.value = d.name; e.index = i; return e})
+    d3.select(node)
+        .select("#distribution")
+        .selectAll('.legend')
+        .data(legendData)
+        .join('g')
+        .attr('class', 'legend')
+        .selectAll('rect')
+        .data(d => [d])
+        .join('rect')
+        .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - xBrush.step() * 0.5 - 30)
+        .attr('y', d => heightLine + legendStep * d.index)
+        .attr('width', legendStep * 0.8)
+        .attr('height', legendStep * 0.8)
+        .attr('stroke-width', 0)
+        .attr('fill', d => colorbrewer.YlGn[distributionData.length][d.index])
+
+        d3.select(node)
+        .select("#distribution")
+        .selectAll('.legend')
+        .data(legendData)
+        .join('g')
+        .attr('class','legend')
+        .selectAll('text')
+        .data(d => [d])
+        .join('text')
+        .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - xBrush.step() * 0.5 - 33)
+        .attr('y', d => heightLine + legendStep * d.index + legendStep * 0.4)
+        .attr('font-size', '12px')
+        .attr('dominant-baseline','middle')
+        .attr('text-anchor', 'end')
+        .text(d => d.value)
+
 
     // -------------------------------------------------------------
     // Add category lines (the lines to display the categories' range)

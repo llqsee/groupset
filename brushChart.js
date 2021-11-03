@@ -10,8 +10,9 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
         width = d3.select(node).attr("width"),
         height = d3.select(node).attr("height"),
         t = d3.select(node).transition().duration(750),
-        heightLine = height * 0.7,
-        heightBrush = height * 0.13;
+        heightLine = height * 0.6,
+        heightDistribution = height * 0.15,
+        heightBrush = height * 0.1;
     var widthAttribute = 100;
     var x_step = ((d3.select(node).attr("width") / 0.85) * 0.15 - 40 - 15) / 4; // the step of the circles;
     var widthTrend = x_step * 3;
@@ -58,12 +59,12 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
             "width",
             width - margin.left - margin.right - widthAttribute - widthTrend
         )
-        .attr("y", heightLine)
+        .attr("y", heightLine+heightDistribution)
         .attr("height", heightBrush)
         .attr("fill", "#dedede")
         .attr("opacity", 0.5)
         .attr("stroke", "black")
-        .attr("stroke-width", 0.5);
+        .attr("stroke-width", 0);
     function brushstart(event) { }
     function brushing(event) { }
     function brushed(event) {
@@ -104,8 +105,8 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
     var brush = d3
         .brushX()
         .extent([
-            [margin.left + widthTrend, heightLine],
-            [width - margin.right - widthAttribute, heightLine + heightBrush]
+            [margin.left + widthTrend, heightLine+heightDistribution],
+            [width - margin.right - widthAttribute, heightLine+heightDistribution + heightBrush]
         ])
         // .on("start", brushstart)
         // .on("brush", brushing);
@@ -122,12 +123,12 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
         d3.select(node)
             .append("g")
             .attr("id", "x-brush-axis")
-            .attr("transform", `translate(0,${heightBrush + heightLine})`)
+            .attr("transform", `translate(0,${heightBrush+heightDistribution + heightLine})`)
             .call(xAxis);
     } else {
         d3.select(node)
             .select("#x-brush-axis")
-            .attr("transform", `translate(0,${heightBrush + heightLine})`)
+            .attr("transform", `translate(0,${heightBrush+heightDistribution + heightLine})`)
             .call(xAxis);
     }
 

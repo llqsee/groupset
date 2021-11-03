@@ -19,7 +19,8 @@ function connectionLine({ selfNode, dataFromFuzzy, dataJson, dataset } = {}) {
         .attr("height", selfNode.getBoundingClientRect().height); // the svg in selfNode;
     var width = selfNode.getBoundingClientRect().width; // the width of the svg;
     var height = selfNode.getBoundingClientRect().height; // the height of the svg;
-    var heightLine = height * 0.7;
+    var heightLine = height * 0.6;
+
     var heightClickingRank = 30;
     // var widthAttribute = 100;
 
