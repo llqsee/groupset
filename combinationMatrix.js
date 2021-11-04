@@ -18,7 +18,8 @@ function renderCombinationMatrix({
     oneAttribute, // the attribute column following the lines in each set
     lineWidth, // the width of lines in each set
     firstAggeragateAttribute, // the first aggeragate attribute
-    secondAggeragateAttribute // the second aggeragate attribute
+    secondAggeragateAttribute, // the second aggeragate attribute
+    collapse           // the collapse or expand;
   } = {}) {
     //   ----------------------------------------
     //   remove the all elements except the ordering buttons

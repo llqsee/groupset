@@ -2,10 +2,10 @@ function ChangeParameter() {
     // ------------------------------------------------------------------------
     // change the width of lines
 
-    dataIndex.select('select').node().addEventListener('input', d=> {
-        
-        d.currentTarget;
-    })
+    // dataIndex.select('select').node().addEventListener('input', d=> {
+
+    //     d.currentTarget;
+    // })
 
 
     lineWidth.node().addEventListener("input", (d) => {
@@ -324,7 +324,7 @@ function ChangeParameter() {
                     .select("select")
                     .node().value,
                 firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value
+                    .value
             });
         }); // when click the connection-line to order the sets
 
@@ -388,5 +388,38 @@ function ChangeParameter() {
                     .value
             });
         }); // when we click the second aggeragate option;
+
+    collapse.node().addEventListener("input", d => {
+
+        var inputValue = d3.select(d.currentTarget).selectAll('input')._groups[0][1].checked
+            ? d3.select(d.currentTarget).selectAll('input')._groups[0][1].value
+            : d3.select(d.currentTarget).selectAll('input')._groups[0][0].value
+
+        renderCombinationMatrix({
+            node: svgMatrix.node(),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            orderCate: svgLine.node().parentElement.value[0].name,
+            dataset: dataset,
+            id: dataJson.id,
+            attributesCut: dataJson.temporalAttributes,
+            // degrees: [1, 2, 3],
+            // setMember: [],
+            // probability: [],
+            dataJson: dataJson,
+            circleType: "circle",
+            type: "percentage",
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            yHeight: +setHeight.select("input").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate.select("select").node()
+                .value,
+            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                .value,
+            collapse: inputValue
+        });
+    })
 }
 
