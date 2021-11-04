@@ -6,7 +6,8 @@ function CalTreData({
     dataJson, // the dataJson
     brushedAttributes, // the attributes selected from brush
     firstAggeragateAttribute, // the first aggeragate attribute;
-    secondAggeragateAttribute // the second aggeragate attribute;
+    secondAggeragateAttribute, // the second aggeragate attribute;
+    collapse             // if it is collapse or expand;
 } = {}) {
     var keys = brushedAttributes; // extract the attributes that are going to be calculated, like ['time1', 'time2',...,'time24']
     var timeLength = keys.length; // calculate the length of time points
@@ -141,6 +142,7 @@ function CalTreData({
             e.childNode = [];
             e.name = "Set " + i;
             e.id = i;
+            e.expand = collapse == 'expand' ? 'true': 'false';
             return e;
         }); //   create the tree data
     } else if (firstAggeragateAttribute == "Trend") {
@@ -162,6 +164,7 @@ function CalTreData({
             e.childNode = [];
             e.name = "Set " + i;
             e.id = i;
+            e.expand = collapse == 'expand' ? 'true': 'false';
             return e;
         }); //   create the tree data
     } else {
@@ -177,6 +180,7 @@ function CalTreData({
             e.childNode = [];
             e.name = "Set " + i;
             e.id = i;
+            e.expand = collapse == 'expand' ? 'true': 'false';
             return e;
         }); //   create the tree data
     }

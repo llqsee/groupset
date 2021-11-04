@@ -444,7 +444,7 @@ distributionData.map((d,i) => d.color = distributionData.length == 2 ? colorbrew
         }
         return "#" + color;
     }
-
+var widthBar = d3.min([xBrush.step(),20])
     d3.select(node)
         .select('#distribution')
         .selectAll('.distribution-group')
@@ -457,8 +457,8 @@ distributionData.map((d,i) => d.color = distributionData.length == 2 ? colorbrew
         .data(d => d)
         .join('rect')
         .attr('stroke-width', 0)
-        .attr('x', d => xBrush(d.data.name) - xBrush.step() * 0.5)
-        .attr('width', xBrush.step())
+        .attr('x', d => xBrush(d.data.name) - widthBar/2)
+        .attr('width', widthBar)
         .attr('y', d => yBrush(d[1]))
         .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
 
@@ -474,7 +474,7 @@ distributionData.map((d,i) => d.color = distributionData.length == 2 ? colorbrew
         .selectAll('rect')
         .data(d => [d])
         .join('rect')
-        .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - xBrush.step() * 0.5 - 30)
+        .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar*0.5 - 30)
         .attr('y', d => heightLine + legendStep * (categoryData.length -1- d.index))
         .attr('width',widthLegend)
         .attr('height', widthLegend)
@@ -490,7 +490,7 @@ distributionData.map((d,i) => d.color = distributionData.length == 2 ? colorbrew
         .selectAll('text')
         .data(d => [d])
         .join('text')
-        .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - xBrush.step() * 0.5 - 33)
+        .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
         .attr('y', d => heightLine + legendStep * (categoryData.length -1- d.index) + widthLegend/2)
         .attr('font-size', '12px')
         .attr('dominant-baseline','middle')

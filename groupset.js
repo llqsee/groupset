@@ -44,7 +44,10 @@ function ChangeParameter() {
                 .select("select")
                 .node().value,
             firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value
         }); // visualize the combination sets
     });
 
@@ -96,7 +99,10 @@ function ChangeParameter() {
                 .select("select")
                 .node().value,
             firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value
         });
 
         d3.select("#layout-right-top-left")
@@ -126,7 +132,10 @@ function ChangeParameter() {
                         .select("select")
                         .node().value,
                     firstAggeragateAttribute: firstAggeragate.select("select").node()
-                        .value
+                        .value,
+                    collapse: collapse.selectAll('input')._groups[0][1].checked
+                        ? collapse.selectAll('input')._groups[0][1].value
+                        : collapse.selectAll('input')._groups[0][0].value
                 });
             }); // when click the connection-line to order the sets
     });
@@ -160,7 +169,10 @@ function ChangeParameter() {
                 .select("select")
                 .node().value,
             firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value
         }); // visualize the combination matrix
     });
 
@@ -196,7 +208,10 @@ function ChangeParameter() {
                 .select("select")
                 .node().value,
             firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value
         }); // visualize the combination matrix
     });
 
@@ -236,7 +251,10 @@ function ChangeParameter() {
                     .select("select")
                     .node().value,
                 firstAggeragateAttribute: firstAggeragate.select("select").node()
-                    .value
+                    .value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
             }); // visualize the combination matrix
         }); // when we brush
 
@@ -261,7 +279,10 @@ function ChangeParameter() {
                 .select("select")
                 .node().value,
             firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value
         }); // visualize the combination matrix
         // d3.select(d.path[4].querySelector("#div-matrix").querySelector("svg"))
         //   .selectAll(".set")
@@ -292,7 +313,10 @@ function ChangeParameter() {
                     .select("select")
                     .node().value,
                 firstAggeragateAttribute: firstAggeragate.select("select").node()
-                    .value
+                    .value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
             }); // visualize the combination matrix
             // debugger;
         }); // when click the trend buttons;
@@ -324,7 +348,10 @@ function ChangeParameter() {
                     .select("select")
                     .node().value,
                 firstAggeragateAttribute: firstAggeragate.select("select").node()
-                    .value
+                    .value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
             });
         }); // when click the connection-line to order the sets
 
@@ -355,7 +382,10 @@ function ChangeParameter() {
                 secondAggeragateAttribute: secondAggeragate
                     .select("select")
                     .node().value,
-                firstAggeragateAttribute: inputValue
+                firstAggeragateAttribute: inputValue,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
             });
         }); // when we click the second aggeragate option;
 
@@ -385,12 +415,15 @@ function ChangeParameter() {
                 lineWidth: +lineWidth.select("input").node().value,
                 secondAggeragateAttribute: inputValue,
                 firstAggeragateAttribute: firstAggeragate.select("select").node()
-                    .value
+                    .value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
             });
         }); // when we click the second aggeragate option;
 
     collapse.node().addEventListener("input", d => {
-
+        debugger;
         var inputValue = d3.select(d.currentTarget).selectAll('input')._groups[0][1].checked
             ? d3.select(d.currentTarget).selectAll('input')._groups[0][1].value
             : d3.select(d.currentTarget).selectAll('input')._groups[0][0].value
