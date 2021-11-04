@@ -423,7 +423,7 @@ function LineChart({
 
     var distributionData = stack(data4Dis)
     //  .value((data4Dis, key) => data4Dis[key])
-distributionData.map((d,i) => d.color = colorbrewer.YlGn[distributionData.length][i])
+distributionData.map((d,i) => d.color = distributionData.length == 2 ? colorbrewer.YlGn[3][i]: colorbrewer.YlGn[distributionData.length][i])
     var xBrush = d3
         .scalePoint()
         .range([margin.left + widthTrend, width - margin.right - widthAttribute])
@@ -463,7 +463,8 @@ distributionData.map((d,i) => d.color = colorbrewer.YlGn[distributionData.length
         .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
 
     var legendStep = heightDistribution / distributionData.length;
-    var legendData = categoryData.map((d,i) => {var e = {}; e.value = d.name; e.index = i; return e})
+    var legendData = categoryData.map((d,i) => {var e = {}; e.value = d.name; e.index = i; e.color = distributionData.length == 2 ? colorbrewer.YlGn[3][i]: colorbrewer.YlGn[distributionData.length][i]; return e})
+    var widthLegend = d3.min([legendStep * 0.8, 20]);
     d3.select(node)
         .select("#distribution")
         .selectAll('.legend')
@@ -474,11 +475,11 @@ distributionData.map((d,i) => d.color = colorbrewer.YlGn[distributionData.length
         .data(d => [d])
         .join('rect')
         .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - xBrush.step() * 0.5 - 30)
-        .attr('y', d => heightLine + legendStep * d.index)
-        .attr('width', legendStep * 0.8)
-        .attr('height', legendStep * 0.8)
+        .attr('y', d => heightLine + legendStep * (categoryData.length -1- d.index))
+        .attr('width',widthLegend)
+        .attr('height', widthLegend)
         .attr('stroke-width', 0)
-        .attr('fill', d => colorbrewer.YlGn[distributionData.length][d.index])
+        .attr('fill', d => d.color) // visualize the legend
 
         d3.select(node)
         .select("#distribution")
@@ -490,11 +491,11 @@ distributionData.map((d,i) => d.color = colorbrewer.YlGn[distributionData.length
         .data(d => [d])
         .join('text')
         .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - xBrush.step() * 0.5 - 33)
-        .attr('y', d => heightLine + legendStep * d.index + legendStep * 0.4)
+        .attr('y', d => heightLine + legendStep * (categoryData.length -1- d.index) + widthLegend/2)
         .attr('font-size', '12px')
         .attr('dominant-baseline','middle')
         .attr('text-anchor', 'end')
-        .text(d => d.value)
+        .text(d => d.value)   // visualize the text of legend;
 
 
     // -------------------------------------------------------------
