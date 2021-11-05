@@ -193,7 +193,8 @@
 
                         // ---------------------------------
                         // the dataset and dataJson
-                        dataset = d.map((e) => { e.color = get_random_color(); return e })
+                        // dataset = d.map((e) => { e.color = get_random_color(); return e })
+                        dataset = d.map((e) => { e.color = 'black'; return e })
                         dataJson = dealDataJson(indexSelection[0], dataset);
 
                         // ---------------------------------------------
@@ -301,7 +302,8 @@
                         d3.csv(index.dataUrl).then(
                             e => {
                                 debugger;
-                                dataset = e.map((e) => { e.color = get_random_color(); return e })
+                                // dataset = e.map((e) => { e.color = get_random_color(); return e })
+                                dataset = e.map((e) => { e.color = 'black'; return e })
                                 dataJson = dealDataJson(index, dataset);
                                 // ---------------------------------------------
                                 // Add the options for the aggregates
@@ -400,6 +402,9 @@
                                         .node().value,
                                     firstAggeragateAttribute: firstAggeragate.select("select").node()
                                         .value,
+                                    collapse: collapse.selectAll('input')._groups[0][1].checked
+                                        ? collapse.selectAll('input')._groups[0][1].value
+                                        : collapse.selectAll('input')._groups[0][0].value,
                                     filterPara: filterElement.node().value
                                 }); // visualize the combination sets
 

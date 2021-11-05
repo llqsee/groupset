@@ -11,6 +11,7 @@ Open the app at: http://localhost:3000/
 
 TODO list:
 
+- ~~Don't use two much colors to display the lines.~~
 - ~~Show the context while brushing the time points;~~
 - ~~Add distribution in the brushed area;~~
 - ~~collapse and expand the groups;~~
