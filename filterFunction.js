@@ -63,7 +63,7 @@ function AddFilterPanel(category, node, brushedAttributes) {
         .attr('type', 'number')
         .attr('value', 0)
         .attr('min', 0)
-        .attr('max', 100)
+        .attr('max', brushedAttributes.length)
 
     minValue.on('input', d => {
         insertTag.value = [CategorySelector.select('select').node().value

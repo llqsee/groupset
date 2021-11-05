@@ -20,7 +20,7 @@ TODO list:
 - highlight the time points while hovering the groups;
 - ~~add labels for line chart in aggeragated sets;~~
 - ~~add the sets with 0 elements;~~
-- add filter features for combination matrix;
+- ~~add filter features for combination matrix;~~
 - ~~add filter function for time points;~~
 - ~~For the soccer dataset could you please flip the Y-axis so the 1st team is at the top?~~
 - ~~By default you many not display the empty sets~~
