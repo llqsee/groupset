@@ -98,7 +98,11 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
 
   // data = dataoutput;
 
-  // -----------------------------------
+
+
+  if (data.length != 0) {
+
+      // -----------------------------------
   // Reorder the sets number
   if (orderCate == "cardinality") {
     data.sort((a, b) => b.childNode.length - a.childNode.length);
@@ -112,7 +116,7 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
     data.sort((a, b) => b.valueTrend[orderCate] - a.valueTrend[orderCate]); // re-order the treedata based on the trends
   }
 
-  if (data.length != 0) {
+
     // if the data.length is not 0, we visualize the combination matrix
 
     // create the UI of combination matrix;
@@ -1780,6 +1784,11 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
     //     (exit) => exit.call((exit) => exit.transition(t).remove())
     //   );
 
+    node.value = data;
+    node.dispatchEvent(new CustomEvent("input"));
+    return node;
+  }else{
+d3.select(node).selectAll('*').remove();
     node.value = data;
     node.dispatchEvent(new CustomEvent("input"));
     return node;
