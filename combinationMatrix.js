@@ -21,7 +21,8 @@ function renderCombinationMatrix({
   lineWidth, // the width of lines in each set
   firstAggeragateAttribute, // the first aggeragate attribute
   secondAggeragateAttribute, // the second aggeragate attribute
-  collapse           // the collapse or expand;
+  collapse,           // the collapse or expand;
+  filterPara      // the data for filtering something
 } = {}) {
   //   ----------------------------------------
   //   remove the all elements except the ordering buttons
@@ -51,6 +52,11 @@ function renderCombinationMatrix({
   }); // generate the tree data;
 
   // filter the treeData based on the degreess
+var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
+  if(firstAggeragateValue == 'Category'){
+    data = data.filter(d => +d.value[filterPara[0]] >= +filterPara[1] && +d.value[filterPara[0]] <= +filterPara[2])
+  }
+
   // var dataoutput = [];
   // var concatData = [];
   // for (var i = 0; i < degrees.length; i++) {

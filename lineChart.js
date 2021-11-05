@@ -395,7 +395,14 @@ function LineChart({
 
     // ----------------------------------------------
     // Add the filter selection and input 
-    AddFilterPanel(categoryData,node)
+    var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
+    if(firstAggeragateValue == 'Category'){
+        AddFilterPanel(categoryData,node, brushedAttributes)
+    }else{
+        var leftLayout = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left');
+        d3.select(leftLayout).select('.parameter-filter').selectAll('*').remove();
+    }
+   
 
 
 

@@ -47,7 +47,8 @@ function ChangeParameter() {
                 .value,
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value
+                : collapse.selectAll('input')._groups[0][0].value,
+                filterPara:filterElement.node().value
         }); // visualize the combination sets
     });
 
@@ -102,7 +103,8 @@ function ChangeParameter() {
                 .value,
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value
+                : collapse.selectAll('input')._groups[0][0].value,
+                filterPara:filterElement.node().value
         });
 
         d3.select("#layout-right-top-left")
@@ -135,7 +137,8 @@ function ChangeParameter() {
                         .value,
                     collapse: collapse.selectAll('input')._groups[0][1].checked
                         ? collapse.selectAll('input')._groups[0][1].value
-                        : collapse.selectAll('input')._groups[0][0].value
+                        : collapse.selectAll('input')._groups[0][0].value,
+                        filterPara:filterElement.node().value
                 });
             }); // when click the connection-line to order the sets
     });
@@ -172,7 +175,8 @@ function ChangeParameter() {
                 .value,
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value
+                : collapse.selectAll('input')._groups[0][0].value,
+                filterPara:filterElement.node().value
         }); // visualize the combination matrix
     });
 
@@ -211,7 +215,8 @@ function ChangeParameter() {
                 .value,
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value
+                : collapse.selectAll('input')._groups[0][0].value,
+                filterPara:filterElement.node().value
         }); // visualize the combination matrix
     });
 
@@ -254,7 +259,8 @@ function ChangeParameter() {
                     .value,
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
-                    : collapse.selectAll('input')._groups[0][0].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                    filterPara:filterElement.node().value
             }); // visualize the combination matrix
         }); // when we brush
 
@@ -282,7 +288,8 @@ function ChangeParameter() {
                 .value,
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value
+                : collapse.selectAll('input')._groups[0][0].value,
+                filterPara:filterElement.node().value
         }); // visualize the combination matrix
         // d3.select(d.path[4].querySelector("#div-matrix").querySelector("svg"))
         //   .selectAll(".set")
@@ -316,7 +323,8 @@ function ChangeParameter() {
                     .value,
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
-                    : collapse.selectAll('input')._groups[0][0].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                    filterPara:filterElement.node().value
             }); // visualize the combination matrix
             // debugger;
         }); // when click the trend buttons;
@@ -351,7 +359,8 @@ function ChangeParameter() {
                     .value,
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
-                    : collapse.selectAll('input')._groups[0][0].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                    filterPara:filterElement.node().value
             });
         }); // when click the connection-line to order the sets
 
@@ -360,6 +369,15 @@ function ChangeParameter() {
         .addEventListener("input", (d) => {
             var inputValue = d.currentTarget.value;
             debugger;
+            LineChart({
+                data: dataset,
+                dataJson: dataJson,
+                node: svgLine.node(),
+                n: +nPara.select('input').node().value,
+                brushedAttributes: svgLine.select("#time-brush").node().value,
+                lineWidth: +lineWidth.select("input").node().value
+            }); // visualize the line chart
+
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
@@ -385,7 +403,8 @@ function ChangeParameter() {
                 firstAggeragateAttribute: inputValue,
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
-                    : collapse.selectAll('input')._groups[0][0].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                    filterPara:filterElement.node().value
             });
         }); // when we click the second aggeragate option;
 
@@ -418,7 +437,8 @@ function ChangeParameter() {
                     .value,
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
-                    : collapse.selectAll('input')._groups[0][0].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                    filterPara:filterElement.node().value
             });
         }); // when we click the second aggeragate option;
 
@@ -451,8 +471,40 @@ function ChangeParameter() {
                 .value,
             firstAggeragateAttribute: firstAggeragate.select("select").node()
                 .value,
-            collapse: inputValue
+            collapse: inputValue,
+            filterPara:filterElement.node().value
+        });
+    })
+
+    filterElement.on('input', d => {
+        // debugger;
+        renderCombinationMatrix({
+            node: svgMatrix.node(),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            orderCate: svgLine.node().parentElement.value[0].name,
+            dataset: dataset,
+            id: dataJson.id,
+            attributesCut: dataJson.temporalAttributes,
+            // degrees: [1, 2, 3],
+            // setMember: [],
+            // probability: [],
+            dataJson: dataJson,
+            circleType: "circle",
+            type: "percentage",
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            yHeight: +setHeight.select("input").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate.select("select").node()
+                .value,
+            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+            ? collapse.selectAll('input')._groups[0][1].value
+            : collapse.selectAll('input')._groups[0][0].value,
+            filterPara:d.currentTarget.value
         });
     })
 }
-

@@ -151,6 +151,8 @@
 
         isEmpty = d3.select('.parameter-empty');
 
+        filterElement = d3.select('.parameter-filter')
+
 
 
         // -------------------------------------------------------------------------
@@ -283,7 +285,8 @@
                                 .value,
                             collapse: collapse.selectAll('input')._groups[0][1].checked
                                 ? collapse.selectAll('input')._groups[0][1].value
-                                : collapse.selectAll('input')._groups[0][0].value
+                                : collapse.selectAll('input')._groups[0][0].value,
+                            filterPara: filterElement.node().value
                         }); // visualize the combination sets
 
                         ChangeParameter();
@@ -396,7 +399,8 @@
                                         .select("select")
                                         .node().value,
                                     firstAggeragateAttribute: firstAggeragate.select("select").node()
-                                        .value
+                                        .value,
+                                    filterPara: filterElement.node().value
                                 }); // visualize the combination sets
 
                                 ChangeParameter();
