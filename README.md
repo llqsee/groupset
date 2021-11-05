@@ -13,7 +13,7 @@ TODO list:
 
 - Show the context while brushing the time points;
 - ~~Add distribution in the brushed area;~~
-- collapse and expand the groups;
+- ~~collapse and expand the groups;~~
 - color the lines based on which categories that they belongs;
 - drag the lines to generate new categories;
 - add the predefined categories;

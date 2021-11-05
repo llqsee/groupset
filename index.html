@@ -19,6 +19,7 @@
     <script type="text/javascript" src="groupset.js"></script>
     <script type="text/javascript" src="distributionChart.js"></script>
     <script type="text/javascript" src="colorscales.js"></script>
+    <script type="text/javascript" src="filterFunction.js"></script>
 </head>
 
 <body class="group-body">
@@ -68,15 +69,17 @@
             <form class='parameter-expand'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Aggeragates</div><label
                     style='margin-top:1em;font-size:12px'><input value='collapse' name='input' style='width:20px;'
-                        type=radio ></input>Collapse all</label><br><label
-                    style='margin-top:1em;font-size:12px'><input value='expand' name='input' style='width:20px;'
-                        type=radio checked></input>Expand all</label>
+                        type=radio></input>Collapse all</label><br><label style='margin-top:1em;font-size:12px'><input
+                        value='expand' name='input' style='width:20px;' type=radio checked></input>Expand all</label>
             </form>
-            <form class='parameter-filter'>
+            <!-- <form class='parameter-filter'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Filter the sets</div><input value=60
                     style='width:60%;' type=range min=0 max=1 step=0.1></input><label
                     style='margin-top:1em;font-size:12px'>0.5</label>
-            </form>
+            </form> -->
+            <div class='parameter-filter'>
+
+            </div>
         </div>
         <div id='layout-right'>
             <div id='layout-right-top' style="width:100%;height:40%;float:left;">
@@ -105,7 +108,8 @@
             dataset,            // the raw dataset;
             dataJson,       // the information of dataset, such as the attributes etc. 
             collapse,     // if it is expand or collapse,
-            colorbrewer = colorbrewer          // the color brewer.
+            colorbrewer = colorbrewer,          // the color brewer.
+            filterElement               // the filter element
 
 
 
@@ -147,9 +151,11 @@
 
         isEmpty = d3.select('.parameter-empty');
 
+
+
         // -------------------------------------------------------------------------
         // load the data from remote server
-debugger;
+        debugger;
         d3
             .json("https://file-server-liqun.herokuapp.com/files/index.json")
             .then((d) => {
@@ -186,7 +192,7 @@ debugger;
                         // ---------------------------------
                         // the dataset and dataJson
                         dataset = d.map((e) => { e.color = get_random_color(); return e })
-                        dataJson = dealDataJson(indexSelection[0],dataset);
+                        dataJson = dealDataJson(indexSelection[0], dataset);
 
                         // ---------------------------------------------
                         // Add the options for the aggregates
@@ -250,7 +256,7 @@ debugger;
                             dataJson: dataJson,
                             dataset: dataset
                         }); // visualize the connected lines
-debugger;
+                        debugger;
                         renderCombinationMatrix({
                             node: svgMatrix.node(),
                             dataFromFuzzy: svgLine.node().parentElement.value,
@@ -275,7 +281,7 @@ debugger;
                                 .node().value,
                             firstAggeragateAttribute: firstAggeragate.select("select").node()
                                 .value,
-                                collapse: collapse.selectAll('input')._groups[0][1].checked
+                            collapse: collapse.selectAll('input')._groups[0][1].checked
                                 ? collapse.selectAll('input')._groups[0][1].value
                                 : collapse.selectAll('input')._groups[0][0].value
                         }); // visualize the combination sets
@@ -293,7 +299,7 @@ debugger;
                             e => {
                                 debugger;
                                 dataset = e.map((e) => { e.color = get_random_color(); return e })
-                                dataJson = dealDataJson(index,dataset);
+                                dataJson = dealDataJson(index, dataset);
                                 // ---------------------------------------------
                                 // Add the options for the aggregates
                                 firstAggeragate

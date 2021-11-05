@@ -1,3 +1,5 @@
+// require('./filterFunction');
+
 function LineChart({
     data, // the data for the linechart
     dataJson, // the json data for the linechart
@@ -389,6 +391,12 @@ function LineChart({
             var categoryData = node.parentElement.value;
         }
     }
+
+
+    // ----------------------------------------------
+    // Add the filter selection and input 
+    AddFilterPanel(categoryData,node)
+
 
 
     // -------------------------------------------------------------
