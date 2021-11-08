@@ -514,9 +514,6 @@ var widthBar = d3.min([xBrush.step(),20])
                 e.color = colorbrewer[colorCategory][distributionData.length][i]
             }
         }
-        // e.color = distributionData.length == 2 ? 
-        // colorbrewer.YlGn[3][i]
-        // : colorbrewer.YlGn[distributionData.length][i]; 
         return e
     })
     var widthLegend = d3.min([legendStep * 0.8, 20]);
