@@ -22,7 +22,8 @@ function renderCombinationMatrix({
   firstAggeragateAttribute, // the first aggeragate attribute
   secondAggeragateAttribute, // the second aggeragate attribute
   collapse,           // the collapse or expand;
-  filterPara      // the data for filtering something
+  filterPara,      // the data for filtering something
+  treeData       // the default tree data
 } = {}) {
   //   ----------------------------------------
   //   remove the all elements except the ordering buttons
@@ -39,7 +40,7 @@ function renderCombinationMatrix({
     lineWidth = lineWidth || 3,
     brushedAttributes = brushedAttributes || attributesCut;
 
-  var data = CalTreData({
+  var data = treeData || CalTreData({
     dataFromFuzzy: dataFromFuzzy,
     dataset: dataset,
     attributesCut: attributesCut,
@@ -323,7 +324,7 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
       .attr("id", "selected-rect-group")
       .attr("opacity", 0.6)
       .attr("rx", 8)
-      .attr("stroke-width", 0);
+      .attr("stroke-width", 0)
     // .on("mouseenter", (d) => {
     //   d3.select(d.currentTarget)
     //     .attr("fill", "#ededed")
@@ -380,10 +381,11 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
     //     .attr("display", "inline"); // make the global texts hidden while mouseover the set
     // });
     // .on("click", (d) => {
-    //   var outputData = d.currentTarget.__data__;
-    //   d.path[2].value = outputData;
-    //   d.path[2].dispatchEvent(new CustomEvent("input"));
-    //   return d.path[2];
+
+      // var outputData = d.currentTarget.__data__;
+      // d.path[2].value = outputData;
+      // d.path[2].dispatchEvent(new CustomEvent("input"));
+      // return d.path[2];
     // });
 
     // ---------------------------------------------------------------------

@@ -507,4 +507,42 @@ function ChangeParameter() {
             filterPara:d.currentTarget.value
         });
     })
+
+    svgMatrix.selectAll('.set').on('click', d => {
+        debugger;
+        d.currentTarget.__data__.expand == 'true' ? d.currentTarget.__data__.expand = 'false':d.currentTarget.__data__.expand = 'true';
+        // d.currentTarget.__data__ == 
+        var newTreData = d3.select(d.currentTarget.parentElement.parentElement).selectAll('.set').data();
+
+
+        renderCombinationMatrix({
+            node: svgMatrix.node(),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            orderCate: svgLine.node().parentElement.value[0].name,
+            dataset: dataset,
+            id: dataJson.id,
+            attributesCut: dataJson.temporalAttributes,
+            // degrees: [1, 2, 3],
+            // setMember: [],
+            // probability: [],
+            dataJson: dataJson,
+            circleType: "circle",
+            type: "percentage",
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            yHeight: +setHeight.select("input").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate.select("select").node()
+                .value,
+            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+            ? collapse.selectAll('input')._groups[0][1].value
+            : collapse.selectAll('input')._groups[0][0].value,
+            filterPara:filterElement.node().value,
+            treeData: newTreData
+        });
+    }) // when we click the collapse and expand sets (first level sets)
 }
