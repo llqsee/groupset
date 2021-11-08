@@ -48,7 +48,7 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-                filterPara:filterElement.node().value
+            filterPara: filterElement.node().value
         }); // visualize the combination sets
     });
 
@@ -104,7 +104,7 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-                filterPara:filterElement.node().value
+            filterPara: filterElement.node().value
         });
 
         d3.select("#layout-right-top-left")
@@ -138,7 +138,7 @@ function ChangeParameter() {
                     collapse: collapse.selectAll('input')._groups[0][1].checked
                         ? collapse.selectAll('input')._groups[0][1].value
                         : collapse.selectAll('input')._groups[0][0].value,
-                        filterPara:filterElement.node().value
+                    filterPara: filterElement.node().value
                 });
             }); // when click the connection-line to order the sets
     });
@@ -176,7 +176,7 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-                filterPara:filterElement.node().value
+            filterPara: filterElement.node().value
         }); // visualize the combination matrix
     });
 
@@ -216,7 +216,7 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-                filterPara:filterElement.node().value
+            filterPara: filterElement.node().value
         }); // visualize the combination matrix
     });
 
@@ -260,7 +260,7 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                    filterPara:filterElement.node().value
+                filterPara: filterElement.node().value
             }); // visualize the combination matrix
         }); // when we brush
 
@@ -289,7 +289,7 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-                filterPara:filterElement.node().value
+            filterPara: filterElement.node().value
         }); // visualize the combination matrix
         // d3.select(d.path[4].querySelector("#div-matrix").querySelector("svg"))
         //   .selectAll(".set")
@@ -324,7 +324,7 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                    filterPara:filterElement.node().value
+                filterPara: filterElement.node().value
             }); // visualize the combination matrix
             // debugger;
         }); // when click the trend buttons;
@@ -360,7 +360,7 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                    filterPara:filterElement.node().value
+                filterPara: filterElement.node().value
             });
         }); // when click the connection-line to order the sets
 
@@ -404,7 +404,7 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                    filterPara:filterElement.node().value
+                filterPara: filterElement.node().value
             });
         }); // when we click the second aggeragate option;
 
@@ -438,7 +438,7 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                    filterPara:filterElement.node().value
+                filterPara: filterElement.node().value
             });
         }); // when we click the second aggeragate option;
 
@@ -472,7 +472,7 @@ function ChangeParameter() {
             firstAggeragateAttribute: firstAggeragate.select("select").node()
                 .value,
             collapse: inputValue,
-            filterPara:filterElement.node().value
+            filterPara: filterElement.node().value
         });
     })
 
@@ -502,15 +502,15 @@ function ChangeParameter() {
             firstAggeragateAttribute: firstAggeragate.select("select").node()
                 .value,
             collapse: collapse.selectAll('input')._groups[0][1].checked
-            ? collapse.selectAll('input')._groups[0][1].value
-            : collapse.selectAll('input')._groups[0][0].value,
-            filterPara:d.currentTarget.value
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value,
+            filterPara: d.currentTarget.value
         });
     })
 
     svgMatrix.selectAll('.set').on('click', d => {
         debugger;
-        d.currentTarget.__data__.expand == 'true' ? d.currentTarget.__data__.expand = 'false':d.currentTarget.__data__.expand = 'true';
+        d.currentTarget.__data__.expand == 'true' ? d.currentTarget.__data__.expand = 'false' : d.currentTarget.__data__.expand = 'true';
         // d.currentTarget.__data__ == 
         var newTreData = d3.select(d.currentTarget.parentElement.parentElement).selectAll('.set').data();
 
@@ -539,10 +539,25 @@ function ChangeParameter() {
             firstAggeragateAttribute: firstAggeragate.select("select").node()
                 .value,
             collapse: collapse.selectAll('input')._groups[0][1].checked
-            ? collapse.selectAll('input')._groups[0][1].value
-            : collapse.selectAll('input')._groups[0][0].value,
-            filterPara:filterElement.node().value,
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value,
+            filterPara: filterElement.node().value,
             treeData: newTreData
         });
     }) // when we click the collapse and expand sets (first level sets)
+
+    colorScale.on('input', d => {
+        debugger;
+        LineChart({
+            data: dataset,
+            dataJson: dataJson,
+            node: svgLine.node(),
+            n: +nPara.select('input').node().value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            colorCategory: d.currentTarget.value
+        }); // visualize the line chart
+        // debugger;
+    })// when we change the color scales;
+
 }

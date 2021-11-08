@@ -7,7 +7,8 @@ function LineChart({
     n, // the number of categories
     brushedAttributes,
     oneAttribute, // the attribute column such as 'average'
-    lineWidth // the width of lines that we can adjust
+    lineWidth, // the width of lines that we can adjust
+    colorCategory      // the color for categories;
 }) {
     // -------------------------------------------------------------
     // parse the input data and nodes' parameters;
@@ -438,7 +439,25 @@ function LineChart({
 
     var distributionData = stack(data4Dis)
     //  .value((data4Dis, key) => data4Dis[key])
-distributionData.map((d,i) => d.color = distributionData.length == 2 ? colorbrewer.YlGn[3][i]: colorbrewer.YlGn[distributionData.length][i])
+distributionData.map((d,i) => {
+
+    if(distributionData.length == 2){
+        if(colorCategory == null){
+            d.color = colorbrewer[colorCategory][3][i]
+        }else{
+            d.color = colorbrewer[colorCategory][3][i];
+        }
+    }else{
+        if(colorCategory == null){
+            d.color = colorbrewer.YlGn[distributionData.length][i]
+        }else{
+            d.color = colorbrewer[colorCategory][distributionData.length][i]
+        }
+    }
+
+    return d
+    // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
+})
     var xBrush = d3
         .scalePoint()
         .range([margin.left + widthTrend, width - margin.right - widthAttribute])
@@ -478,7 +497,28 @@ var widthBar = d3.min([xBrush.step(),20])
         .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
 
     var legendStep = heightDistribution / distributionData.length;
-    var legendData = categoryData.map((d,i) => {var e = {}; e.value = d.name; e.index = i; e.color = distributionData.length == 2 ? colorbrewer.YlGn[3][i]: colorbrewer.YlGn[distributionData.length][i]; return e})
+    var legendData = categoryData.map((d,i) => {
+        var e = {}; 
+        e.value = d.name; 
+        e.index = i; 
+        if(distributionData.length == 2){
+            if(colorCategory == null){
+                e.color = colorbrewer[colorCategory][3][i]
+            }else{
+                e.color = colorbrewer[colorCategory][3][i];
+            }
+        }else{
+            if(colorCategory == null){
+                e.color = colorbrewer.YlGn[distributionData.length][i]
+            }else{
+                e.color = colorbrewer[colorCategory][distributionData.length][i]
+            }
+        }
+        // e.color = distributionData.length == 2 ? 
+        // colorbrewer.YlGn[3][i]
+        // : colorbrewer.YlGn[distributionData.length][i]; 
+        return e
+    })
     var widthLegend = d3.min([legendStep * 0.8, 20]);
     d3.select(node)
         .select("#distribution")

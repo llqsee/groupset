@@ -11,6 +11,12 @@ Open the app at: http://localhost:3000/
 
 TODO list:
 
+- Add color option for users so they can add color for each categories;
+- let users create their own categories based on their own knowledge and name the categories;
+- highlight on all rows/colomns when the mouse hover a specific interval so it is easy to track  chagnes;
+- have the arrows as header and we should also can sort based on the arrows;
+- hightlight the lines when you hover the text in the top line chart;
+- add the option that don't aggregate; 
 - ~~Don't use two much colors to display the lines.~~
 - ~~Show the context while brushing the time points;~~
 - ~~Add distribution in the brushed area;~~

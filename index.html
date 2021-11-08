@@ -79,6 +79,11 @@
             </form> -->
             <div class='parameter-filter'>
 
+                <form class="color-option">
+                    <div style='font-weight:bold;margin-top:1em;font-size:12px'>Select the colors:</div>
+                    <select></select>
+                </form>
+
             </div>
         </div>
         <div id='layout-right'>
@@ -96,20 +101,21 @@
     <script>
         // -------------------------------------------------------------------
         // Init the all global variables
-        var dataIndex,      // the data index to be used in dataLoading
+        var dataIndex,      // the data index to be used in dataLoading;
             firstAggeragate,       // the attribute that we fisrt aggregate;
             secondAggeragate,       // the second attribute that we aggregate;
             svgLine,               // the svg of line chart;
             svgMatrix,                // the svg of combination matrix;
-            lineWidth,                   // the width of lines
-            nPara,                   // how many categories we created
-            setHeight,            // the height of the groups
+            lineWidth,                   // the width of lines;
+            nPara,                   // how many categories we created;
+            setHeight,            // the height of the groups;
             isEmpty,         // if it shows the empty groups;
             dataset,            // the raw dataset;
-            dataJson,       // the information of dataset, such as the attributes etc. 
-            collapse,     // if it is expand or collapse,
-            colorbrewer = colorbrewer,          // the color brewer.
-            filterElement               // the filter element
+            dataJson,       // the information of dataset, such as the attributes etc; 
+            collapse,     // if it is expand or collapse;
+            colorbrewer = colorbrewer,          // the color brewer;
+            filterElement,               // the filter element;
+            colorScale              // the color selection for users;
 
 
 
@@ -152,6 +158,15 @@
         isEmpty = d3.select('.parameter-empty');
 
         filterElement = d3.select('.parameter-filter')
+        debugger;
+        var colorData = Object.keys(colorbrewer).map(d => { var e = {}; e.name = d; e.value = colorbrewer[d]; return e })
+        colorScale = d3.select('.color-option')
+            .select('select')
+        colorScale.selectAll('option')
+            .data(colorData)
+            .join('option')
+            .attr('value', d => d.name)
+            .text(d => d.name)
 
 
 
