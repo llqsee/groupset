@@ -49,12 +49,12 @@ function renderCombinationMatrix({
     brushedAttributes: brushedAttributes,
     secondAggeragateAttribute: secondAggeragateAttribute,
     firstAggeragateAttribute: firstAggeragateAttribute,
-    collapse:collapse
+    collapse: collapse
   }); // generate the tree data;
 
   // filter the treeData based on the degreess
-var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
-  if(firstAggeragateValue == 'Category'){
+  var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
+  if (firstAggeragateValue == 'Category') {
     data = data.filter(d => +d.value[filterPara[0]] >= +filterPara[1] && +d.value[filterPara[0]] <= +filterPara[2])
   }
 
@@ -103,19 +103,19 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
 
   if (data.length != 0) {
 
-      // -----------------------------------
-  // Reorder the sets number
-  if (orderCate == "cardinality") {
-    data.sort((a, b) => b.childNode.length - a.childNode.length);
-  } else if (dataFromFuzzy.findIndex((d) => d.name == orderCate) != -1) {
-    data.sort((a, b) => b.value[orderCate] - a.value[orderCate]); // re-order the treedata
-  } else if (
-    orderCate == "up" ||
-    orderCate == "down" ||
-    orderCate == "stable"
-  ) {
-    data.sort((a, b) => b.valueTrend[orderCate] - a.valueTrend[orderCate]); // re-order the treedata based on the trends
-  }
+    // -----------------------------------
+    // Reorder the sets number
+    if (orderCate == "cardinality") {
+      data.sort((a, b) => b.childNode.length - a.childNode.length);
+    } else if (dataFromFuzzy.findIndex((d) => d.name == orderCate) != -1) {
+      data.sort((a, b) => b.value[orderCate] - a.value[orderCate]); // re-order the treedata
+    } else if (
+      orderCate == "up" ||
+      orderCate == "down" ||
+      orderCate == "stable"
+    ) {
+      data.sort((a, b) => b.valueTrend[orderCate] - a.valueTrend[orderCate]); // re-order the treedata based on the trends
+    }
 
 
     // if the data.length is not 0, we visualize the combination matrix
@@ -195,14 +195,14 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
     function CalculateTranslate(data, index, heightFirst, heightSecond, collapse) {
       var a = data.slice(0, index);   // this a represents the sets before the set we are calculating.
       var translateDistance;
-      if(a.length == 0){
+      if (a.length == 0) {
         translateDistance = 0;
-      }else if(a.length != 0){
+      } else if (a.length != 0) {
         var dis1 = a.length * heightFirst;
-        var dis2 = a.map(d => d.expand == 'true'? d.childNode.length:0);
-        if(dis2.length !=0){
-          translateDistance = dis1 + dis2.reduce((a,b) => a+b) * heightSecond
-        }else{
+        var dis2 = a.map(d => d.expand == 'true' ? d.childNode.length : 0);
+        if (dis2.length != 0) {
+          translateDistance = dis1 + dis2.reduce((a, b) => a + b) * heightSecond
+        } else {
           translateDistance = dis1
         }
       }
@@ -230,16 +230,16 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
       var array = id.split("_").map((d) => Number(d));
 
       var translateDistance;
-      if(a.length == 0){
+      if (a.length == 0) {
         translateDistance = heightFirst + array[1] * heightSecond;
-      }else if(a.length != 0){
+      } else if (a.length != 0) {
         var dis1 = a.length * heightFirst;
-        var dis2 = a.map(d => d.expand == 'true'? d.childNode.length:0);
-        if(dis2.length !=0){
-          translateDistance = dis1 + dis2.reduce((a,b) => a+b) * heightSecond
-          +heightFirst + array[1] * heightSecond;
-        }else{
-          translateDistance = dis1+heightSecond
+        var dis2 = a.map(d => d.expand == 'true' ? d.childNode.length : 0);
+        if (dis2.length != 0) {
+          translateDistance = dis1 + dis2.reduce((a, b) => a + b) * heightSecond
+            + heightFirst + array[1] * heightSecond;
+        } else {
+          translateDistance = dis1 + heightSecond
         }
       }
 
@@ -272,18 +272,33 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
         [xLine(d), margin.top],
         [xLine(d), CalculateTranslate(data, data.length, y_step_group, y_step, collapse)]
       ]);
-    svg.select("#vertical-line").remove();
-    svg
-      .append("g")
-      .attr("id", "vertical-line")
+    var verticalSVG = svg.selectAll("#vertical-line").data([brushedAttributes]).join('g')
+    .attr('id', 'vertical-line');
+
+    verticalSVG
       .selectAll("path")
-      .data(brushedAttributes)
+      .data(d => d)
       .join("path")
       .attr("d", verticalLine)
       .attr("stroke-width", 1)
       .attr("stroke", "grey")
       .attr("opacity", 0.4)
       .attr("stroke-dasharray", "3,6");
+
+    verticalSVG.selectAll('rect')
+      .data(d => d)
+      .join('rect')
+      .attr('x', d => xLine(d) - xLine.step() * 0.5)
+      .attr('y', margin.top)
+      .attr('width', xLine.step())
+      .attr('height', CalculateTranslate(data, data.length, y_step_group, y_step, collapse))
+      .attr('fill', 'none')
+      .attr('opacity', 0.5)
+      .attr('stroke-width', 0)
+    //   .on('mouseenter', d => {
+    //     debugger;
+    //   })
+
 
     // var verticalData = attributesCut;
     // verticalData.numberSet = data.length;
@@ -303,6 +318,7 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
     //   .attr("opacity", 0.4)
     //   .attr("stroke-dasharray", "3,6");
 
+
     // --------------------------------------------------------------------
     // render the rectangles for hover the specific sets;
     gRect
@@ -319,7 +335,7 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
       // .attr("y", (d) => y(d.name) - y_step * 0.5)
       .attr("width", width - scrollWidth)
       .attr("height", y_step_group * 0.98)
-      .attr('stroke-width',0)
+      .attr('stroke-width', 0)
       .attr("fill", "grey")
       .attr("id", "selected-rect-group")
       .attr("opacity", 0.6)
@@ -382,10 +398,10 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
     // });
     // .on("click", (d) => {
 
-      // var outputData = d.currentTarget.__data__;
-      // d.path[2].value = outputData;
-      // d.path[2].dispatchEvent(new CustomEvent("input"));
-      // return d.path[2];
+    // var outputData = d.currentTarget.__data__;
+    // d.path[2].value = outputData;
+    // d.path[2].dispatchEvent(new CustomEvent("input"));
+    // return d.path[2];
     // });
 
     // ---------------------------------------------------------------------
@@ -927,12 +943,12 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
       d3.line()(
         brushedAttributes.map((d) => [xLine(d), subYScale1(min, max)(p[d])])
       );
-// debugger;
+    // debugger;
     var groupLineText = gRect
       .selectAll(".subset-line-text")
       .data((d) => d.childNode)
       .join("g")
-      .style('display', (d,i,s) => {if(s[0].parentElement.__data__.expand == 'false'){return 'none'}else{return 'inline'}})
+      .style('display', (d, i, s) => { if (s[0].parentElement.__data__.expand == 'false') { return 'none' } else { return 'inline' } })
       .attr(
         "transform",
         (d) =>
@@ -1160,7 +1176,7 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
       .attr("opacity", 0)
       .attr("stroke-width", 0)
       .on("mouseover", (d) => {
-
+        debugger;
         d3.select(d.currentTarget)
           .attr("fill", "#dedede")
           .attr("stroke", "none")
@@ -1183,8 +1199,29 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
           .filter((d) => selectName.findIndex((e) => e == d[id]) == -1)
           .selectAll("text")
           .attr("display", "none"); // make the global texts hidden while mouseover the set
+
+        function scalePointPositionX1({ xpos, xScale } = {}) {
+          var xPos = xpos;
+          var domain = xScale.domain();
+          var range = xScale.range();
+          var rangePoints = d3.range(range[0], range[1], xScale.step());
+          var yPos = domain[d3.bisect(rangePoints, xPos)];
+          return yPos;
+        } // equal to x.invert();
+
+        var attributeXPosition = scalePointPositionX1({ xpos: d.pageX, xScale: xLine });     // calculate the x position
+
+        d3.select(d.currentTarget.parentElement.parentElement.parentElement.querySelector('#vertical-line')).selectAll('rect').filter(d => d == attributeXPosition)
+          .attr('fill', '#dedede')
+          .attr('opacity', 0.5) // find the related vertical rects and highlight it;
+
+        d3.select(d.currentTarget.parentElement.parentElement.parentElement)
+          .select('#vertical-line')
+
+        d3.select(d.currentTarget.parentElement.parentElement.parentElement)
+          .selectAll('.set')
       })
-      .on("mouseleave", (d) => {
+      .on("mouseout", (d) => {
         d3.select(d.currentTarget)
           .attr("fill", "white")
           .attr("stroke", "none")
@@ -1208,6 +1245,21 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
           .filter((d) => selectName.findIndex((e) => e == d[id]) == -1)
           .selectAll("text")
           .attr("display", "inline"); // make the global texts hidden while mouseover the set
+
+        function scalePointPositionX1({ xpos, xScale } = {}) {
+          var xPos = xpos;
+          var domain = xScale.domain();
+          var range = xScale.range();
+          var rangePoints = d3.range(range[0], range[1], xScale.step());
+          var yPos = domain[d3.bisect(rangePoints, xPos)];
+          return yPos;
+        } // equal to x.invert();
+
+        var attributeXPosition = scalePointPositionX1({ xpos: d.pageX - (90 + width * 0.15 + widthTrend), xScale: xLine });     // calculate the x position
+
+        d3.select(d.currentTarget.parentElement.parentElement.parentElement.querySelector('#vertical-line')).selectAll('rect').filter(d => d == attributeXPosition)
+          .attr('fill', 'none')
+          .attr('opacity', 0) // find the related vertical rects and highlight it;
       });
     // .on("click", (d) => {
     //   var outputData = d.currentTarget.__data__;
@@ -1786,11 +1838,17 @@ var firstAggeragateValue = node.parentElement.parentElement.parentElement.parent
     //     (exit) => exit.call((exit) => exit.transition(t).remove())
     //   );
 
+
+
+    // ------------------------------------------------
+    // Order the elements of vertical lines and sets
+    d3.select(node).select('#vertical-line').lower()
+
     node.value = data;
     node.dispatchEvent(new CustomEvent("input"));
     return node;
-  }else{
-d3.select(node).selectAll('*').remove();
+  } else {
+    d3.select(node).selectAll('*').remove();
     node.value = data;
     node.dispatchEvent(new CustomEvent("input"));
     return node;
