@@ -288,9 +288,9 @@ function renderCombinationMatrix({
     verticalSVG.selectAll('rect')
       .data(d => d)
       .join('rect')
-      .attr('x', d => xLine(d) - xLine.step() * 0.5)
-      .attr('y', margin.top)
-      .attr('width', xLine.step())
+      .attr('x', d => xLine(d) - d3.min([xLine.step(),25])*0.5)
+      .attr('y', 0)
+      .attr('width', d3.min([xLine.step(),25]))
       .attr('height', CalculateTranslate(data, data.length, y_step_group, y_step, collapse))
       .attr('fill', 'none')
       .attr('opacity', 0.5)
@@ -1175,7 +1175,7 @@ function renderCombinationMatrix({
       // .attr("id", "selected-rect-group")
       .attr("opacity", 0)
       .attr("stroke-width", 0)
-      .on("mouseover", (d) => {
+      .on("mousemove", (d) => {
         debugger;
         d3.select(d.currentTarget)
           .attr("fill", "#dedede")
@@ -1204,16 +1204,20 @@ function renderCombinationMatrix({
           var xPos = xpos;
           var domain = xScale.domain();
           var range = xScale.range();
-          var rangePoints = d3.range(range[0], range[1], xScale.step());
-          var yPos = domain[d3.bisect(rangePoints, xPos)];
+          var rangePoints = d3.range(range[0] - xScale.step()*0.5, range[1]+xScale.step()*0.5, xScale.step());
+          var yPos = domain[d3.bisect(rangePoints, xPos)-1];
           return yPos;
         } // equal to x.invert();
 
-        var attributeXPosition = scalePointPositionX1({ xpos: d.pageX, xScale: xLine });     // calculate the x position
+        var attributeXPosition = scalePointPositionX1({ xpos: d.pageX - width * 0.15, xScale: xLine });     // calculate the x position
 
         d3.select(d.currentTarget.parentElement.parentElement.parentElement.querySelector('#vertical-line')).selectAll('rect').filter(d => d == attributeXPosition)
           .attr('fill', '#dedede')
           .attr('opacity', 0.5) // find the related vertical rects and highlight it;
+
+          d3.select(d.currentTarget.parentElement.parentElement.parentElement.querySelector('#vertical-line')).selectAll('rect').filter(d => d != attributeXPosition)
+          .attr('fill', 'white')
+          .attr('opacity', 0) // find the related vertical rects and highlight it;
 
         d3.select(d.currentTarget.parentElement.parentElement.parentElement)
           .select('#vertical-line')

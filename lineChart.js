@@ -397,15 +397,28 @@ function LineChart({
     // ----------------------------------------------
     // Add the filter selection and input 
     var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
-    if(firstAggeragateValue == 'Category'){
-        AddFilterPanel(categoryData,node, brushedAttributes)
-    }else{
+    if (firstAggeragateValue == 'Category') {
+        AddFilterPanel(categoryData, node, brushedAttributes)
+    } else {
         var leftLayout = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left');
         d3.select(leftLayout).select('.parameter-filter').selectAll('*').remove();
     }
-   
 
 
+    // --------------------------------------------------------------
+    // Add the vertical rects
+    d3.select(node).selectAll('#vertical-line-global').data([brushedAttributes])
+        .join('g')
+        .attr('id', 'vertical-line-global')
+        .selectAll('rect')
+        .data(d => d)
+        .join('rect')
+        .attr('x', d => x(d) - d3.min([x.step(),20])*0.5)
+        .attr('y', margin.top)
+        .attr('width', d3.min([x.step(),20]))
+        .attr('height', heightLine - margin.bottom - margin.top)
+        .attr('fill', 'white')
+        .attr('opacity', 0)
 
     // -------------------------------------------------------------
     // Visualize the distribution in the brushed area
@@ -434,30 +447,30 @@ function LineChart({
 
     var stack = d3.stack().keys(categoryData.map(d => d.name))
         .value((data, key) => data[key])
-        // .order(d3.stackOrderAscending)
-        // .offset(d3.stackOffsetNone);
+    // .order(d3.stackOrderAscending)
+    // .offset(d3.stackOffsetNone);
 
     var distributionData = stack(data4Dis)
     //  .value((data4Dis, key) => data4Dis[key])
-distributionData.map((d,i) => {
+    distributionData.map((d, i) => {
 
-    if(distributionData.length == 2){
-        if(colorCategory == null){
-            d.color = colorbrewer[colorCategory][3][i]
-        }else{
-            d.color = colorbrewer[colorCategory][3][i];
+        if (distributionData.length == 2) {
+            if (colorCategory == null) {
+                d.color = colorbrewer[colorCategory][3][i]
+            } else {
+                d.color = colorbrewer[colorCategory][3][i];
+            }
+        } else {
+            if (colorCategory == null) {
+                d.color = colorbrewer.YlGn[distributionData.length][i]
+            } else {
+                d.color = colorbrewer[colorCategory][distributionData.length][i]
+            }
         }
-    }else{
-        if(colorCategory == null){
-            d.color = colorbrewer.YlGn[distributionData.length][i]
-        }else{
-            d.color = colorbrewer[colorCategory][distributionData.length][i]
-        }
-    }
 
-    return d
-    // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
-})
+        return d
+        // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
+    })
     var xBrush = d3
         .scalePoint()
         .range([margin.left + widthTrend, width - margin.right - widthAttribute])
@@ -478,7 +491,7 @@ distributionData.map((d,i) => {
         }
         return "#" + color;
     }
-var widthBar = d3.min([xBrush.step(),20])
+    var widthBar = d3.min([xBrush.step(), 20])
     d3.select(node)
         .select('#distribution')
         .selectAll('.distribution-group')
@@ -491,26 +504,26 @@ var widthBar = d3.min([xBrush.step(),20])
         .data(d => d)
         .join('rect')
         .attr('stroke-width', 0)
-        .attr('x', d => xBrush(d.data.name) - widthBar/2)
+        .attr('x', d => xBrush(d.data.name) - widthBar / 2)
         .attr('width', widthBar)
         .attr('y', d => yBrush(d[1]))
         .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
 
     var legendStep = heightDistribution / distributionData.length;
-    var legendData = categoryData.map((d,i) => {
-        var e = {}; 
-        e.value = d.name; 
-        e.index = i; 
-        if(distributionData.length == 2){
-            if(colorCategory == null){
+    var legendData = categoryData.map((d, i) => {
+        var e = {};
+        e.value = d.name;
+        e.index = i;
+        if (distributionData.length == 2) {
+            if (colorCategory == null) {
                 e.color = colorbrewer[colorCategory][3][i]
-            }else{
+            } else {
                 e.color = colorbrewer[colorCategory][3][i];
             }
-        }else{
-            if(colorCategory == null){
+        } else {
+            if (colorCategory == null) {
                 e.color = colorbrewer.YlGn[distributionData.length][i]
-            }else{
+            } else {
                 e.color = colorbrewer[colorCategory][distributionData.length][i]
             }
         }
@@ -526,26 +539,26 @@ var widthBar = d3.min([xBrush.step(),20])
         .selectAll('rect')
         .data(d => [d])
         .join('rect')
-        .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar*0.5 - 30)
-        .attr('y', d => heightLine + legendStep * (categoryData.length -1- d.index))
-        .attr('width',widthLegend)
+        .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 30)
+        .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index))
+        .attr('width', widthLegend)
         .attr('height', widthLegend)
         .attr('stroke-width', 0)
         .attr('fill', d => d.color) // visualize the legend
 
-        d3.select(node)
+    d3.select(node)
         .select("#distribution")
         .selectAll('.legend')
         .data(legendData)
         .join('g')
-        .attr('class','legend')
+        .attr('class', 'legend')
         .selectAll('text')
         .data(d => [d])
         .join('text')
         .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
-        .attr('y', d => heightLine + legendStep * (categoryData.length -1- d.index) + widthLegend/2)
+        .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index) + widthLegend / 2)
         .attr('font-size', '12px')
-        .attr('dominant-baseline','middle')
+        .attr('dominant-baseline', 'middle')
         .attr('text-anchor', 'end')
         .text(d => d.value)   // visualize the text of legend;
 
