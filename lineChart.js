@@ -420,6 +420,8 @@ function LineChart({
         .attr('fill', 'white')
         .attr('opacity', 0)
 
+    d3.select(node).select('#vertical-line-global').lower();    // put the vertical rects in the background
+
     // -------------------------------------------------------------
     // Visualize the distribution in the brushed area
     var data4Dis = [];
@@ -827,6 +829,8 @@ function LineChart({
         .attr("font-size", "12px")
         .attr("dominant-baseline", "middle")
         .attr("text-anchor", "middle");
+
+    // d3.select(node).selectAll('.connection-area').lower(); // put the connection area in the background
 
     node.parentElement.value = categoryData;
     node.parentElement.dispatchEvent(new CustomEvent("input"));
