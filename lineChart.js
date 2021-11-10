@@ -633,8 +633,8 @@ function LineChart({
         .attr("d", (d) =>
             pathArea([
                 [0, y(d.edgeMin)],
-                [margin.left + widthTrend, y(d.edgeMin)],
-                [margin.left + widthTrend, y(d.edgeMax)],
+                [width - margin.right - widthAttribute, y(d.edgeMin)],
+                [width - margin.right - widthAttribute, y(d.edgeMax)],
                 [0, y(d.edgeMax)]
             ])
         )
@@ -830,7 +830,7 @@ function LineChart({
         .attr("dominant-baseline", "middle")
         .attr("text-anchor", "middle");
 
-    // d3.select(node).selectAll('.connection-area').lower(); // put the connection area in the background
+    d3.select(node).selectAll('.connection-area').lower(); // put the connection area in the background
 
     node.parentElement.value = categoryData;
     node.parentElement.dispatchEvent(new CustomEvent("input"));
