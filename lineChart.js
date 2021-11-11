@@ -458,7 +458,7 @@ function LineChart({
 
         if (distributionData.length == 2) {
             if (colorCategory == null) {
-                d.color = colorbrewer[colorCategory][3][i]
+                d.color = colorbrewer.YlGn[3][i]
             } else {
                 d.color = colorbrewer[colorCategory][3][i];
             }
@@ -518,7 +518,7 @@ function LineChart({
         e.index = i;
         if (distributionData.length == 2) {
             if (colorCategory == null) {
-                e.color = colorbrewer[colorCategory][3][i]
+                e.color = colorbrewer.YlGn[3][i]
             } else {
                 e.color = colorbrewer[colorCategory][3][i];
             }
