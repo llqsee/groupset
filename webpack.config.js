@@ -18,12 +18,12 @@ module.exports = {
         contentBase: __dirname,//本地服务器所加载的页面所在的目录 
         // contentBase: path.join(__dirname,'index.html'),
         historyApiFallback: true,//不跳转 
-        inline: false,//实时刷新 
+        inline: true,//实时刷新 
         port: 3000,
         host: 'localhost',
         compress: true,
         open: true,
-        openPage: '' // <-- this
+        openPage: '', // <-- this
     }
 }
 

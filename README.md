@@ -11,7 +11,7 @@ Open the app at: http://localhost:3000/
 
 TODO list:
 
-- Add the drop-down sorting methods;
+- ~~Add the drop-down sorting methods;~~
 - Always keep the categories;
 - ~~Add color option for users so they can add color for each categories;~~
 - let users create their own categories based on their own knowledge and name the categories;

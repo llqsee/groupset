@@ -560,4 +560,46 @@ function ChangeParameter() {
         // debugger;
     })// when we change the color scales;
 
+    // When we sort the combination matrix while clicking the sort dropdown
+    parameterSort.on('input', d => {
+        debugger;
+        // Define the parameters upated in this interaction, new sorting values
+        var sortValue = d.currentTarget.value;
+
+        // Get the saved tree data;
+        var newTreData = d.path[3]
+            .querySelector('#layout-right')
+            .querySelector('#div-matrix')
+            .querySelector('svg')
+            .value
+
+        // re-draw the combinatiom matrix based on the new sorting input
+        renderCombinationMatrix({
+            node: svgMatrix.node(),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            orderCate: sortValue,
+            dataset: dataset,
+            id: dataJson.id,
+            attributesCut: dataJson.temporalAttributes,
+            dataJson: dataJson,
+            circleType: "circle",
+            type: "percentage",
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            yHeight: +setHeight.select("input").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate.select("select").node()
+                .value,
+            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value,
+            filterPara: filterElement.node().value,
+            treeData: newTreData
+        });
+
+    })
 }

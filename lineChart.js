@@ -404,6 +404,18 @@ function LineChart({
         d3.select(leftLayout).select('.parameter-filter').selectAll('*').remove();
     }
 
+    // -------------------------------------------------
+    // Add the options to sort method dropdown
+    debugger;
+    parameterSort.selectAll('option').data(
+        ['cardinality'].concat(
+            categoryData.map(d => d.name))
+    )
+        .join('option')
+        .attr('value', d => d)
+        .text(d => d)
+        .style('dont-size', '12px')
+
 
     // --------------------------------------------------------------
     // Add the vertical rects
@@ -413,9 +425,9 @@ function LineChart({
         .selectAll('rect')
         .data(d => d)
         .join('rect')
-        .attr('x', d => x(d) - d3.min([x.step(),20])*0.5)
+        .attr('x', d => x(d) - d3.min([x.step(), 20]) * 0.5)
         .attr('y', margin.top)
-        .attr('width', d3.min([x.step(),20]))
+        .attr('width', d3.min([x.step(), 20]))
         .attr('height', heightLine - margin.bottom - margin.top)
         .attr('fill', 'white')
         .attr('opacity', 0)

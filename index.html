@@ -68,7 +68,7 @@
             </form>
 
             <form class='parameter-sort'>
-                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Sort by:</div><select>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>First, sort by:</div><select>
                     <option value="cardinality" style='font-size:12px'>Cardinality</option>
                 </select>
             </form>
@@ -124,7 +124,8 @@
             collapse,     // if it is expand or collapse;
             colorbrewer = colorbrewer,          // the color brewer;
             filterElement,               // the filter element;
-            colorScale              // the color selection for users;
+            colorScale,              // the color selection for users;
+            parameterSort          // the parameter sort methods
 
 
 
@@ -167,7 +168,10 @@
         isEmpty = d3.select('.parameter-empty');
 
         filterElement = d3.select('.parameter-filter')
-        debugger;
+
+        // Assign the element to parameterSort;
+        parameterSort = d3.select('.parameter-sort').select('select');
+
         var colorData = Object.keys(colorbrewer).map(d => { var e = {}; e.name = d; e.value = colorbrewer[d]; return e })
         colorScale = d3.select('.color-option')
             .select('select')
@@ -176,6 +180,8 @@
             .join('option')
             .attr('value', d => d.name)
             .text(d => d.name)
+
+        
 
 
 
