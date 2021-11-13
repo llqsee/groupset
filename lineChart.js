@@ -172,23 +172,24 @@ function LineChart({
                         y(d[brushedAttributes[brushedAttributes.length - 1]])
                     )
                     .on("mouseover", (d) => {
+                        debugger;
                         d3.select(d.currentTarget.parentElement.parentElement)
                             .selectAll(".line")
                             .selectAll("path")
-                            .filter((e) => d.currentTarget.__data__.name != e.name)
+                            .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("stroke", "#dedede"); // show the line
 
                         d3.select(d.currentTarget.parentElement.parentElement)
                             .selectAll(".line")
                             .selectAll("text")
-                            .filter((e) => d.currentTarget.__data__.name != e.name)
+                            .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("display", "none"); // don't display the text if it's not responding to the line
 
                         d3.select(
                             d.path[5].querySelector("#div-matrix").querySelector("svg")
                         )
                             .selectAll(".set")
-                            .filter((e) => e.name != d.currentTarget.__data__.name)
+                            .filter((e) => e[dataJson.id] != d.currentTarget.__data__[dataJson.id])
                             .selectAll(".set-line-text")
                             .selectAll("path")
                             .attr("stroke", "#dedede"); // the set lines become grey;
@@ -197,7 +198,7 @@ function LineChart({
                             d.path[5].querySelector("#div-matrix").querySelector("svg")
                         )
                             .selectAll(".set")
-                            .filter((e) => e.name == d.currentTarget.__data__.name)
+                            .filter((e) => e.name == d.currentTarget.__data__[dataJson.id])
                             .selectAll(".set-line-text")
                             .selectAll("text")
                             .attr("display", "inline"); // the texts shows up when the texts in sets are corresponding to the line
@@ -206,7 +207,7 @@ function LineChart({
                             d.path[5].querySelector("#div-matrix").querySelector("svg")
                         )
                             .selectAll(".set")
-                            .filter((e) => e.name != d.currentTarget.__data__.name)
+                            .filter((e) => e.name != d.currentTarget.__data__[dataJson.id])
                             .selectAll(".set-line-text")
                             .selectAll("text")
                             .attr("display", "none"); // the texts shows off it the texts in sets are not corresponding to the line
@@ -215,20 +216,20 @@ function LineChart({
                         d3.select(d.currentTarget.parentElement.parentElement)
                             .selectAll(".line")
                             .selectAll("path")
-                            .filter((e) => d.currentTarget.__data__.name != e.name)
+                            .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("stroke", (e) => e.color);
 
                         d3.select(d.currentTarget.parentElement.parentElement)
                             .selectAll(".line")
                             .selectAll("text")
-                            .filter((e) => d.currentTarget.__data__.name != e.name)
+                            .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("display", "inline");
 
                         d3.select(
                             d.path[5].querySelector("#div-matrix").querySelector("svg")
                         )
                             .selectAll(".set")
-                            .filter((e) => e.name != d.currentTarget.__data__.name)
+                            .filter((e) => e.name != d.currentTarget.__data__[dataJson.id])
                             .selectAll(".set-line-text")
                             .selectAll("path")
                             .attr("stroke", (e) => e.color); // the set lines become grey;
