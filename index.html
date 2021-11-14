@@ -233,7 +233,7 @@
                             .select("select")
                             .selectAll("option")
                             .data(
-                                ["Category", "Trend"].concat(
+                                ["Category"].concat(
                                     dataJson.attributes
                                         .filter((d) => d.type == "categorical")
                                         .map((d) => d.name)
@@ -248,7 +248,7 @@
                             .select("select")
                             .selectAll("option")
                             .data(
-                                ["Trend", "Category"].concat(
+                                ["Trend"].concat(
                                     dataJson.attributes
                                         .filter((d) => d.type == "categorical")
                                         .map((d) => d.name)

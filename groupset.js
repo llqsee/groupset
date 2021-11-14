@@ -18,7 +18,10 @@ function ChangeParameter() {
             node: svgLine.node(),
             n: +nPara.select("input").node().value,
             brushedAttributes: svgLine.select("#time-brush").node().value,
-            lineWidth: inputValue
+            lineWidth: inputValue,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value
         }); // visualize the line chart
 
         renderCombinationMatrix({
@@ -65,7 +68,10 @@ function ChangeParameter() {
             node: svgLine.node(),
             n: +inputValue,
             brushedAttributes: svgLine.select("#time-brush").node().value,
-            lineWidth: +lineWidth.select("input").node().value
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value
         });
         debugger;
         connectionLine({
@@ -234,7 +240,10 @@ function ChangeParameter() {
                 node: svgLine.node(),
                 n: +nPara.select('input').node().value,
                 brushedAttributes: d.currentTarget.value,
-                lineWidth: +lineWidth.select("input").node().value
+                lineWidth: +lineWidth.select("input").node().value,
+                secondAggeragateAttribute: secondAggeragate
+                    .select("select")
+                    .node().value
             }); // visualize the line chart
             renderCombinationMatrix({
                 node: svgMatrix.node(),
@@ -375,7 +384,10 @@ function ChangeParameter() {
                 node: svgLine.node(),
                 n: +nPara.select('input').node().value,
                 brushedAttributes: svgLine.select("#time-brush").node().value,
-                lineWidth: +lineWidth.select("input").node().value
+                lineWidth: +lineWidth.select("input").node().value,
+                secondAggeragateAttribute: secondAggeragate
+                    .select("select")
+                    .node().value
             }); // visualize the line chart
 
             renderCombinationMatrix({
@@ -421,7 +433,10 @@ function ChangeParameter() {
                 n: +nPara.select('input').node().value,
                 brushedAttributes: svgLine.select("#time-brush").node().value,
                 lineWidth: +lineWidth.select("input").node().value,
-                secondAggeragateAttribute: inputValue
+                secondAggeragateAttribute: inputValue,
+                secondAggeragateAttribute: secondAggeragate
+                    .select("select")
+                    .node().value
             }); // visualize the line chart
 
             renderCombinationMatrix({
@@ -566,7 +581,10 @@ function ChangeParameter() {
             n: +nPara.select('input').node().value,
             brushedAttributes: svgLine.select("#time-brush").node().value,
             lineWidth: +lineWidth.select("input").node().value,
-            colorCategory: d.currentTarget.value
+            colorCategory: d.currentTarget.value,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value
         }); // visualize the line chart
         // debugger;
     })// when we change the color scales;

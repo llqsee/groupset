@@ -11,7 +11,7 @@ function CalTreData({
 } = {}) {
     var keys = brushedAttributes; // extract the attributes that are going to be calculated, like ['time1', 'time2',...,'time24']
     var timeLength = keys.length; // calculate the length of time points
-     debugger;
+    debugger;
     //   loop the dataset with map, calculate the every attributes we extracted to give them a corresponding categories;
     var dataCategories = dataFromFuzzy
         .map((d) => d.name)
@@ -38,7 +38,7 @@ function CalTreData({
             } // init the Trend attribute;
 
             d.Trend = dataForTrend;
-            for (var n = 0; n < keys.length - 1; n++) {
+            for (var n = 0; n < keys.length - 1; n++) {   
                 if (dataJson.rank == "yes") {
                     if (
                         (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
@@ -142,7 +142,7 @@ function CalTreData({
             e.childNode = [];
             e.name = "Set " + i;
             e.id = i;
-            e.expand = collapse == 'expand' ? 'true': 'false';
+            e.expand = collapse == 'expand' ? 'true' : 'false';
             return e;
         }); //   create the tree data
     } else if (firstAggeragateAttribute == "Trend") {
@@ -164,7 +164,7 @@ function CalTreData({
             e.childNode = [];
             e.name = "Set " + i;
             e.id = i;
-            e.expand = collapse == 'expand' ? 'true': 'false';
+            e.expand = collapse == 'expand' ? 'true' : 'false';
             return e;
         }); //   create the tree data
     } else {
@@ -180,7 +180,7 @@ function CalTreData({
             e.childNode = [];
             e.name = "Set " + i;
             e.id = i;
-            e.expand = collapse == 'expand' ? 'true': 'false';
+            e.expand = collapse == 'expand' ? 'true' : 'false';
             return e;
         }); //   create the tree data
     }
@@ -270,7 +270,7 @@ function CalTreData({
     //       // if (thisIndex == -1) {
 
     //       // }
- 
+
     //       var newSet = {
     //         value: isTrueSet[0].value,
     //         valueTrend: datum.trend,
@@ -315,7 +315,7 @@ function CalTreData({
     //   //   // }
     // }
 
-
+    // Add the maximum value and minimum value of tree data;
     treeData1.map((d) => {
         d.childNode.map((e) => {
             e.max = d3.max(
@@ -371,6 +371,7 @@ function CalTreData({
     //   return d;
     // });
 
+    // delete the empty sets in tree data;
     if (empty == "empty") {
         treeData1 = treeData1.filter((d) => d.childNode.length != 0);
     }
