@@ -1689,16 +1689,20 @@ function renderCombinationMatrix({
               .attr("cy", 0.5 * y_step)
               .attr("r", d3.min([x_step, y_step]) * 0.3)
               .attr("stroke-width", "1px")
+              .attr('class', 'name-circle')
               .attr("stroke", "black")
               .attr("fill", "none"),
           (update) =>
             update.call((update) =>
               update
                 .transition(t)
-                .text((d) => d.value)
-                .attr("class", "name-text")
-                .attr("x", (d) => xScaleTrend(d.trend))
-                .attr("y", 0.5 * y_step)
+                .attr("cx", (d) => xScaleTrend(d.trend))
+                .attr("cy", 0.5 * y_step)
+                .attr("r", d3.min([x_step, y_step]) * 0.3)
+                .attr("stroke-width", "1px")
+                .attr('class', 'name-circle')
+                .attr("stroke", "black")
+                .attr("fill", "none")
             ),
           (exit) => exit.remove()
         );
