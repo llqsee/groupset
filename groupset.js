@@ -412,7 +412,18 @@ function ChangeParameter() {
         .select("select").node()
         .addEventListener("input", (d) => {
             var inputValue = d.currentTarget.value;
-            debugger;
+
+            // Visualize the Linechart when the second agregation is the trend;
+            LineChart({
+                data: dataset,
+                dataJson: dataJson,
+                node: svgLine.node(),
+                n: +nPara.select('input').node().value,
+                brushedAttributes: svgLine.select("#time-brush").node().value,
+                lineWidth: +lineWidth.select("input").node().value,
+                secondAggeragateAttribute: inputValue
+            }); // visualize the line chart
+
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,

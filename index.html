@@ -277,7 +277,10 @@
                             node: svgLine.node(),
                             n: +nPara.select('input').node().value,
                             brushedAttributes: svgLine.select("#time-brush").node().value,
-                            lineWidth: +lineWidth.select("input").node().value
+                            lineWidth: +lineWidth.select("input").node().value,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value
                         }); // visualize the line chart
                         // debugger;
 
@@ -395,7 +398,10 @@
                                     node: svgLine.node(),
                                     n: +nPara.select('input').node().value,
                                     brushedAttributes: svgLine.select("#time-brush").node().value,
-                                    lineWidth: +lineWidth.select("input").node().value
+                                    lineWidth: +lineWidth.select("input").node().value,
+                                    secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value
                                 }); // visualize the line chart
                                 // debugger;
 

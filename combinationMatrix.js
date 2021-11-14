@@ -1618,7 +1618,7 @@ function renderCombinationMatrix({
 
     if (secondAggeragateAttribute == "Trend") {
       var xRangeTrend = [
-        d3.select(node).attr("width") * 0.15 - 0.5 * x_step,
+        d3.select(node).attr("width") * 0.15 + 0.5 * x_step,
         d3.select(node).attr("width") * 0.15 + x_step * 2.5
       ];
       var xScaleTrend = d3
@@ -1676,59 +1676,87 @@ function renderCombinationMatrix({
           (exit) => exit.remove()
         );
 
-      subSetName
-        .selectAll(".arrows-up")
-        .data(["up"])
-        .join("image")
-        // .text("abc")
-        .attr("class", "arrows-up")
-        // .text((d) => "&euro")
-        // .attr("font-size", "12px")
-        .attr("x", (d) => xScaleTrend(d) - y_step_group * 0.7)
-        .attr("y", 0.5 * y_step - 0.2 * y_step_group)
-        // .attr("class", "fa-solid fa-up-right")
-        .attr(
-          "href",
-          "https://liqunliu1990.static.observableusercontent.com/files/5e93b3fd8f829f8e3e7e0382693decfc62538b5a3f4955300746197ffee3fbe6abc6ca519f9c52a98e2ba8b96c22896552e00f494be9ef25df29d67d852f8668?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27up-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=tWqUogU~oBGR0QlWp6BMMr4yVXPZ7-izP7BUxuHIdOTo-8H7Esfs7djLIUIqt0~-6YVH9SooA1RKp6D5hdI7BCenydb33oyTpUDp15wrygCKBkYzUsn~t-JuF2vMJrRtl6BQXDhTyAUI-~dHwjtBaQJej4Gv3C-zXVnrJCJrRGjawlT83rhnujSBUscDHJRlpJYo7UzvZvcVITsLhuQ6UyMq-JnYKAVFYng92UiHmgqg8ibNMzN4Ix3Ntrflgs24hPwAROIR3dDf0Dg3HYbIbH8YN~N7nOLx5YF1zV~A-s01F~UlyN4aObr92ZT9LFD~dlZuxU3OLuN~1b21G2QCYQ__"
-        )
-        .attr("height", y_step_group * 0.4)
-        .attr("width", y_step_group * 0.4);
+      subSetName.selectAll('circle.name-circle')
+        .data((d) => [
+          { value: d.value["up"], trend: "up" },
+          { value: d.value["down"], trend: "down" },
+          { value: d.value["stable"], trend: "stable" }
+        ]).join(
+          (enter) =>
+            enter
+              .append("circle")
+              .attr("cx", (d) => xScaleTrend(d.trend))
+              .attr("cy", 0.5 * y_step)
+              .attr("r", d3.min([x_step, y_step]) * 0.3)
+              .attr("stroke-width", "1px")
+              .attr("stroke", "black")
+              .attr("fill", "none"),
+          (update) =>
+            update.call((update) =>
+              update
+                .transition(t)
+                .text((d) => d.value)
+                .attr("class", "name-text")
+                .attr("x", (d) => xScaleTrend(d.trend))
+                .attr("y", 0.5 * y_step)
+            ),
+          (exit) => exit.remove()
+        );
 
-      subSetName
-        .selectAll(".arrows-down")
-        .data(["down"])
-        .join("image")
-        // .text("abc")
-        .attr("class", "arrows-down")
-        // .text((d) => "&euro")
-        // .attr("font-size", "12px")
-        .attr("x", (d) => xScaleTrend(d) - y_step_group * 0.7)
-        .attr("y", 0.5 * y_step - 0.2 * y_step_group)
-        // .attr("class", "fa-solid fa-up-right")
-        .attr(
-          "href",
-          "https://liqunliu1990.static.observableusercontent.com/files/a652469c555d44d9d9637ca26a1dbcb363a9a421656580b70e117653745303c83f781505b5a33b048b525a6d328ccd99ebc0e3e1e7f24432ad0dfde6ee7d5259?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27down-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=MlC~wYR7mChf8Fc71gKcypmnXrzXqADbLAlNf~hgxiMoK~9Mp7zT4nM0Nj~mJAsgjxWBIDH2w5cuWjTmD6xq48nzQ5E5lK3Pp8mICv91YIoF25Dvxv2ZGgeX5T8i06mZoeJvjN5AWJUCenpBPTztleCmAt7M4~tJgWiJtpTvenBmdIyB4x5EesS2b4WWvKRhBaYBmndVw9qFTexDM0mmNTj~2F-Ewv3-qZ9fmdIXywtlTBF2TPxh5f5dV2GEiqu4KY-WjtFISttUk3qOsZdjiGAe0LhF23bqlBjZ1nDUjxbz89cnweaiJcTnf-P7Sb0xGF8Ee2b-hI7cXhwlmoj3Xw__"
-        )
-        .attr("height", y_step_group * 0.4)
-        .attr("width", y_step_group * 0.4);
 
-      subSetName
-        .selectAll(".arrows-stable")
-        .data(["stable"])
-        .join("image")
-        // .text("abc")
-        .attr("class", "arrows-stable")
-        // .text((d) => "&euro")
-        // .attr("font-size", "12px")
-        .attr("x", (d) => xScaleTrend(d) - y_step_group * 0.7)
-        .attr("y", 0.5 * y_step - 0.2 * y_step_group)
-        // .attr("class", "fa-solid fa-up-right")
-        .attr(
-          "href",
-          "https://liqunliu1990.static.observableusercontent.com/files/9e220282e70b5e7e58f88ec573ae5b13bebc5dcbe7db4e184a7bf818a8b569b6a3fe49664cc1720d1e1ed0fc4ba6432b5ca9abbd1152ba71acf42830b10515e6?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27right-arrow-svgrepo-com%2520(1).svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=b~gqq44XavJ2wzGqrz4r8NPnroue5yZOvO4q8tIfpuMfDyN9DhwmKpzVO-c95PWHm2pl7sDSw6xM5Co4g6j0CrbqppEoeVS6AwRVna3eHo4XvHtKNnPGD52HLKSZwooqjBqlWEetUwVS7Q4YDzVhxm2e~QuvH9iQMmyDBfR1pctiTP80U4ltqq2SA8gOgxdfedF7nuPkKoVQdvaeVnwqM0fCaI5Or8RZKHIdP2ZYwaIyIukOFIHsdr3zjvGi5qjclT-TTW6SfOCq8Fkc7VG0kWneo6tLuK9MyCGVKxtGTAx44FdyfqAFzXbmg018pYkWzrEFIOwA6PSZjzalhK64oA__"
-        )
-        .attr("height", y_step_group * 0.4)
-        .attr("width", y_step_group * 0.4);
+      // subSetName
+      //   .selectAll(".arrows-up")
+      //   .data(["up"])
+      //   .join("image")
+      //   // .text("abc")
+      //   .attr("class", "arrows-up")
+      //   // .text((d) => "&euro")
+      //   // .attr("font-size", "12px")
+      //   .attr("x", (d) => xScaleTrend(d) - y_step_group * 0.7)
+      //   .attr("y", 0.5 * y_step - 0.2 * y_step_group)
+      //   // .attr("class", "fa-solid fa-up-right")
+      //   .attr(
+      //     "href",
+      //     "https://liqunliu1990.static.observableusercontent.com/files/5e93b3fd8f829f8e3e7e0382693decfc62538b5a3f4955300746197ffee3fbe6abc6ca519f9c52a98e2ba8b96c22896552e00f494be9ef25df29d67d852f8668?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27up-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=tWqUogU~oBGR0QlWp6BMMr4yVXPZ7-izP7BUxuHIdOTo-8H7Esfs7djLIUIqt0~-6YVH9SooA1RKp6D5hdI7BCenydb33oyTpUDp15wrygCKBkYzUsn~t-JuF2vMJrRtl6BQXDhTyAUI-~dHwjtBaQJej4Gv3C-zXVnrJCJrRGjawlT83rhnujSBUscDHJRlpJYo7UzvZvcVITsLhuQ6UyMq-JnYKAVFYng92UiHmgqg8ibNMzN4Ix3Ntrflgs24hPwAROIR3dDf0Dg3HYbIbH8YN~N7nOLx5YF1zV~A-s01F~UlyN4aObr92ZT9LFD~dlZuxU3OLuN~1b21G2QCYQ__"
+      //   )
+      //   .attr("height", y_step_group * 0.4)
+      //   .attr("width", y_step_group * 0.4);
+
+      // subSetName
+      //   .selectAll(".arrows-down")
+      //   .data(["down"])
+      //   .join("image")
+      //   // .text("abc")
+      //   .attr("class", "arrows-down")
+      //   // .text((d) => "&euro")
+      //   // .attr("font-size", "12px")
+      //   .attr("x", (d) => xScaleTrend(d) - y_step_group * 0.7)
+      //   .attr("y", 0.5 * y_step - 0.2 * y_step_group)
+      //   // .attr("class", "fa-solid fa-up-right")
+      //   .attr(
+      //     "href",
+      //     "https://liqunliu1990.static.observableusercontent.com/files/a652469c555d44d9d9637ca26a1dbcb363a9a421656580b70e117653745303c83f781505b5a33b048b525a6d328ccd99ebc0e3e1e7f24432ad0dfde6ee7d5259?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27down-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=MlC~wYR7mChf8Fc71gKcypmnXrzXqADbLAlNf~hgxiMoK~9Mp7zT4nM0Nj~mJAsgjxWBIDH2w5cuWjTmD6xq48nzQ5E5lK3Pp8mICv91YIoF25Dvxv2ZGgeX5T8i06mZoeJvjN5AWJUCenpBPTztleCmAt7M4~tJgWiJtpTvenBmdIyB4x5EesS2b4WWvKRhBaYBmndVw9qFTexDM0mmNTj~2F-Ewv3-qZ9fmdIXywtlTBF2TPxh5f5dV2GEiqu4KY-WjtFISttUk3qOsZdjiGAe0LhF23bqlBjZ1nDUjxbz89cnweaiJcTnf-P7Sb0xGF8Ee2b-hI7cXhwlmoj3Xw__"
+      //   )
+      //   .attr("height", y_step_group * 0.4)
+      //   .attr("width", y_step_group * 0.4);
+
+      // subSetName
+      //   .selectAll(".arrows-stable")
+      //   .data(["stable"])
+      //   .join("image")
+      //   // .text("abc")
+      //   .attr("class", "arrows-stable")
+      //   // .text((d) => "&euro")
+      //   // .attr("font-size", "12px")
+      //   .attr("x", (d) => xScaleTrend(d) - y_step_group * 0.7)
+      //   .attr("y", 0.5 * y_step - 0.2 * y_step_group)
+      //   // .attr("class", "fa-solid fa-up-right")
+      //   .attr(
+      //     "href",
+      //     "https://liqunliu1990.static.observableusercontent.com/files/9e220282e70b5e7e58f88ec573ae5b13bebc5dcbe7db4e184a7bf818a8b569b6a3fe49664cc1720d1e1ed0fc4ba6432b5ca9abbd1152ba71acf42830b10515e6?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27right-arrow-svgrepo-com%2520(1).svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=b~gqq44XavJ2wzGqrz4r8NPnroue5yZOvO4q8tIfpuMfDyN9DhwmKpzVO-c95PWHm2pl7sDSw6xM5Co4g6j0CrbqppEoeVS6AwRVna3eHo4XvHtKNnPGD52HLKSZwooqjBqlWEetUwVS7Q4YDzVhxm2e~QuvH9iQMmyDBfR1pctiTP80U4ltqq2SA8gOgxdfedF7nuPkKoVQdvaeVnwqM0fCaI5Or8RZKHIdP2ZYwaIyIukOFIHsdr3zjvGi5qjclT-TTW6SfOCq8Fkc7VG0kWneo6tLuK9MyCGVKxtGTAx44FdyfqAFzXbmg018pYkWzrEFIOwA6PSZjzalhK64oA__"
+      //   )
+      //   .attr("height", y_step_group * 0.4)
+      //   .attr("width", y_step_group * 0.4);
 
       // var trendGroups = gRect
       //   .selectAll(".combination-matrix-trend-group")
@@ -1784,6 +1812,7 @@ function renderCombinationMatrix({
       //   .attr("stroke-width", "1px")
       //   .attr("stroke", "black")
       //   .attr("fill", "none");
+
     } else if (secondAggeragateAttribute == "Category") {
       groupLineText
         .selectAll(".name-group")
