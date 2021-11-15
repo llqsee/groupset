@@ -104,7 +104,7 @@ function CalTreData({
     var treeDataPlus = d3.groups(dataset, d => d[firstAggeragateAttribute], d => d[secondAggeragateAttribute]);
 
     // Add the id, name, and other attributes for each first level group;
-    treeDataPlus.map(d => {
+    treeDataPlus.map((d, i) => {
         d.value = d[0];
         d.name = "Set " + i;
         d.id = i;
@@ -112,15 +112,14 @@ function CalTreData({
         d.categoryGroup = {};
         d.trendGroup = {};
 
-
         // calculate the average categoryGroup values and add the categoryGroup attribute
-        for(var value of dataCategories){
+        for (var value of dataCategories) {
             d.categoryGroup[value] = 0;
         }
         for (var index = 0; index < dataCategories.length; index++) {
             // debugger;
-            var valueCategory = d[1][0][1].map(f => dataCategories.map(e => f.Category[e]))
-                .map(e => e[index]).reduce((a, b) => a + b) / (d.length);
+            var valueCategory = d[1].map(e => e[1]).reduce((a, b) => a.concat(b)).map(f => dataCategories.map(e => f.Category[e]))
+                .map(e => e[index]).reduce((a, b) => a + b) / (d[1].map(e => e[1]).reduce((a, b) => a.concat(b)).length);
             // debugger;
             if (isInteger(valueCategory) == true) {
                 d.categoryGroup[dataCategories[index]] = valueCategory;
@@ -130,14 +129,13 @@ function CalTreData({
         }
 
         // calculate the average trendGroup values and add the trendGroup attribute
-        // d.trendGroup = dataTrend.map(e => {var f = {}; f[e] = 0; return f}) // init the .categoryGroup
-        for(var value of dataTrend){
+        for (var value of dataTrend) {
             d.trendGroup[value] = 0;
         }
         for (var index = 0; index < dataTrend.length; index++) {
             // debugger;
-            var valueTrend = d[1][0][1].map(f => dataTrend.map(e => f.Trend[e]))
-                .map(e => e[index]).reduce((a, b) => a + b) / (d.length);
+            var valueTrend = d[1].map(e => e[1]).reduce((a, b) => a.concat(b)).map(f => dataTrend.map(e => f.Trend[e]))
+                .map(e => e[index]).reduce((a, b) => a + b) / (d[1].map(e => e[1]).reduce((a, b) => a.concat(b)).length);
             // debugger;
             if (isInteger(valueTrend) == true) {
                 d.trendGroup[dataTrend[index]] = valueTrend;
@@ -146,7 +144,75 @@ function CalTreData({
             }
         }
 
-    })
+        // Calcualte the id of second level
+        d[1][0].id = i + "_" + d[1][0][1].length;
+
+        // Calculate the value of second level
+        d[1][0].value = d[1][0][0];
+
+        // calcualte the maximum values and minimum values;
+        d[1].map(e => {
+            // debugger;
+            e.max = d3.max(
+                e[1]
+                    .map((f) => {
+                        var a = {};
+                        var array = brushedAttributes.map((g) => +f[g]);
+                        a.min = d3.min(array);
+                        a.max = d3.max(array);
+                        return a;
+                    })
+                    .map((e) => e.max)
+            );
+
+            e.min = d3.min(
+                e[1]
+                    .map((f) => {
+                        var a = {};
+                        var array = brushedAttributes.map((g) => +f[g]);
+                        a.min = d3.min(array);
+                        a.max = d3.max(array);
+                        return a;
+                    })
+                    .map((e) => e.min)
+            );
+        })
+
+
+
+        // -----------------------------------------------
+        // Add the average attribute of each set
+        d["Average"] = 0;
+        var a = []; // init the all teams in a set
+        d[1].map((e) => {
+            // e is the subset;
+            // debugger;
+            // var arrayForEachE = brushedAttributes.map((f) => e[f]); // calculate the average values for each e (sub sets)
+
+            var valueSubSet = []; // init the array to save the average values for all teams in each subset
+            // add the average values for each e (sub sets)
+            for (var i of e[1]) {
+
+                // e[0][1] is the team;
+                a.push(i);
+                valueSubSet.push(
+                    brushedAttributes.map((f) => i[f]).reduce((m, n) => +m + +n)
+                ); // get the average values array for all teams in each subset
+            }
+            e.Average =
+                valueSubSet.reduce((m, n) => m + n) /
+                (brushedAttributes.length * e[1].length);
+            return e;
+        }); // extract all teams in the set;
+        var arrayFinal = a.map((e) => {
+            var array = brushedAttributes.map((f) => e[f]); // array are the all values for different time points of a teams
+            e.Average = array.reduce((m, n) => +m + +n) / brushedAttributes.length; // add the average attributes for each team
+            return e.Average;
+        }); // calculate the average for each team
+        d.Average = arrayFinal.reduce((a, b) => a + b) / arrayFinal.length; // calculate the final average
+    });
+
+
 
 
     // --------------------------------------------------------------
@@ -435,6 +501,12 @@ function CalTreData({
         treeData1 = treeData1.filter((d) => d.childNode.length != 0);
     }
 
+    if (empty == 'empty') {
+        treeDataPlus = treeDataPlus.filter(d => d[1].length != 0)
+    };
+
+
+
     // we fix the id after delete the empty sets;
     treeData1.map((d, i) => {
         d.id = i;
@@ -442,7 +514,12 @@ function CalTreData({
         return d;
     });
 
+    treeDataPlus.map((d, i) => {
+        d.id = i;
+        d[1].map((e, j) => e.id = i + "_" + j)
+    })
 
+    debugger;
     // calculate the Average attributes for each set
     treeData1.map((d) => {
         d["Average"] = 0;
@@ -505,6 +582,6 @@ function CalTreData({
     //   return d;
     // });
 
-
-    return treeData1;
+    return treeDataPlus;
+    // return treeData1;
 }

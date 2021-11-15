@@ -106,7 +106,7 @@ function renderCombinationMatrix({
     // -----------------------------------
     // Reorder the sets number
     if (orderCate == "cardinality") {
-      data.sort((a, b) => b.childNode.length - a.childNode.length);
+      data.sort((a, b) => b[1].length - a[1].length);
     } else if (dataFromFuzzy.findIndex((d) => d.name == orderCate) != -1) {
       data.sort((a, b) => b.value[orderCate] - a.value[orderCate]); // re-order the treedata
     } else if (
@@ -147,7 +147,7 @@ function renderCombinationMatrix({
     d3.select(node).attr(
       "height",
       y_step_group * data.length +
-      y_step * data.map((d) => d.childNode.length).reduce((a, b) => a + b)
+      y_step * data.map((d) => d[1].length).reduce((a, b) => a + b)
     ); // calculate the height of svg node;
     var height = d3.select(node).attr("height");
 
@@ -199,7 +199,7 @@ function renderCombinationMatrix({
         translateDistance = 0;
       } else if (a.length != 0) {
         var dis1 = a.length * heightFirst;
-        var dis2 = a.map(d => d.expand == 'true' ? d.childNode.length : 0);
+        var dis2 = a.map(d => d.expand == 'true' ? d[1].length : 0);
         if (dis2.length != 0) {
           translateDistance = dis1 + dis2.reduce((a, b) => a + b) * heightSecond
         } else {
@@ -234,7 +234,7 @@ function renderCombinationMatrix({
         translateDistance = heightFirst + array[1] * heightSecond;
       } else if (a.length != 0) {
         var dis1 = a.length * heightFirst;
-        var dis2 = a.map(d => d.expand == 'true' ? d.childNode.length : 0);
+        var dis2 = a.map(d => d.expand == 'true' ? d[1].length : 0);
         if (dis2.length != 0) {
           translateDistance = dis1 + dis2.reduce((a, b) => a + b) * heightSecond
             + heightFirst + array[1] * heightSecond;
@@ -432,7 +432,7 @@ function renderCombinationMatrix({
             .reduce((a, b) => a + b);
           f.set = d.name;
           f.cate = e;
-          f.element = d.childNode;
+          f.element = d[1];
           return f;
         })
       );
@@ -446,7 +446,7 @@ function renderCombinationMatrix({
             .reduce((a, b) => a + b);
           f.set = d.name;
           f.cate = e;
-          f.element = d.childNode;
+          f.element = d[1];
           return f;
         })
       );
@@ -721,11 +721,11 @@ function renderCombinationMatrix({
         0,
         d3.max(
           data
-            .map((d) => d.childNode.map((e) => e.childNode.length))
+            .map((d) => d[1].map((e) => e[1].length))
             .reduce((a, b) => a.concat(b))
             .concat(
               data
-                .map((d) => d.childNode.map((e) => e.childNode.length))
+                .map((d) => d[1].map((e) => e[1].length))
                 .map((d) => d.length)
             )
         ) * 1.2
@@ -764,7 +764,7 @@ function renderCombinationMatrix({
             .attr("y", 0.1 * y_step_group)
             .attr(
               "width",
-              (d) => xCardinality(d.childNode.length) - xCardinality(0)
+              (d) => xCardinality(d[1].length) - xCardinality(0)
             )
             .attr("height", 0.8 * y_step_group)
             .attr("fill", "#dedede")
@@ -779,7 +779,7 @@ function renderCombinationMatrix({
               .attr("y", 0.1 * y_step_group)
               .attr(
                 "width",
-                (d) => xCardinality(d.childNode.length) - xCardinality(0)
+                (d) => xCardinality(d[1].length) - xCardinality(0)
               )
               .attr("height", 0.8 * y_step_group)
               .attr("fill", "#dedede")
@@ -797,16 +797,16 @@ function renderCombinationMatrix({
           enter
             .append("text")
             .attr("id", "cardinality-text")
-            .text((d) => d.childNode.length)
+            .text((d) => d[1].length)
             .attr("font-size", "12px")
             .attr("text-anchor", "start")
             .attr("dominant-baseline", "middle")
-            .attr("x", (d) => xCardinality(d.childNode.length))
+            .attr("x", (d) => xCardinality(d[1].length))
             .attr("y", 0.5 * y_step_group)
             .attr("dx", 3),
         (update) =>
           update
-            .text((d) => d.childNode.length)
+            .text((d) => d[1].length)
             .attr("id", "cardinality-text")
             .call((update) =>
               update
@@ -814,7 +814,7 @@ function renderCombinationMatrix({
                 .attr("font-size", "12px")
                 .attr("text-anchor", "start")
                 .attr("dominant-baseline", "middle")
-                .attr("x", (d) => xCardinality(d.childNode.length))
+                .attr("x", (d) => xCardinality(d[1].length))
                 .attr("y", 0.5 * y_step_group)
             ),
         (exit) => exit.remove()
@@ -946,7 +946,7 @@ function renderCombinationMatrix({
     // debugger;
     var groupLineText = gRect
       .selectAll(".subset-line-text")
-      .data((d) => d.childNode)
+      .data((d) => d[1])
       .join("g")
       .style('display', (d, i, s) => { if (s[0].parentElement.__data__.expand == 'false') { return 'none' } else { return 'inline' } })
       .attr(
@@ -977,17 +977,17 @@ function renderCombinationMatrix({
 
     var lineSet = groupLineText.selectAll(".subset-line").data((d) => {
 
-      d.childNode.map(
+      d[1].map(
         (e) => ((e.name = d.name), (e.groupMin = d.min), (e.groupMax = d.max))
       );
-      return d.childNode;
+      return d[1];
     });
     var textSet = groupLineText.selectAll(".subset-text").data((d) => {
 
-      d.childNode.map(
+      d[1].map(
         (e) => ((e.name = d.name), (e.groupMin = d.min), (e.groupMax = d.max))
       );
-      return d.childNode;
+      return d[1];
     });
 
     lineSet.join(
@@ -1184,7 +1184,7 @@ function renderCombinationMatrix({
           .attr("opacity", 0.5);
         // d3.select(d.path[1]).selectAll(".set-text").attr("display", "inline"); // add the text with inline display;
 
-        var selectName = d.path[1].__data__.childNode.map((d) => d[id]); // get the names of all elements in this set
+        var selectName = d.path[1].__data__[1].map((d) => d[id]); // get the names of all elements in this set
         d3.select(d.path[5])
           .select("#div-line")
           .selectAll(".line")
@@ -1363,7 +1363,7 @@ function renderCombinationMatrix({
           .attr("opacity", 0);
         // d3.select(d.path[1]).selectAll(".set-text").attr("display", "none");
 
-        var selectName = d.path[1].__data__.childNode.map((d) => d[id]); // get the names of all elements in this set
+        var selectName = d.path[1].__data__[1].map((d) => d[id]); // get the names of all elements in this set
 
         d3.select(d.path[5])
           .select("#div-line")
@@ -1515,7 +1515,7 @@ function renderCombinationMatrix({
             .attr("y", y_step * 0.5 - 0.5 * 0.8 * y_step_group)
             .attr("width", (d) => {
 
-              return xCardinality(d.childNode.length) - xCardinality(0);
+              return xCardinality(d[1].length) - xCardinality(0);
             })
             .attr("height", y_step_group * 0.8)
             .attr("fill", "#dedede"),
@@ -1527,7 +1527,7 @@ function renderCombinationMatrix({
               .attr("y", y_step * 0.5 - 0.5 * 0.8 * y_step_group)
               .attr("width", (d) => {
 
-                return xCardinality(d.childNode.length) - xCardinality(0);
+                return xCardinality(d[1].length) - xCardinality(0);
               })
           ),
         (exit) => exit.remove()
@@ -1540,8 +1540,8 @@ function renderCombinationMatrix({
         (enter) =>
           enter
             .append("text")
-            .text((d) => d.childNode.length)
-            .attr("x", (d) => xCardinality(d.childNode.length))
+            .text((d) => d[1].length)
+            .attr("x", (d) => xCardinality(d[1].length))
             .attr("y", 0.5 * y_step)
             .attr("dominant-baseline", "middle")
             .attr("text-anchor", "start")
@@ -1550,9 +1550,9 @@ function renderCombinationMatrix({
           update.call((update) =>
             update
               .transition(t)
-              .attr("x", (d) => xCardinality(d.childNode.length))
+              .attr("x", (d) => xCardinality(d[1].length))
               .attr("y", 0.5 * y_step)
-              .text((d) => d.childNode.length)
+              .text((d) => d[1].length)
           ),
         (exit) => exit.remove()
       );
@@ -1853,7 +1853,7 @@ function renderCombinationMatrix({
             .reduce((a, b) => a + b);
           f.set = d.name;
           f.cate = e;
-          f.element = d.childNode;
+          f.element = d[1];
           return f;
         })
       );
@@ -1867,7 +1867,7 @@ function renderCombinationMatrix({
             .reduce((a, b) => a + b);
           f.set = d.name;
           f.cate = e;
-          f.element = d.childNode;
+          f.element = d[1];
           return f;
         })
       );
