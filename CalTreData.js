@@ -20,76 +20,134 @@ function CalTreData({
 
     // ------------------------------------------------------------
     // add the category and trend attributes to elements
-    if (
-        firstAggeragateAttribute == "Trend" ||
-        firstAggeragateAttribute == "Category" ||
-        secondAggeragateAttribute == "Trend" ||
-        secondAggeragateAttribute == "Category"
-    ) {
-        dataset.map((d) => {
-            var dataForFinal = {};
-            for (var i of dataCategories) {
-                dataForFinal[i] = 0;
-            } // init the category attribute;
+    // if (
+    //     firstAggeragateAttribute == "Trend" ||
+    //     firstAggeragateAttribute == "Category" ||
+    //     secondAggeragateAttribute == "Trend" ||
+    //     secondAggeragateAttribute == "Category"
+    // ) {
+    dataset.map((d) => {
+        var dataForFinal = {};
+        for (var i of dataCategories) {
+            dataForFinal[i] = 0;
+        } // init the category attribute;
 
-            var dataForTrend = {};
-            for (var j of dataTrend) {
-                dataForTrend[j] = 0;
-            } // init the Trend attribute;
+        var dataForTrend = {};
+        for (var j of dataTrend) {
+            dataForTrend[j] = 0;
+        } // init the Trend attribute;
 
-            d.Trend = dataForTrend;
-            for (var n = 0; n < keys.length - 1; n++) {   
-                if (dataJson.rank == "yes") {
-                    if (
-                        (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
-                        -0.02
-                    ) {
-                        d.Trend["up"] = d.Trend["up"] + 1;
-                    } else if (
-                        (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
-                        0.02
-                    ) {
-                        d.Trend["down"] = d.Trend["down"] + 1;
-                    } else {
-                        d.Trend["stable"] = d.Trend["stable"] + 1;
-                    }
+        d.Trend = dataForTrend;
+        for (var n = 0; n < keys.length - 1; n++) {
+            if (dataJson.rank == "yes") {
+                if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+                    -0.02
+                ) {
+                    d.Trend["up"] = d.Trend["up"] + 1;
+                } else if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+                    0.02
+                ) {
+                    d.Trend["down"] = d.Trend["down"] + 1;
                 } else {
-                    if (
-                        (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
-                        0.02
-                    ) {
-                        d.Trend["up"] = d.Trend["up"] + 1;
-                    } else if (
-                        (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
-                        -0.02
-                    ) {
-                        d.Trend["down"] = d.Trend["down"] + 1;
-                    } else {
-                        d.Trend["stable"] = d.Trend["stable"] + 1;
-                    }
+                    d.Trend["stable"] = d.Trend["stable"] + 1;
+                }
+            } else {
+                if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+                    0.02
+                ) {
+                    d.Trend["up"] = d.Trend["up"] + 1;
+                } else if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+                    -0.02
+                ) {
+                    d.Trend["down"] = d.Trend["down"] + 1;
+                } else {
+                    d.Trend["stable"] = d.Trend["stable"] + 1;
                 }
             }
+        }
 
-            d.Category = dataForFinal;
-            for (var key of keys) {
-                for (var i = 0; i < dataFromFuzzy.length; i++) {
-                    var cate = dataFromFuzzy[i];
-                    if (
-                        i < dataFromFuzzy.length - 1 &&
-                        +d[key] >= +cate.edgeMin &&
-                        +d[key] < +cate.edgeMax
-                    ) {
-                        d.Category[cate.name] = d.Category[cate.name] + 1;
-                    } else if (
-                        i == dataFromFuzzy.length - 1 &&
-                        +d[key] >= +cate.edgeMin
-                    ) {
-                        d.Category[cate.name] = d.Category[cate.name] + 1;
-                    }
-                } // calculate which categories that this element should belong to based on the value of 'key'
+        d.Category = dataForFinal;
+        for (var key of keys) {
+            for (var i = 0; i < dataFromFuzzy.length; i++) {
+                var cate = dataFromFuzzy[i];
+                if (
+                    i < dataFromFuzzy.length - 1 &&
+                    +d[key] >= +cate.edgeMin &&
+                    +d[key] < +cate.edgeMax
+                ) {
+                    d.Category[cate.name] = d.Category[cate.name] + 1;
+                } else if (
+                    i == dataFromFuzzy.length - 1 &&
+                    +d[key] >= +cate.edgeMin
+                ) {
+                    d.Category[cate.name] = d.Category[cate.name] + 1;
+                }
+            } // calculate which categories that this element should belong to based on the value of 'key'
+        }
+    }); // add two attribute to dataset like {low:3,middle:5,hight:5} and {up:3,down:5,stable:7}
+    // } // we determine if the there is aggeragate by trend or category and then, we add the attributes to elements
+
+
+    // ------------------------------------------------
+    // We re-struct the dataset with d3.group();
+
+    // create a function to judge if a number is integer
+    function isInteger(obj) {
+        return typeof obj === 'number' && obj % 1 === 0
+    }
+
+    // Create the treeDataPlus
+    var treeDataPlus = d3.groups(dataset, d => d[firstAggeragateAttribute], d => d[secondAggeragateAttribute]);
+
+    // Add the id, name, and other attributes for each first level group;
+    treeDataPlus.map(d => {
+        d.value = d[0];
+        d.name = "Set " + i;
+        d.id = i;
+        d.expand = collapse == 'expand' ? 'true' : 'false';
+        d.categoryGroup = {};
+        d.trendGroup = {};
+
+
+        // calculate the average categoryGroup values and add the categoryGroup attribute
+        for(var value of dataCategories){
+            d.categoryGroup[value] = 0;
+        }
+        for (var index = 0; index < dataCategories.length; index++) {
+            // debugger;
+            var valueCategory = d[1][0][1].map(f => dataCategories.map(e => f.Category[e]))
+                .map(e => e[index]).reduce((a, b) => a + b) / (d.length);
+            // debugger;
+            if (isInteger(valueCategory) == true) {
+                d.categoryGroup[dataCategories[index]] = valueCategory;
+            } else {
+                d.categoryGroup[dataCategories[index]] = Number(valueCategory.toFixed(1));
             }
-        }); // add two attribute to dataset like {low:3,middle:5,hight:5} and {up:3,down:5,stable:7}
-    } // we determine if the there is aggeragate by trend or category and then, we add the attributes to elements
+        }
+
+        // calculate the average trendGroup values and add the trendGroup attribute
+        // d.trendGroup = dataTrend.map(e => {var f = {}; f[e] = 0; return f}) // init the .categoryGroup
+        for(var value of dataTrend){
+            d.trendGroup[value] = 0;
+        }
+        for (var index = 0; index < dataTrend.length; index++) {
+            // debugger;
+            var valueTrend = d[1][0][1].map(f => dataTrend.map(e => f.Trend[e]))
+                .map(e => e[index]).reduce((a, b) => a + b) / (d.length);
+            // debugger;
+            if (isInteger(valueTrend) == true) {
+                d.trendGroup[dataTrend[index]] = valueTrend;
+            } else {
+                d.trendGroup[dataTrend[index]] = Number(valueTrend.toFixed(1));
+            }
+        }
+
+    })
+
 
     // --------------------------------------------------------------
     // Create the tree data with the first level set
@@ -138,6 +196,7 @@ function CalTreData({
         treeData1 = treeData1.map((d, i) => {
             var e = {};
             e.value = d;
+            e.categoryGroup = d;
             // e.valueTrend = null;
             e.childNode = [];
             e.name = "Set " + i;
