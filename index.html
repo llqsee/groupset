@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' type="text/css" href="css/style.css">
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="dataLoading.js"></script>
     <!-- <script type="text/javascript" src="main.js"></script> -->
     <script type="text/javascript" src="combinationMatrix.js"></script>
@@ -51,7 +51,7 @@
                     style='margin-top:1em;font-size:12px'>60</label>
             </form>
 
-            
+
             <form class='parameter-widthline'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Width of lines</div><input value=3
                     style='width:60%;' type=range min=1 max=5 step=1></input><label
@@ -61,7 +61,7 @@
             <!-- <form>
                 <hr class="line"></hr>
             </form> -->
-            
+
             <form class='parameter-first'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>First,aggregate by:</div><select>
                     <option value="Category" style='font-size:12px'>Category</option>
@@ -79,7 +79,7 @@
                 </select>
             </form>
 
-            
+
             <form class='parameter-sort-second'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Then, sort by:</div><select>
                     <!-- <option value="cardinality" style='font-size:12px'>Cardinality</option> -->
@@ -89,8 +89,7 @@
             <form class='parameter-expand'>
                 <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>Aggeragates</div> -->
                 <br>
-                <label
-                    style='margin-top:1em;font-size:12px'><input value='collapse' name='input' style='width:20px;'
+                <label style='margin-top:1em;font-size:12px'><input value='collapse' name='input' style='width:20px;'
                         type=radio></input>Collapse all</label><br><label style='margin-top:1em;font-size:12px'><input
                         value='expand' name='input' style='width:20px;' type=radio checked></input>Expand all</label>
             </form>
@@ -100,13 +99,13 @@
                     style='margin-top:1em;font-size:12px'>0.5</label>
             </form> -->
             <div class='parameter-filter'>
-
                 <form class="color-option">
                     <div style='font-weight:bold;margin-top:1em;font-size:12px'>Select the colors:</div>
                     <select></select>
                 </form>
 
             </div>
+            <div id="slider"></div>
         </div>
         <div id='layout-right'>
             <div id='layout-right-top' style="width:100%;height:40%;float:left;">
@@ -142,6 +141,28 @@
             parameterSortSecond        // the parameter sort methods for second time;
 
 
+        // $(document).ready(function () {
+        //     $("#slider").slider({
+        //         min: 0,
+        //         max: 100,
+        //         step: 1,
+        //         values: [10, 90],
+        //         slide: function (event, ui) {
+        //             if (ui.values[0] >= ui.values[1]) {
+        //                 return false;
+        //             } else {
+        //                 for (var i = 0; i < ui.values.length; ++i) {
+        //                     $("input.sliderValue[data-index=" + i + "]").val(ui.values[i]);
+        //                 }
+        //             }
+        //         }
+        //     });
+
+        //     $("input.sliderValue").change(function () {
+        //         var $this = $(this);
+        //         $("#slider").slider("values", $this.data("index"), $this.val());
+        //     });
+        // });
 
         // Add the dataset to the selections
         dataIndex = d3.select('.parameter-dataset')
@@ -197,7 +218,7 @@
             .attr('value', d => d.name)
             .text(d => d.name)
 
-        
+
 
 
 
@@ -312,8 +333,8 @@
                         renderCombinationMatrix({
                             node: svgMatrix.node(),
                             dataFromFuzzy: svgLine.node().parentElement.value,
-                            orderCate: parameterSort.node().value ,
-                            orderSecond:parameterSortSecond.node().value ,
+                            orderCate: parameterSort.node().value,
+                            orderSecond: parameterSortSecond.node().value,
                             dataset: dataset,
                             id: dataJson.id,
                             attributesCut: dataJson.temporalAttributes,
@@ -417,8 +438,8 @@
                                     brushedAttributes: svgLine.select("#time-brush").node().value,
                                     lineWidth: +lineWidth.select("input").node().value,
                                     secondAggeragateAttribute: secondAggeragate
-                                .select("select")
-                                .node().value
+                                        .select("select")
+                                        .node().value
                                 }); // visualize the line chart
                                 // debugger;
 
@@ -434,8 +455,8 @@
                                 renderCombinationMatrix({
                                     node: svgMatrix.node(),
                                     dataFromFuzzy: svgLine.node().parentElement.value,
-                                    orderCate: parameterSort.node().value ,
-                            orderSecond:parameterSortSecond.node().value ,
+                                    orderCate: parameterSort.node().value,
+                                    orderSecond: parameterSortSecond.node().value,
                                     dataset: dataset,
                                     id: dataJson.id,
                                     attributesCut: dataJson.temporalAttributes,

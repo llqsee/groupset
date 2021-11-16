@@ -11,7 +11,7 @@ Open the app at: http://localhost:3000/
 
 TODO list:
 
-- Add teh second sort;
+- ~~Add the second sort;~~
 - Highlight the changes of trends;
 - Add other filtering category;
 - ~~Add the drop-down sorting methods;~~
