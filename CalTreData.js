@@ -101,11 +101,37 @@ function CalTreData({
     }
 
     // Create the treeDataPlus
-    var treeDataPlus = d3.groups(dataset, d => d[firstAggeragateAttribute], d => d[secondAggeragateAttribute]);
+    dataset.map(d => {
+        d.jsonCate = JSON.stringify(d.Category);
+        d.jsonTrend = JSON.stringify(d.Trend);
+        return d
+    });
+    if (firstAggeragateAttribute == "Category") {
+        var trueValue = 'jsonCate';
+
+    } else if (firstAggeragateAttribute == "Trend") {
+        var trueValue = 'jsonTrend';
+    } else {
+        var trueValue = firstAggeragateAttribute;
+    }
+
+    if (secondAggeragateAttribute == "Category") {
+        var trueValue1 = 'jsonCate';
+
+    } else if (secondAggeragateAttribute == "Trend") {
+        var trueValue1 = 'jsonTrend';
+    } else {
+        var trueValue1 = secondAggeragateAttribute;
+    }
+    var treeDataPlus = d3.groups(dataset, d => d[trueValue], d => d[trueValue1]);
 
     // Add the id, name, and other attributes for each first level group;
     treeDataPlus.map((d, i) => {
-        d.value = d[0];
+        if (firstAggeragateAttribute == "Category" || firstAggeragateAttribute == "Trend") {
+            d.value = JSON.parse(d[0])
+        } else {
+            d.value = d[0];
+        }
         d.name = "Set " + i;
         d.id = i;
         d.expand = collapse == 'expand' ? 'true' : 'false';
@@ -148,7 +174,15 @@ function CalTreData({
         d[1][0].id = i + "_" + d[1][0][1].length;
 
         // Calculate the value of second level
-        d[1][0].value = d[1][0][0];
+        if (secondAggeragateAttribute == "Category" || secondAggeragateAttribute == "Trend") {
+            // d.value = JSON.parse(d[0])
+            d[1].map(e => e.value = JSON.parse(e[0]))
+            // d[1][0].value = JSON.parse(d[1][0][0]);
+        } else {
+            d[1].map(e => e.value = e[0])
+            // d[1][0].value = d[1][0][0];
+        }
+
 
         // calcualte the maximum values and minimum values;
         d[1].map(e => {
@@ -217,146 +251,146 @@ function CalTreData({
 
     // --------------------------------------------------------------
     // Create the tree data with the first level set
-    if (firstAggeragateAttribute == "Category") {
-        // create the all first level sets like [{low:3,middle:5,hight:5},{low:4,middle:5,hight:4},{low:2,middle:5,hight:6}]
+    // if (firstAggeragateAttribute == "Category") {
+    //     // create the all first level sets like [{low:3,middle:5,hight:5},{low:4,middle:5,hight:4},{low:2,middle:5,hight:6}]
 
-        if (dataCategories.length == 2) {
-            // if data categories' length are 2
-            var treeData1 = []; // init the treeData
-            for (var i = 0; i <= timeLength; i++) {
-                var treeSmall = {};
-                treeSmall[dataCategories[0]] = i;
-                treeSmall[dataCategories[1]] = timeLength - i;
-                treeData1.push(treeSmall);
-                // for(var j = 0; j<= timeLength - i; j++){
-                //   treeData1.push({})
-                // }
-            }
-        } else if (dataCategories.length == 3) {
-            var treeData1 = [];
-            for (var i = 0; i <= timeLength; i++) {
-                for (var j = 0; j <= timeLength - i; j++) {
-                    var treeSmall = {};
-                    treeSmall[dataCategories[0]] = i;
-                    treeSmall[dataCategories[1]] = j;
-                    treeSmall[dataCategories[2]] = timeLength - i - j;
-                    treeData1.push(treeSmall);
-                }
-            }
-        } else if (dataCategories.length == 4) {
-            var treeData1 = [];
-            for (var i = 0; i <= timeLength; i++) {
-                for (var j = 0; j <= timeLength - i; j++) {
-                    for (var z = 0; z <= timeLength - i - j; z++) {
-                        var treeSmall = {};
-                        treeSmall[dataCategories[0]] = i;
-                        treeSmall[dataCategories[1]] = j;
-                        treeSmall[dataCategories[2]] = z;
-                        treeSmall[dataCategories[3]] = timeLength - i - j - z;
-                        treeData1.push(treeSmall);
-                    }
-                }
-            }
-        }
+    //     if (dataCategories.length == 2) {
+    //         // if data categories' length are 2
+    //         var treeData1 = []; // init the treeData
+    //         for (var i = 0; i <= timeLength; i++) {
+    //             var treeSmall = {};
+    //             treeSmall[dataCategories[0]] = i;
+    //             treeSmall[dataCategories[1]] = timeLength - i;
+    //             treeData1.push(treeSmall);
+    //             // for(var j = 0; j<= timeLength - i; j++){
+    //             //   treeData1.push({})
+    //             // }
+    //         }
+    //     } else if (dataCategories.length == 3) {
+    //         var treeData1 = [];
+    //         for (var i = 0; i <= timeLength; i++) {
+    //             for (var j = 0; j <= timeLength - i; j++) {
+    //                 var treeSmall = {};
+    //                 treeSmall[dataCategories[0]] = i;
+    //                 treeSmall[dataCategories[1]] = j;
+    //                 treeSmall[dataCategories[2]] = timeLength - i - j;
+    //                 treeData1.push(treeSmall);
+    //             }
+    //         }
+    //     } else if (dataCategories.length == 4) {
+    //         var treeData1 = [];
+    //         for (var i = 0; i <= timeLength; i++) {
+    //             for (var j = 0; j <= timeLength - i; j++) {
+    //                 for (var z = 0; z <= timeLength - i - j; z++) {
+    //                     var treeSmall = {};
+    //                     treeSmall[dataCategories[0]] = i;
+    //                     treeSmall[dataCategories[1]] = j;
+    //                     treeSmall[dataCategories[2]] = z;
+    //                     treeSmall[dataCategories[3]] = timeLength - i - j - z;
+    //                     treeData1.push(treeSmall);
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        treeData1 = treeData1.map((d, i) => {
-            var e = {};
-            e.value = d;
-            e.categoryGroup = d;
-            // e.valueTrend = null;
-            e.childNode = [];
-            e.name = "Set " + i;
-            e.id = i;
-            e.expand = collapse == 'expand' ? 'true' : 'false';
-            return e;
-        }); //   create the tree data
-    } else if (firstAggeragateAttribute == "Trend") {
-        // if the first aggeragate is the trend
-        var treeData1 = [];
-        for (var i = 0; i <= timeLength - 1; i++) {
-            for (var j = 0; j <= timeLength - 1 - i; j++) {
-                var treeSmall = {};
-                treeSmall["up"] = i;
-                treeSmall["down"] = j;
-                treeSmall["stable"] = timeLength - 1 - i - j;
-                treeData1.push(treeSmall);
-            }
-        }
-        treeData1 = treeData1.map((d, i) => {
-            var e = {};
-            e.value = d;
-            // e.valueTrend = null;
-            e.childNode = [];
-            e.name = "Set " + i;
-            e.id = i;
-            e.expand = collapse == 'expand' ? 'true' : 'false';
-            return e;
-        }); //   create the tree data
-    } else {
+    //     treeData1 = treeData1.map((d, i) => {
+    //         var e = {};
+    //         e.value = d;
+    //         e.categoryGroup = d;
+    //         // e.valueTrend = null;
+    //         e.childNode = [];
+    //         e.name = "Set " + i;
+    //         e.id = i;
+    //         e.expand = collapse == 'expand' ? 'true' : 'false';
+    //         return e;
+    //     }); //   create the tree data
+    // } else if (firstAggeragateAttribute == "Trend") {
+    //     // if the first aggeragate is the trend
+    //     var treeData1 = [];
+    //     for (var i = 0; i <= timeLength - 1; i++) {
+    //         for (var j = 0; j <= timeLength - 1 - i; j++) {
+    //             var treeSmall = {};
+    //             treeSmall["up"] = i;
+    //             treeSmall["down"] = j;
+    //             treeSmall["stable"] = timeLength - 1 - i - j;
+    //             treeData1.push(treeSmall);
+    //         }
+    //     }
+    //     treeData1 = treeData1.map((d, i) => {
+    //         var e = {};
+    //         e.value = d;
+    //         // e.valueTrend = null;
+    //         e.childNode = [];
+    //         e.name = "Set " + i;
+    //         e.id = i;
+    //         e.expand = collapse == 'expand' ? 'true' : 'false';
+    //         return e;
+    //     }); //   create the tree data
+    // } else {
 
-        var arrayForUnique = dataset.map((d) => d[firstAggeragateAttribute]);
-        var uniqueArray = arrayForUnique.filter(
-            (d, i) => arrayForUnique.findIndex((e) => e == d) == i
-        );
-        var treeData1 = uniqueArray.map((d, i) => {
-            var e = {};
-            e.value = d;
-            // e.valueTrend = null;
-            e.childNode = [];
-            e.name = "Set " + i;
-            e.id = i;
-            e.expand = collapse == 'expand' ? 'true' : 'false';
-            return e;
-        }); //   create the tree data
-    }
+    //     var arrayForUnique = dataset.map((d) => d[firstAggeragateAttribute]);
+    //     var uniqueArray = arrayForUnique.filter(
+    //         (d, i) => arrayForUnique.findIndex((e) => e == d) == i
+    //     );
+    //     var treeData1 = uniqueArray.map((d, i) => {
+    //         var e = {};
+    //         e.value = d;
+    //         // e.valueTrend = null;
+    //         e.childNode = [];
+    //         e.name = "Set " + i;
+    //         e.id = i;
+    //         e.expand = collapse == 'expand' ? 'true' : 'false';
+    //         return e;
+    //     }); //   create the tree data
+    // }
 
     // --------------------------------------------------------------------
     // We create the second level set
-    for (var datum of dataset) {
-        for (var tree of treeData1) {
-            //  we determine if there is a tree can cater the datum;
-            if (
-                JSON.stringify(datum[firstAggeragateAttribute]) ==
-                JSON.stringify(tree.value) ||
-                datum[firstAggeragateAttribute] == tree.value
-            ) {
-                // determine if there is a subset can cater the datum;
-                if (
-                    tree.childNode.find(
-                        (d) =>
-                            JSON.stringify(d.value) ==
-                            JSON.stringify(datum[secondAggeragateAttribute])
-                    ) != null ||
-                    tree.childNode.find(
-                        (d) => d.value == datum[secondAggeragateAttribute]
-                    ) != null
-                ) {
-                    // we push the datum in the related set
+    // for (var datum of dataset) {
+    //     for (var tree of treeData1) {
+    //         //  we determine if there is a tree can cater the datum;
+    //         if (
+    //             JSON.stringify(datum[firstAggeragateAttribute]) ==
+    //             JSON.stringify(tree.value) ||
+    //             datum[firstAggeragateAttribute] == tree.value
+    //         ) {
+    //             // determine if there is a subset can cater the datum;
+    //             if (
+    //                 tree.childNode.find(
+    //                     (d) =>
+    //                         JSON.stringify(d.value) ==
+    //                         JSON.stringify(datum[secondAggeragateAttribute])
+    //                 ) != null ||
+    //                 tree.childNode.find(
+    //                     (d) => d.value == datum[secondAggeragateAttribute]
+    //                 ) != null
+    //             ) {
+    //                 // we push the datum in the related set
 
-                    tree.childNode
-                        .find(
-                            (d) =>
-                                JSON.stringify(d.value) ==
-                                JSON.stringify(datum[secondAggeragateAttribute]) ||
-                                d.value == datum[secondAggeragateAttribute]
-                        )
-                        .childNode.push(datum);
-                    // we change the id of subsets;
-                    // tree.childNode.find(
-                    //   (d) => JSON.stringify(d.value) == JSON.stringify(datum.trend)
-                    // ).childNode.id = 1;
-                } else {
-                    // if there is no subset can cater the datum, we create a new one;
+    //                 tree.childNode
+    //                     .find(
+    //                         (d) =>
+    //                             JSON.stringify(d.value) ==
+    //                             JSON.stringify(datum[secondAggeragateAttribute]) ||
+    //                             d.value == datum[secondAggeragateAttribute]
+    //                     )
+    //                     .childNode.push(datum);
+    //                 // we change the id of subsets;
+    //                 // tree.childNode.find(
+    //                 //   (d) => JSON.stringify(d.value) == JSON.stringify(datum.trend)
+    //                 // ).childNode.id = 1;
+    //             } else {
+    //                 // if there is no subset can cater the datum, we create a new one;
 
-                    tree.childNode.push({
-                        id: tree.id + "_" + tree.childNode.length,
-                        value: datum[secondAggeragateAttribute],
-                        childNode: [datum]
-                    });
-                }
-            }
-        }
-    }
+    //                 tree.childNode.push({
+    //                     id: tree.id + "_" + tree.childNode.length,
+    //                     value: datum[secondAggeragateAttribute],
+    //                     childNode: [datum]
+    //                 });
+    //             }
+    //         }
+    //     }
+    // }
 
     // for (var datum of dataset) {
 
@@ -441,34 +475,34 @@ function CalTreData({
     // }
 
     // Add the maximum value and minimum value of tree data;
-    treeData1.map((d) => {
-        d.childNode.map((e) => {
-            e.max = d3.max(
-                e.childNode
-                    .map((f) => {
-                        var a = {};
-                        var array = brushedAttributes.map((g) => +f[g]);
-                        a.min = d3.min(array);
-                        a.max = d3.max(array);
-                        return a;
-                    })
-                    .map((e) => e.max)
-            );
-            e.min = d3.min(
-                e.childNode
-                    .map((f) => {
-                        var a = {};
-                        var array = brushedAttributes.map((g) => +f[g]);
-                        a.min = d3.min(array);
-                        a.max = d3.max(array);
-                        return a;
-                    })
-                    .map((e) => e.min)
-            );
-            return e;
-        });
-        return d;
-    });
+    // treeData1.map((d) => {
+    //     d.childNode.map((e) => {
+    //         e.max = d3.max(
+    //             e.childNode
+    //                 .map((f) => {
+    //                     var a = {};
+    //                     var array = brushedAttributes.map((g) => +f[g]);
+    //                     a.min = d3.min(array);
+    //                     a.max = d3.max(array);
+    //                     return a;
+    //                 })
+    //                 .map((e) => e.max)
+    //         );
+    //         e.min = d3.min(
+    //             e.childNode
+    //                 .map((f) => {
+    //                     var a = {};
+    //                     var array = brushedAttributes.map((g) => +f[g]);
+    //                     a.min = d3.min(array);
+    //                     a.max = d3.max(array);
+    //                     return a;
+    //                 })
+    //                 .map((e) => e.min)
+    //         );
+    //         return e;
+    //     });
+    //     return d;
+    // });
 
     // treeData1.map((d) => {
     //   d.max = d3.max(
@@ -497,9 +531,9 @@ function CalTreData({
     // });
 
     // delete the empty sets in tree data;
-    if (empty == "empty") {
-        treeData1 = treeData1.filter((d) => d.childNode.length != 0);
-    }
+    // if (empty == "empty") {
+    //     treeData1 = treeData1.filter((d) => d.childNode.length != 0);
+    // }
 
     if (empty == 'empty') {
         treeDataPlus = treeDataPlus.filter(d => d[1].length != 0)
@@ -508,11 +542,11 @@ function CalTreData({
 
 
     // we fix the id after delete the empty sets;
-    treeData1.map((d, i) => {
-        d.id = i;
-        d.childNode.map((e, j) => (e.id = i + "_" + j));
-        return d;
-    });
+    // treeData1.map((d, i) => {
+    //     d.id = i;
+    //     d.childNode.map((e, j) => (e.id = i + "_" + j));
+    //     return d;
+    // });
 
     treeDataPlus.map((d, i) => {
         d.id = i;
@@ -521,36 +555,36 @@ function CalTreData({
 
     debugger;
     // calculate the Average attributes for each set
-    treeData1.map((d) => {
-        d["Average"] = 0;
-        var a = []; // init the all teams in a set
-        d.childNode.map((e) => {
-            // e is the subset;
-            var arrayForEachE = brushedAttributes.map((f) => e[f]); // calculate the average values for each e (sub sets)
+    // treeData1.map((d) => {
+    //     d["Average"] = 0;
+    //     var a = []; // init the all teams in a set
+    //     d.childNode.map((e) => {
+    //         // e is the subset;
+    //         var arrayForEachE = brushedAttributes.map((f) => e[f]); // calculate the average values for each e (sub sets)
 
-            var valueSubSet = []; // init the array to save the average values for all teams in each subset
-            // add the average values for each e (sub sets)
-            for (var i of e.childNode) {
+    //         var valueSubSet = []; // init the array to save the average values for all teams in each subset
+    //         // add the average values for each e (sub sets)
+    //         for (var i of e.childNode) {
 
-                // e.childNode is the team;
-                a.push(i);
-                valueSubSet.push(
-                    brushedAttributes.map((f) => i[f]).reduce((m, n) => +m + +n)
-                ); // get the average values array for all teams in each subset
-            }
-            e.Average =
-                valueSubSet.reduce((m, n) => m + n) /
-                (brushedAttributes.length * e.childNode.length);
-            return e;
-        }); // extract all teams in the set;
-        var arrayFinal = a.map((e) => {
-            var array = brushedAttributes.map((f) => e[f]); // array are the all values for different time points of a teams
-            e.Average = array.reduce((m, n) => +m + +n) / brushedAttributes.length; // add the average attributes for each team
-            return e.Average;
-        }); // calculate the average for each team
-        d.Average = arrayFinal.reduce((a, b) => a + b) / arrayFinal.length; // calculate the final average
-        return d;
-    });
+    //             // e.childNode is the team;
+    //             a.push(i);
+    //             valueSubSet.push(
+    //                 brushedAttributes.map((f) => i[f]).reduce((m, n) => +m + +n)
+    //             ); // get the average values array for all teams in each subset
+    //         }
+    //         e.Average =
+    //             valueSubSet.reduce((m, n) => m + n) /
+    //             (brushedAttributes.length * e.childNode.length);
+    //         return e;
+    //     }); // extract all teams in the set;
+    //     var arrayFinal = a.map((e) => {
+    //         var array = brushedAttributes.map((f) => e[f]); // array are the all values for different time points of a teams
+    //         e.Average = array.reduce((m, n) => +m + +n) / brushedAttributes.length; // add the average attributes for each team
+    //         return e.Average;
+    //     }); // calculate the average for each team
+    //     d.Average = arrayFinal.reduce((a, b) => a + b) / arrayFinal.length; // calculate the final average
+    //     return d;
+    // });
 
 
 

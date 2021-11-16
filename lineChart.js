@@ -692,7 +692,7 @@ function LineChart({
 
     // ----------------------------------------------------------------
     // Visualize the symbols of trends;
-    if (secondAggeragateAttribute == "Trend") {
+    // if (secondAggeragateAttribute == "Trend") {
         var xTrendRange = [0.5 * x_step, 2.5 * x_step];
         var xTrendDomain = ["up", "down", "stable"];
         var xScaleTrend = d3.scalePoint().domain(xTrendDomain).range(xTrendRange);
@@ -780,11 +780,11 @@ function LineChart({
             .on("mouseout", (d) => {
                 debugger;
             });
-    } else {
-        d3
-            .select(node)
-            .selectAll(".trend-groups").selectAll('*').remove();
-    }
+    // } else {
+    //     d3
+    //         .select(node)
+    //         .selectAll(".trend-groups").selectAll('*').remove();
+    // }
 
 
     // ---------------------------------------------------
