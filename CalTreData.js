@@ -120,6 +120,8 @@ function CalTreData({
 
     } else if (secondAggeragateAttribute == "Trend") {
         var trueValue1 = 'jsonTrend';
+    } else if(secondAggeragateAttribute == 'No aggregate'){
+        var trueValue1 = dataJson.id;
     } else {
         var trueValue1 = secondAggeragateAttribute;
     }

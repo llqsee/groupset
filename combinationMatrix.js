@@ -108,13 +108,13 @@ function renderCombinationMatrix({
     if (orderCate == "cardinality") {
       data.sort((a, b) => b[1].length - a[1].length);
     } else if (dataFromFuzzy.findIndex((d) => d.name == orderCate) != -1) {
-      data.sort((a, b) => b.value[orderCate] - a.value[orderCate]); // re-order the treedata
+      data.sort((a, b) => b.categoryGroup[orderCate] - a.categoryGroup[orderCate]); // re-order the treedata
     } else if (
       orderCate == "up" ||
       orderCate == "down" ||
       orderCate == "stable"
     ) {
-      data.sort((a, b) => b.valueTrend[orderCate] - a.valueTrend[orderCate]); // re-order the treedata based on the trends
+      data.sort((a, b) => b.trendGroup[orderCate] - a.trendGroup[orderCate]); // re-order the treedata based on the trends
     }
 
 

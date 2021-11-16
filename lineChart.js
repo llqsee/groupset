@@ -411,7 +411,7 @@ function LineChart({
     // Add the options to sort method dropdown
     debugger;
     parameterSort.selectAll('option').data(
-        ['cardinality'].concat(
+        ['cardinality','up','down','stable'].concat(
             categoryData.map(d => d.name))
     )
         .join('option')
