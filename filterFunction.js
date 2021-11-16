@@ -7,8 +7,19 @@ function AddFilterPanel(category, node, brushedAttributes) {
         .querySelector('#layout-left')
         .querySelector('.parameter-filter')    // the parent element we will insert the selection
 
+    // Calculate the width of parameter-filter
+    // var width = d3.select(node.parentElement
+    //     .parentElement
+    //     .parentElement
+    //     .parentElement
+    //     .querySelector('#layout-left')
+    //     .querySelector('.parameter-filter')).attr('width')
+    d3.select(insertTag).style('background-color', '#dedede')
+
     // ------------------------------------------
     // Visualize the category selection
+
+    
     var CategorySelector = d3.select(insertTag)
         .selectAll('#filter-form')
         .data([category])
