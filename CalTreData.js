@@ -178,13 +178,50 @@ function CalTreData({
         // Calculate the value of second level
         if (secondAggeragateAttribute == "Category" || secondAggeragateAttribute == "Trend") {
             // d.value = JSON.parse(d[0])
-            d[1].map(e => e.value = JSON.parse(e[0]))
+            d[1].map(e => e.value = JSON.parse(e[0]));
             // d[1][0].value = JSON.parse(d[1][0][0]);
         } else {
             d[1].map(e => e.value = e[0])
             // d[1][0].value = d[1][0][0];
         }
 
+        // calculate the categoryGroup of second level
+        d[1].map(e => {
+            e.categoryGroup = {};
+
+            for (var index = 0; index < dataCategories.length; index++) {
+                // debugger;
+                
+                var valueCategory = e[1].map(f =>f['Category'][dataCategories[index]])
+                .reduce((a,b) => a + b)/e[1].length;
+
+                // debugger;
+                if (isInteger(valueCategory) == true) {
+                    e.categoryGroup[dataCategories[index]] = valueCategory;
+                } else {
+                    e.categoryGroup[dataCategories[index]] = Number(valueCategory.toFixed(1));
+                }
+            }
+        })
+
+        // calculate the trendGroup of second level
+        d[1].map(e => {
+            e.trendGroup = {};
+
+            for (var index = 0; index < dataTrend.length; index++) {
+                // debugger;
+                
+                var valueTrend = e[1].map(f =>f['Trend'][dataTrend[index]])
+                .reduce((a,b) => a + b)/e[1].length;
+
+                // debugger;
+                if (isInteger(valueTrend) == true) {
+                    e.trendGroup[dataTrend[index]] = valueTrend;
+                } else {
+                    e.trendGroup[dataTrend[index]] = Number(valueTrend.toFixed(1));
+                }
+            }
+        })
 
         // calcualte the maximum values and minimum values;
         d[1].map(e => {
