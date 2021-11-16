@@ -7,14 +7,23 @@ body{
     float: left;
     height:100vh;
     font-size: 12px;
-    }
+}
 #layout-right {
     width:70%;
     float: left;
     height:100vh;
     font-size: 12px;
-    }
+}
 .parameters {
     margin-left: 15px;
     float:left;
-    }
+}
+
+.line{
+    /* border-bottom: 1px solid black; */
+    position: fixed;
+    border: 10;
+    background-color: #000;
+    height: 1px;
+    width: 10%;
+}

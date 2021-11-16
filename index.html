@@ -51,11 +51,17 @@
                     style='margin-top:1em;font-size:12px'>60</label>
             </form>
 
+            
             <form class='parameter-widthline'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Width of lines</div><input value=3
                     style='width:60%;' type=range min=1 max=5 step=1></input><label
                     style='margin-top:1em;font-size:12px'>3</label>
             </form>
+
+            <!-- <form>
+                <hr class="line"></hr>
+            </form> -->
+            
             <form class='parameter-first'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>First,aggregate by:</div><select>
                     <option value="Category" style='font-size:12px'>Category</option>
@@ -70,6 +76,13 @@
             <form class='parameter-sort'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>First, sort by:</div><select>
                     <option value="cardinality" style='font-size:12px'>Cardinality</option>
+                </select>
+            </form>
+
+            
+            <form class='parameter-sort-second'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Then, sort by:</div><select>
+                    <!-- <option value="cardinality" style='font-size:12px'>Cardinality</option> -->
                 </select>
             </form>
 
@@ -125,7 +138,8 @@
             colorbrewer = colorbrewer,          // the color brewer;
             filterElement,               // the filter element;
             colorScale,              // the color selection for users;
-            parameterSort          // the parameter sort methods
+            parameterSort,          // the parameter sort methods;
+            parameterSortSecond        // the parameter sort methods for second time;
 
 
 
@@ -171,6 +185,8 @@
 
         // Assign the element to parameterSort;
         parameterSort = d3.select('.parameter-sort').select('select');
+
+        parameterSortSecond = d3.select('.parameter-sort-second').select('select');
 
         var colorData = Object.keys(colorbrewer).map(d => { var e = {}; e.name = d; e.value = colorbrewer[d]; return e })
         colorScale = d3.select('.color-option')
@@ -296,7 +312,8 @@
                         renderCombinationMatrix({
                             node: svgMatrix.node(),
                             dataFromFuzzy: svgLine.node().parentElement.value,
-                            orderCate: null,
+                            orderCate: parameterSort.node().value ,
+                            orderSecond:parameterSortSecond.node().value ,
                             dataset: dataset,
                             id: dataJson.id,
                             attributesCut: dataJson.temporalAttributes,
@@ -417,7 +434,8 @@
                                 renderCombinationMatrix({
                                     node: svgMatrix.node(),
                                     dataFromFuzzy: svgLine.node().parentElement.value,
-                                    orderCate: null,
+                                    orderCate: parameterSort.node().value ,
+                            orderSecond:parameterSortSecond.node().value ,
                                     dataset: dataset,
                                     id: dataJson.id,
                                     attributesCut: dataJson.temporalAttributes,

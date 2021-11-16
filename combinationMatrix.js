@@ -3,6 +3,7 @@
 function renderCombinationMatrix({
   dataFromFuzzy, // the data from fuzzycut
   orderCate, // the category that we are going to use it order the matrix
+  orderSecond,      // the second time order;
   node,
   margin,
   dataset, // raw dataset
@@ -116,6 +117,34 @@ function renderCombinationMatrix({
     ) {
       data.sort((a, b) => b.trendGroup[orderCate] - a.trendGroup[orderCate]); // re-order the treedata based on the trends
     }
+
+    if (orderSecond == "cardinality") {
+      data.map(d => {
+        d[1].sort((a,b) => b[1].length - a[1].length)
+        return d;
+      })
+      // data.sort((a, b) => b[1].length - a[1].length)
+    } else if (dataFromFuzzy.findIndex((d) => d.name == orderSecond) != -1) {
+      data.map(d => {
+        d[1].sort((a,b) => b.categoryGroup[orderSecond] - a.categoryGroup[orderSecond])
+        return d;
+      })
+    } else if (
+      orderSecond == "up" ||
+      orderSecond == "down" ||
+      orderSecond == "stable"
+    ) {
+      data.map(d => {
+        d[1].sort((a,b) => b.trendGroup[orderSecond] - a.trendGroup[orderSecond])
+        return d;
+      })
+    }
+
+    // give the set and subset new id;
+    data.map((d, i) => {
+      d.id = i;
+      d[1].map((e, j) => e.id = i + "_" + j)
+  })
 
 
     // if the data.length is not 0, we visualize the combination matrix

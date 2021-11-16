@@ -27,7 +27,8 @@ function ChangeParameter() {
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: null,
+            orderCate: parameterSort.node().value ,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -86,7 +87,8 @@ function ChangeParameter() {
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: svgLine.node().parentElement.value[0].name,
+            orderCate: parameterSort.node().value ,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -121,6 +123,7 @@ function ChangeParameter() {
                     node: svgMatrix.node(),
                     dataFromFuzzy: svgLine.node().parentElement.value,
                     orderCate: d.currentTarget.__data__.name,
+                    orderSecond:parameterSortSecond.node().value,
                     dataset: dataset,
                     id: dataJson.id,
                     attributesCut: dataJson.temporalAttributes,
@@ -159,6 +162,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -201,6 +205,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -249,6 +254,7 @@ function ChangeParameter() {
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: svgLine.node().parentElement.value[0].name,
+                orderSecond:parameterSortSecond.node().value ,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -278,6 +284,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: "cardinality",
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -313,6 +320,7 @@ function ChangeParameter() {
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: d.currentTarget.__data__,
+                orderSecond:parameterSortSecond.node().value,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -346,6 +354,7 @@ function ChangeParameter() {
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: d.currentTarget.__data__.name,
+                orderSecond:parameterSortSecond.node().value ,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -394,6 +403,7 @@ function ChangeParameter() {
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: svgLine.node().parentElement.value[0].name,
+                orderSecond:parameterSortSecond.node().value ,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -443,6 +453,7 @@ function ChangeParameter() {
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: svgLine.node().parentElement.value[0].name,
+                orderSecond:parameterSortSecond.node().value ,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -478,6 +489,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -508,6 +520,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -545,6 +558,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -607,6 +621,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: sortValue,
+            orderSecond:parameterSortSecond.node().value ,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -630,5 +645,48 @@ function ChangeParameter() {
             treeData: newTreData
         });
 
+    });
+
+    // When we sort the subsets;
+    parameterSortSecond.on('input', d => {
+   debugger;
+        // Define the parameters upated in this interaction, new sorting values
+        var sortValue = d.currentTarget.value;
+
+        // Get the saved tree data;
+        var newTreData = d.path[3]
+            .querySelector('#layout-right')
+            .querySelector('#div-matrix')
+            .querySelector('svg')
+            .value
+
+        // re-draw the combinatiom matrix based on the new sorting input
+        renderCombinationMatrix({
+            node: svgMatrix.node(),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            orderCate: parameterSort.node().value ,
+            orderSecond:sortValue,
+            dataset: dataset,
+            id: dataJson.id,
+            attributesCut: dataJson.temporalAttributes,
+            dataJson: dataJson,
+            circleType: "circle",
+            type: "percentage",
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            yHeight: +setHeight.select("input").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate.select("select").node()
+                .value,
+            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value,
+            filterPara: filterElement.node().value,
+            treeData: newTreData
+        });
     })
 }
