@@ -41,7 +41,7 @@ function renderCombinationMatrix({
     lineWidth = lineWidth || 3,
     brushedAttributes = brushedAttributes || attributesCut;
 
-  var data = treeData || CalTreData({
+  var  data = treeData || CalTreData({
     dataFromFuzzy: dataFromFuzzy,
     dataset: dataset,
     attributesCut: attributesCut,
@@ -54,10 +54,14 @@ function renderCombinationMatrix({
   }); // generate the tree data;
 
   // filter the treeData based on the degreess
-  var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
-  if (firstAggeragateValue == 'Category') {
-    data = data.filter(d => +d.value[filterPara[0]] >= +filterPara[1] && +d.value[filterPara[0]] <= +filterPara[2])
-  }
+  // var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
+  // if (firstAggeragateValue == 'Category') {
+  //   data = data.filter(d => +d.value[filterPara[0]] >= +filterPara[1] && +d.value[filterPara[0]] <= +filterPara[2])
+  // }
+
+ for(var i of filterPara){
+   data = data.filter(d => d.categoryGroup[i.name]>=i.min && d.categoryGroup[i.name]<=i.max);
+ }
 
   // var dataoutput = [];
   // var concatData = [];

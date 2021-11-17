@@ -515,7 +515,7 @@ function ChangeParameter() {
     })
 
     filterElement.on('input', d => {
-        // debugger;
+        debugger;
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,

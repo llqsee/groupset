@@ -21,9 +21,7 @@ body{
 
 .line{
     /* border-bottom: 1px solid black; */
-    position: fixed;
     border: 10;
     background-color: #000;
     height: 1px;
-    width: 10%;
 }
