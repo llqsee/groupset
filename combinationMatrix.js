@@ -1,4 +1,4 @@
-// require('./colorscales');
+// var abc = require('./colorscales.js');
 
 function renderCombinationMatrix({
   dataFromFuzzy, // the data from fuzzycut
@@ -41,7 +41,7 @@ function renderCombinationMatrix({
     lineWidth = lineWidth || 3,
     brushedAttributes = brushedAttributes || attributesCut;
 
-  var  data = treeData || CalTreData({
+  var data = treeData || CalTreData({
     dataFromFuzzy: dataFromFuzzy,
     dataset: dataset,
     attributesCut: attributesCut,
@@ -59,9 +59,9 @@ function renderCombinationMatrix({
   //   data = data.filter(d => +d.value[filterPara[0]] >= +filterPara[1] && +d.value[filterPara[0]] <= +filterPara[2])
   // }
 
- for(var i of filterPara){
-   data = data.filter(d => d.categoryGroup[i.name]>=i.min && d.categoryGroup[i.name]<=i.max);
- }
+  for (var i of filterPara) {
+    data = data.filter(d => d.categoryGroup[i.name] >= i.min && d.categoryGroup[i.name] <= i.max);
+  }
 
   // var dataoutput = [];
   // var concatData = [];
@@ -124,13 +124,13 @@ function renderCombinationMatrix({
 
     if (orderSecond == "cardinality") {
       data.map(d => {
-        d[1].sort((a,b) => b[1].length - a[1].length)
+        d[1].sort((a, b) => b[1].length - a[1].length)
         return d;
       })
       // data.sort((a, b) => b[1].length - a[1].length)
     } else if (dataFromFuzzy.findIndex((d) => d.name == orderSecond) != -1) {
       data.map(d => {
-        d[1].sort((a,b) => b.categoryGroup[orderSecond] - a.categoryGroup[orderSecond])
+        d[1].sort((a, b) => b.categoryGroup[orderSecond] - a.categoryGroup[orderSecond])
         return d;
       })
     } else if (
@@ -139,7 +139,7 @@ function renderCombinationMatrix({
       orderSecond == "stable"
     ) {
       data.map(d => {
-        d[1].sort((a,b) => b.trendGroup[orderSecond] - a.trendGroup[orderSecond])
+        d[1].sort((a, b) => b.trendGroup[orderSecond] - a.trendGroup[orderSecond])
         return d;
       })
     }
@@ -148,7 +148,7 @@ function renderCombinationMatrix({
     data.map((d, i) => {
       d.id = i;
       d[1].map((e, j) => e.id = i + "_" + j)
-  })
+    })
 
 
     // if the data.length is not 0, we visualize the combination matrix
@@ -1251,7 +1251,7 @@ function renderCombinationMatrix({
       .attr("opacity", 0)
       .attr("stroke-width", 0)
       .on("mousemove", (d) => {
-        // debugger;
+        debugger;
         d3.select(d.currentTarget)
           .attr("fill", "#dedede")
           .attr("stroke", "none")
@@ -1281,153 +1281,253 @@ function renderCombinationMatrix({
           var range = xScale.range();
           var rangePoints = d3.range(range[0] - xScale.step() * 0.5, range[1] + xScale.step() * 0.5, xScale.step());
           var yPos = domain[d3.bisect(rangePoints, xPos) - 1];
-          return yPos;
+          if (range[1] + xScale.step() * 0.5 < xPos || range[0] - xScale.step() > xPos) {
+            return null
+          } else {
+            return yPos;
+          }
         } // equal to x.invert();
 
         var attributeXPosition = scalePointPositionX1({ xpos: d.pageX - width * 0.15, xScale: xLine });     // calculate the x position
 
-        d3.select(
-          d.currentTarget
-            .parentElement
-            .parentElement
-            .parentElement
-            .querySelector('#vertical-line')
-        )
-          .selectAll('rect')
-          .filter(d => d == attributeXPosition)
-          .attr('fill', '#dedede')
-          .attr('opacity', 0.5) // find the related vertical rects and highlight it;
+        if (attributeXPosition != null) {
+          d3.select(
+            d.currentTarget
+              .parentElement
+              .parentElement
+              .parentElement
+              .querySelector('#vertical-line')
+          )
+            .selectAll('rect')
+            .filter(d => d == attributeXPosition)
+            .attr('fill', '#dedede')
+            .attr('opacity', 0.5) // find the related vertical rects and highlight it;
 
-        d3.select(
-          d.currentTarget
-            .parentElement
-            .parentElement
-            .parentElement
-            .querySelector('#vertical-line')
-        )
-          .selectAll('rect')
-          .filter(d => d != attributeXPosition)
-          .attr('fill', 'white')
-          .attr('opacity', 0) // find the related vertical rects and highlight it;
+          d3.select(
+            d.currentTarget
+              .parentElement
+              .parentElement
+              .parentElement
+              .querySelector('#vertical-line')
+          )
+            .selectAll('rect')
+            .filter(d => d != attributeXPosition)
+            .attr('fill', 'white')
+            .attr('opacity', 0) // find the not related vertical rects and not highlight it;
 
-        // d3.select(d.currentTarget.parentElement.parentElement.parentElement)
-        //   .select('#vertical-line')
+          // d3.select(d.currentTarget.parentElement.parentElement.parentElement)
+          //   .select('#vertical-line')
 
-        // d3.select(d.currentTarget.parentElement.parentElement.parentElement)
-        //   .selectAll('.set')
+          // d3.select(d.currentTarget.parentElement.parentElement.parentElement)
+          //   .selectAll('.set')
 
-        d3.select(
-          d.path[5]
-            .querySelector('#layout-right-top')
-            .querySelector('#div-line')
-            .querySelector('svg')
-            .querySelector("#vertical-line-global")
-        )
-          .selectAll('rect')
-          .filter(d => d == attributeXPosition)
-          .attr('fill', '#dedede')
-          .attr('opacity', 0.5)  // highlight the rects in the global line charts
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#div-line')
+              .querySelector('svg')
+              .querySelector("#vertical-line-global")
+          )
+            .selectAll('rect')
+            .filter(d => d == attributeXPosition)
+            .attr('fill', '#dedede')
+            .attr('opacity', 0.5)  // highlight the rects in the global line charts
 
-        d3.select(
-          d.path[5]
-            .querySelector('#layout-right-top')
-            .querySelector('#div-line')
-            .querySelector('svg')
-            .querySelector("#vertical-line-global")
-        )
-          .selectAll('rect')
-          .filter(d => d != attributeXPosition)
-          .attr('fill', 'white')
-          .attr('opacity', 0)  // don't highlight the rects that are not hovered
-
-
-        // -----------------------------------------------
-        //Render the connection areas while hoving the subsets;
-
-        // find out the elements;
-        var selectionElements = d3.select(d.path[5])
-          .select("#div-line")
-          .selectAll(".line")
-          // .selectAll('path')
-          .filter((d) => selectName.findIndex((e) => e == d[id]) != -1);
-
-        // get the data of elements;
-        var selectionElementsData = selectionElements.selectAll('path').data();
-
-        // extract the data in the hovering time point; 
-        var selectionDataTime = selectionElementsData.map(d => +d[attributeXPosition]);
-
-        // get the category data
-        var categoryDataHovering = d3.select(d.path[5])
-          .select("#div-line").node().value;
-
-        // get the array containing the categories it belongs to;
-        var arrayCategory = selectionDataTime.map(
-          d => categoryDataHovering
-            .find(
-              e => e.edgeMin <= d && e.edgeMax >= d
-            ).name)
-          .filter((d, i, s) => s.indexOf(d) === i)
-
-        // Find out the connection area in line chart and make it highlighted
-        d3.select(
-          d.path[5]
-            .querySelector('#layout-right-top')
-            .querySelector('#div-line')
-            .querySelector('svg')
-        )
-          .selectAll('.connection-area')
-          .filter(d => arrayCategory.findIndex(e => e != d.name))
-          .selectAll('path')
-          .attr('fill', '#dedede')
-          .attr('opacity', 0.5)
-
-        d3.select(
-          d.path[5]
-            .querySelector('#layout-right-top')
-            .querySelector('#div-line')
-            .querySelector('svg')
-        )
-          .selectAll('.connection-area')
-          .filter(d => arrayCategory.findIndex(e => e == d.name))
-          .selectAll('path')
-          .attr('fill', 'white')
-          .attr('opacity', 0)
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#div-line')
+              .querySelector('svg')
+              .querySelector("#vertical-line-global")
+          )
+            .selectAll('rect')
+            .filter(d => d != attributeXPosition)
+            .attr('fill', 'white')
+            .attr('opacity', 0)  // don't highlight the rects that are not hovered
 
 
-        // find out the connection area in the connection area and make it highlighted;
-        d3.select(
-          d.path[5]
-            .querySelector('#layout-right-top')
-            .querySelector('#layout-right-top-left')
-            .querySelector('svg')
-        )
-          .selectAll('.connect-area')
-          .filter(d => arrayCategory.findIndex(e => e != d.name))
-          .attr('fill', '#dedede')
-          .attr('opacity', 0.5)
+          // -----------------------------------------------
+          //Render the connection areas while hoving the subsets;
 
-        d3.select(
-          d.path[5]
-            .querySelector('#layout-right-top')
-            .querySelector('#layout-right-top-left')
-            .querySelector('svg')
-        )
-          .selectAll('.connect-area')
-          .filter(d => arrayCategory.findIndex(e => e == d.name))
-          .attr('fill', 'white')
-          .attr('opacity', 0)
+          // find out the elements;
+          var selectionElements = d3.select(d.path[5])
+            .select("#div-line")
+            .selectAll(".line")
+            // .selectAll('path')
+            .filter((d) => selectName.findIndex((e) => e == d[id]) != -1);
 
-        // find out the row area in combination matrix and highlighted
-        d3.select(d.path[3]).select('#column-highlight').selectAll('rect')
-          .filter(d => arrayCategory.findIndex(e => e != d.name))
-          .attr('fill', '#dedede')
-          .attr('opacity', 0.5);
+          // get the data of elements;
+          var selectionElementsData = selectionElements.selectAll('path').data();
 
-        d3.select(d.path[3]).select('#column-highlight').selectAll('rect')
-          .filter(d => arrayCategory.findIndex(e => e == d.name))
-          .attr('fill', 'white')
-          .attr('opacity', 0);
+          // extract the data in the hovering time point; 
+          var selectionDataTime = selectionElementsData.map(d => +d[attributeXPosition]);
+
+          // get the category data
+          var categoryDataHovering = d3.select(d.path[5])
+            .select("#div-line").node().value;
+
+          // get the array containing the categories it belongs to;
+          var arrayCategory = selectionDataTime.map(
+            d => categoryDataHovering
+              .find(
+                e => e.edgeMin <= d && e.edgeMax >= d
+              ).name)
+            .filter((d, i, s) => s.indexOf(d) === i)
+
+          // Find out the connection area in line chart and make it highlighted
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#div-line')
+              .querySelector('svg')
+          )
+            .selectAll('.connection-area')
+            .filter(d => arrayCategory.findIndex(e => e != d.name))
+            .selectAll('path')
+            .attr('fill', '#dedede')
+            .attr('opacity', 0.5)
+
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#div-line')
+              .querySelector('svg')
+          )
+            .selectAll('.connection-area')
+            .filter(d => arrayCategory.findIndex(e => e == d.name))
+            .selectAll('path')
+            .attr('fill', 'white')
+            .attr('opacity', 0)
+
+
+          // find out the connection area in the connection area and make it highlighted;
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#layout-right-top-left')
+              .querySelector('svg')
+          )
+            .selectAll('.connect-area')
+            .filter(d => arrayCategory.findIndex(e => e != d.name))
+            .attr('fill', '#dedede')
+            .attr('opacity', 0.5)
+
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#layout-right-top-left')
+              .querySelector('svg')
+          )
+            .selectAll('.connect-area')
+            .filter(d => arrayCategory.findIndex(e => e == d.name))
+            .attr('fill', 'white')
+            .attr('opacity', 0)
+
+          // find out the row area in combination matrix and highlighted
+          d3.select(d.path[3]).select('#column-highlight').selectAll('rect')
+            .filter(d => arrayCategory.findIndex(e => e != d.name))
+            .attr('fill', '#dedede')
+            .attr('opacity', 0.5);
+
+          d3.select(d.path[3]).select('#column-highlight').selectAll('rect')
+            .filter(d => arrayCategory.findIndex(e => e == d.name))
+            .attr('fill', 'white')
+            .attr('opacity', 0);
+
+        } else {
+
+          // Don't highlight the vertical rects
+          // when leave from the time points area
+          d3.select(
+            d.currentTarget
+              .parentElement
+              .parentElement
+              .parentElement
+              .querySelector('#vertical-line')
+          )
+            .selectAll('rect')
+            // .filter(d => d == attributeXPosition)
+            .attr('fill', '#dedede')
+            .attr('opacity', 0)
+
+          // Don't highlight the rects in the global line charts
+          // when the mouse leave from time points area
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#div-line')
+              .querySelector('svg')
+              .querySelector("#vertical-line-global")
+          )
+            .selectAll('rect')
+            // .filter(d => d == attributeXPosition)
+            .attr('fill', '#dedede')
+            .attr('opacity', 0)
+
+          // Don't highlight the rects of connection in global
+          // line chart
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#div-line')
+              .querySelector('svg')
+          )
+            .selectAll('.connection-area')
+            // .filter(d => arrayCategory.findIndex(e => e != d.name))
+            .selectAll('path')
+            .attr('fill', '#dedede')
+            .attr('opacity', 0)
+
+          //Don't highlight connection area in the connection area;
+          d3.select(
+            d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#layout-right-top-left')
+              .querySelector('svg')
+          )
+            .selectAll('.connect-area')
+            // .filter(d => arrayCategory.findIndex(e => e != d.name))
+            .attr('fill', '#dedede')
+            .attr('opacity', 0)
+
+          // DOn't highlight the row area in combination matrix and highlighted
+          d3.select(d.path[3]).select('#column-highlight').selectAll('rect')
+            // .filter(d => arrayCategory.findIndex(e => e != d.name))
+            .attr('fill', '#dedede')
+            .attr('opacity', 0);
+
+        }
+        // --------------------------------------------------
+        // high light the vertical highlight in trend while hovering subsets in this area
+
+        // we loop the trend categories[up, down ,stable]
+        // and calculate the which column-highlight we should 
+        // and which lines in subsets we should highlight
+        for (var dt of ['up', 'down', 'stable']) {
+          if (d.pageX - width * 0.15 <= xScaleTrend(dt) + xScaleTrend.step() * 0.5 &&
+            d.pageX - width * 0.15 >= xScaleTrend(dt) - xScaleTrend.step() * 0.5) {
+
+            // highlight the vertical rect in the corresponding trend
+            // don't highlight the vertical rects if it's not corresponding to trends
+            d3.select(d.path[3].querySelector('#column-highlight-trend'))
+              .selectAll('rect')
+              .filter(d => d == dt)
+              .attr('opacity', 0.5)
+
+            d3.select(d.path[3].querySelector('#column-highlight-trend'))
+              .selectAll('rect')
+              .filter(d => d != dt)
+              .attr('opacity', 0)
+
+          } else {
+            // don't highlight any vertical in trends
+            d3.select(d.path[3].querySelector('#column-highlight-trend'))
+              .selectAll('rect')
+              .filter(d => d == dt)
+              .attr('opacity', 0)
+          }
+
+        }
 
       })
       .on("mouseout", (d) => {
@@ -2112,6 +2212,7 @@ function renderCombinationMatrix({
       .attr("height", height)
       .attr("fill", "#dedede")
       .attr("opacity", 0);
+    d3.select(node).selectAll('g#column-highlight').lower();
     // .on("mouseenter", (d) => {
 
     //   d3.select(d.currentTarget).attr("opcacity", 0.3);
@@ -2162,6 +2263,25 @@ function renderCombinationMatrix({
     //     (exit) => exit.call((exit) => exit.transition(t).remove())
     //   );
 
+
+    // ------------------------------------------------------------
+    // highlighted columns of trends
+    svg
+      .selectAll("g#column-highlight-trend")
+      .data([1])
+      .join("g")
+      .attr("id", "column-highlight-trend")
+      .selectAll("rect")
+      .data(['up', 'down', 'stable'])
+      .join("rect")
+      .attr("x", (d) => xScaleTrend(d) - 0.5 * x_step)
+      .attr("width", x_step)
+      .attr("y", margin.top)
+      .attr("height", height)
+      .attr("fill", "#dedede")
+      .attr("opacity", 0)
+      .lower()
+    d3.select(node).selectAll('g#column-highlight-trend').lower();
 
 
     // ------------------------------------------------

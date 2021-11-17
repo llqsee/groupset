@@ -13,7 +13,7 @@ TODO list:
 
 - ~~Add the second sort;~~
 - Highlight the changes of trends;
-- Add other filtering category;
+- ~~Add other filtering category;~~
 - ~~Add the drop-down sorting methods;~~
 - ~~Always keep the categories;~~
 - ~~Add color option for users so they can add color for each categories;~~

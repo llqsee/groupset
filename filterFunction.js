@@ -1,4 +1,6 @@
 function AddFilterPanel(category, node, brushedAttributes) {
+    var textSize = '12px';
+    var textSizeSmall = '10px'
     debugger;
     var insertTag = node.parentElement
         .parentElement
@@ -8,18 +10,18 @@ function AddFilterPanel(category, node, brushedAttributes) {
         .querySelector('.parameter-filter')    // the parent element we will insert the selection
 
     // Calculate the width of parameter-filter
-    // var width = d3.select(node.parentElement
-    //     .parentElement
-    //     .parentElement
-    //     .parentElement
-    //     .querySelector('#layout-left')
-    //     .querySelector('.parameter-filter')).attr('width')
+    var width = d3.select(node.parentElement
+        .parentElement
+        .parentElement
+        .parentElement
+        .querySelector('#layout-left')
+    ).node().getBoundingClientRect().width;
 
     // Create the container for filter form;
     d3.select(insertTag)
         .style('background-color', '#dedede')
         .attr('float', 'left')
-        .style('width', 0.7)
+        .style('width', '150px')
         .selectAll('.filter-form')
         .data(category)
         .join('form')
@@ -38,7 +40,7 @@ function AddFilterPanel(category, node, brushedAttributes) {
             .text(d => 'Filter by ' + category[i].name)
             .style('font-weight', 'bold')
             .style('margin-top', '1em')
-            .style('font-size', '12px')
+            .style('font-size', textSize)
 
 
         // visualize the minimum value
@@ -76,6 +78,8 @@ function AddFilterPanel(category, node, brushedAttributes) {
             .data(d => [d])
             .join('label')
             .text('Minimum value')
+            .style('margin-top', '1em')
+            .style('font-size', textSizeSmall)
 
         // visualize the maximum value
         var maxTag = d3.select(insertTag).select('#' + 'filter-form-' + i)
@@ -103,6 +107,8 @@ function AddFilterPanel(category, node, brushedAttributes) {
             .data(d => [d])
             .join('label')
             .text('Maximum value')
+            .style('margin-top', '1em')
+            .style('font-size', textSizeSmall)
 
         var smallData = { name: category[i].name, min: +minTag.node().querySelector('input').value, max: +maxTag.node().querySelector('input').value };
         outputData.push(smallData)
