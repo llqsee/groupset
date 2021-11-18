@@ -37,6 +37,9 @@ function CalTreData({
             dataForTrend[j] = 0;
         } // init the Trend attribute;
 
+        // create a oject to save the trend
+        d.timeTrend = [];
+
         d.Trend = dataForTrend;
         for (var n = 0; n < keys.length - 1; n++) {
             if (dataJson.rank == "yes") {
@@ -45,13 +48,16 @@ function CalTreData({
                     -0.02
                 ) {
                     d.Trend["up"] = d.Trend["up"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
                     0.02
                 ) {
                     d.Trend["down"] = d.Trend["down"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
                 } else {
                     d.Trend["stable"] = d.Trend["stable"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
                 }
             } else {
                 if (
@@ -59,13 +65,16 @@ function CalTreData({
                     0.02
                 ) {
                     d.Trend["up"] = d.Trend["up"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     d.Trend["down"] = d.Trend["down"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
                 } else {
                     d.Trend["stable"] = d.Trend["stable"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
                 }
             }
         }
@@ -91,6 +100,7 @@ function CalTreData({
     }); // add two attribute to dataset like {low:3,middle:5,hight:5} and {up:3,down:5,stable:7}
     // } // we determine if the there is aggeragate by trend or category and then, we add the attributes to elements
 
+    
 
     // ------------------------------------------------
     // We re-struct the dataset with d3.group();

@@ -1290,7 +1290,7 @@ function renderCombinationMatrix({
 
         var attributeXPosition = scalePointPositionX1({ xpos: d.pageX - width * 0.15, xScale: xLine });     // calculate the x position
 
-        if (attributeXPosition != null) {
+        if (attributeXPosition != null) {   // if we hover in the 
           d3.select(
             d.currentTarget
               .parentElement
@@ -1519,12 +1519,27 @@ function renderCombinationMatrix({
               .filter(d => d != dt)
               .attr('opacity', 0)
 
+            // --------------------------------------------
+            // highlight the up, down, and stable line segments
+            debugger;
+            d3.select(d.currentTarget.parentElement.querySelector('#container-segment-line'))
+              .selectAll('.line-groups')
+              .selectAll('path')
+              .filter(d => d.value == dt)
+              .attr('opacity', 1)   // filter the line segments and highlight them
+
           } else {
             // don't highlight any vertical in trends
             d3.select(d.path[3].querySelector('#column-highlight-trend'))
               .selectAll('rect')
               .filter(d => d == dt)
               .attr('opacity', 0)
+
+              d3.select(d.currentTarget.parentElement.querySelector('#container-segment-line'))
+              .selectAll('.line-groups')
+              .selectAll('path')
+              .filter(d => d.value == dt)
+              .attr('opacity', 0)   // don't highlight the segment lines
           }
 
         }
@@ -2282,6 +2297,54 @@ function renderCombinationMatrix({
       .attr("opacity", 0)
       .lower()
     d3.select(node).selectAll('g#column-highlight-trend').lower();
+
+
+    // --------------------------------------------------------------
+    // Visualize the container-segment-line in subset
+
+    // function generateData(d) {
+    //   return d.timeTrend.map((e, i) => {
+    //     var key = e.name;
+    //     var value = e.value;
+    //     var outputData = [
+    //       [key, d[key]], [
+    //         d.timeTrend.length - 1 > i
+    //           ? d.timeTrend[i + 1].name
+    //           : brushedAttributes[brushedAttributes.length - 1]
+    //         , d.timeTrend.length - 1 > i
+    //         ? d[d.timeTrend[i + 1].name]
+    //         : d[brushedAttributes[brushedAttributes.length - 1]]]
+    //     ]
+    //     outputData.trend = value
+    //     return outputData
+    //   })
+    // }  // generate the segment line data
+    var pathSegment = (d, min, max) => d3.line()([
+      [xLine(d.point[0][0]), subYScale1(min, max)(d.point[0][1])]
+      , [xLine(d.point[1][0]), subYScale1(min, max)(d.point[1][1])]
+    ]) // create the path generator
+    groupLineText.selectAll('#container-segment-line')
+      .data(d => [d])
+      .join('g')
+      .attr('id', 'container-segment-line')
+      .selectAll('g')
+      .data(d => {
+        return d[1].map(e => { e.timeTrend.map(f => { f.min = d.min; return f }); e.timeTrend.map(f => f.max = d.max); return e })
+        // d[1].min = d.min; d[1].max = d.max; return d[1]
+      })
+      .join('g')
+      .attr('class', 'line-groups')
+      .selectAll('.line')
+      .data(d => d.timeTrend)
+      .join('path')
+      .attr('class', 'line')
+      .attr('d', d => pathSegment(d, d.min, d.max))
+      .attr('stroke', 'red')
+      .attr('stroke-width', lineWidth)
+      .attr('opacity', 0)
+
+
+
 
 
     // ------------------------------------------------
