@@ -14,6 +14,12 @@ body{
     height:100vh;
     font-size: 12px;
 }
+#layout-lastside{
+    width:20%;
+    float: left;
+    height:100vh;
+    font-size: 12px;
+}
 .parameters {
     margin-left: 15px;
     float:left;
@@ -25,3 +31,4 @@ body{
     background-color: #000;
     height: 1px;
 }
+
