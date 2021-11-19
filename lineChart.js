@@ -18,23 +18,23 @@ function LineChart({
     data.map(d => {
         d.timeTrend = [];
         var keys = brushedAttributes;;
-        for(var n = 0; n < brushedAttributes.length-1; n++){
+        for (var n = 0; n < brushedAttributes.length - 1; n++) {
             if (dataJson.rank == "yes") {
                 if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up' })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
                     0.02
                 ) {
                     // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down' })
                 } else {
                     // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable' })
                 }
             } else {
                 if (
@@ -42,16 +42,16 @@ function LineChart({
                     0.02
                 ) {
                     // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up' })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down' })
                 } else {
                     // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable' })
                 }
             }
         }
@@ -107,12 +107,12 @@ function LineChart({
     // -------------------------------------------------------------
     // draw lines;
     d3.select(node)
-        .selectAll("g.line")
+        .selectAll("g.global-line")
         .data(data)
         // .join("path")
         .join(
             (enter) => {
-                var bothEnter = enter.append("g").attr("class", "line");
+                var bothEnter = enter.append("g").attr("class", "global-line");
                 bothEnter
                     .append("path")
                     .attr("d", path)
@@ -126,15 +126,15 @@ function LineChart({
                     .on("mouseover", (d) => {
 
                         d3.select(d.currentTarget.parentElement.parentElement)
+                            .selectAll(".global-line")
                             .selectAll(".line")
-                            .selectAll("path")
                             .filter(
                                 (e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id]
                             )
                             .attr("stroke", "#dedede"); // show the line
 
                         d3.select(d.currentTarget.parentElement.parentElement)
-                            .selectAll(".line")
+                            .selectAll(".global-line")
                             .selectAll("text")
                             .filter(
                                 (e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id]
@@ -170,15 +170,15 @@ function LineChart({
                     })
                     .on("mouseout", (d) => {
                         d3.select(d.currentTarget.parentElement.parentElement)
+                            .selectAll(".global-line")
                             .selectAll(".line")
-                            .selectAll("path")
                             .filter(
                                 (e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id]
                             )
                             .attr("stroke", (e) => e.color);
 
                         d3.select(d.currentTarget.parentElement.parentElement)
-                            .selectAll(".line")
+                            .selectAll(".global-line")
                             .selectAll("text")
                             .filter(
                                 (e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id]
@@ -221,13 +221,13 @@ function LineChart({
                     .on("mouseover", (d) => {
                         debugger;
                         d3.select(d.currentTarget.parentElement.parentElement)
+                            .selectAll(".global-line")
                             .selectAll(".line")
-                            .selectAll("path")
                             .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("stroke", "#dedede"); // show the line
 
                         d3.select(d.currentTarget.parentElement.parentElement)
-                            .selectAll(".line")
+                            .selectAll(".global-line")
                             .selectAll("text")
                             .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("display", "none"); // don't display the text if it's not responding to the line
@@ -261,13 +261,13 @@ function LineChart({
                     })
                     .on("mouseout", (d) => {
                         d3.select(d.currentTarget.parentElement.parentElement)
+                            .selectAll(".global-line")
                             .selectAll(".line")
-                            .selectAll("path")
                             .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("stroke", (e) => e.color);
 
                         d3.select(d.currentTarget.parentElement.parentElement)
-                            .selectAll(".line")
+                            .selectAll(".global-line")
                             .selectAll("text")
                             .filter((e) => d.currentTarget.__data__[dataJson.id] != e[dataJson.id])
                             .attr("display", "inline");
@@ -293,8 +293,7 @@ function LineChart({
             },
             (update) => {
                 update
-                    .select("path")
-
+                    .select(".line")
                     .call((update) =>
                         update
                             .transition(t)
@@ -775,13 +774,81 @@ function LineChart({
             "https://liqunliu1990.static.observableusercontent.com/files/5e93b3fd8f829f8e3e7e0382693decfc62538b5a3f4955300746197ffee3fbe6abc6ca519f9c52a98e2ba8b96c22896552e00f494be9ef25df29d67d852f8668?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27up-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=tWqUogU~oBGR0QlWp6BMMr4yVXPZ7-izP7BUxuHIdOTo-8H7Esfs7djLIUIqt0~-6YVH9SooA1RKp6D5hdI7BCenydb33oyTpUDp15wrygCKBkYzUsn~t-JuF2vMJrRtl6BQXDhTyAUI-~dHwjtBaQJej4Gv3C-zXVnrJCJrRGjawlT83rhnujSBUscDHJRlpJYo7UzvZvcVITsLhuQ6UyMq-JnYKAVFYng92UiHmgqg8ibNMzN4Ix3Ntrflgs24hPwAROIR3dDf0Dg3HYbIbH8YN~N7nOLx5YF1zV~A-s01F~UlyN4aObr92ZT9LFD~dlZuxU3OLuN~1b21G2QCYQ__"
         )
         .attr("height", 15)
-        .attr("width", 15);
-    // .on("mouseover", (d) => {
-    //   debugger;
-    // })
-    // .on("mouseout", (d) => {
-    //   debugger;
-    // });
+        .attr("width", 15)
+        .on("mouseover", (d) => {
+            debugger;
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .querySelector('#column-highlight-trend'))
+                .selectAll('rect')
+                .filter(e => e == 'up')
+                .attr('opacity', 0.5)  // highlight the vertical rect in trend;
+
+
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg'))
+                .selectAll('.subset-line-text')
+                .selectAll('#container-segment-line')
+                .selectAll('.line-groups')
+                .selectAll('path')
+                .filter(e => e.value == 'up')
+                .attr('opacity', 1)  // highlight the segment lines in each subset;
+
+
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line').raise()    // raise the #segment-line
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line')
+                .selectAll('path')
+                .filter(e => e.value == 'up')
+                .attr('opacity', 1)    // highlight the segement lines in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('.line')
+                .attr('opacity', 0.2)    // make the line chart grey;
+        })
+        .on("mouseout", (d) => {
+
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .querySelector('#column-highlight-trend'))
+                .selectAll('rect')
+                .filter(e => e == 'up')
+                .attr('opacity', 0)  // don't highlight the vertical rect in trend;
+
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg'))
+                .selectAll('.subset-line-text')
+                .selectAll('#container-segment-line')
+                .selectAll('.line-groups')
+                .selectAll('path')
+                .filter(e => e.value == 'up')
+                .attr('opacity', 0)  // don't highlight the segment lines in each subset;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line').lower()    // lower the #segment-line
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line')
+                .selectAll('path')
+                .filter(e => e.value == 'up')
+                .attr('opacity', 0)    // don't highlight the segement lines in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('.line')
+                .attr('opacity', 0.5)    // make the line chart normal;
+
+        });
 
     trendGroups
         .selectAll(".arrows-down")
@@ -802,13 +869,80 @@ function LineChart({
             "https://liqunliu1990.static.observableusercontent.com/files/a652469c555d44d9d9637ca26a1dbcb363a9a421656580b70e117653745303c83f781505b5a33b048b525a6d328ccd99ebc0e3e1e7f24432ad0dfde6ee7d5259?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27down-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=MlC~wYR7mChf8Fc71gKcypmnXrzXqADbLAlNf~hgxiMoK~9Mp7zT4nM0Nj~mJAsgjxWBIDH2w5cuWjTmD6xq48nzQ5E5lK3Pp8mICv91YIoF25Dvxv2ZGgeX5T8i06mZoeJvjN5AWJUCenpBPTztleCmAt7M4~tJgWiJtpTvenBmdIyB4x5EesS2b4WWvKRhBaYBmndVw9qFTexDM0mmNTj~2F-Ewv3-qZ9fmdIXywtlTBF2TPxh5f5dV2GEiqu4KY-WjtFISttUk3qOsZdjiGAe0LhF23bqlBjZ1nDUjxbz89cnweaiJcTnf-P7Sb0xGF8Ee2b-hI7cXhwlmoj3Xw__"
         )
         .attr("height", 15)
-        .attr("width", 15);
-    // .on("mouseover", (d) => {
-    //   debugger;
-    // })
-    // .on("mouseout", (d) => {
-    //   debugger;
-    // });
+        .attr("width", 15)
+        .on("mouseover", (d) => {
+            debugger;
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .querySelector('#column-highlight-trend'))
+                .selectAll('rect')
+                .filter(e => e == 'down')
+                .attr('opacity', 0.5)  // highlight the vertical rect in trend;
+
+
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg'))
+                .selectAll('.subset-line-text')
+                .selectAll('#container-segment-line')
+                .selectAll('.line-groups')
+                .selectAll('path')
+                .filter(e => e.value == 'down')
+                .attr('opacity', 1)  // highlight the segment lines in each subset;
+
+
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line').raise()    // raise the #segment-line
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line')
+                .selectAll('path')
+                .filter(e => e.value == 'down')
+                .attr('opacity', 1)    // highlight the segement lines in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('.line')
+                .attr('opacity', 0.2)    // make the line chart grey;
+        })
+        .on("mouseout", (d) => {
+            debugger;
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .querySelector('#column-highlight-trend'))
+                .selectAll('rect')
+                .filter(e => e == 'down')
+                .attr('opacity', 0)  // don't highlight the vertical rect in trend;
+
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg'))
+                .selectAll('.subset-line-text')
+                .selectAll('#container-segment-line')
+                .selectAll('.line-groups')
+                .selectAll('path')
+                .filter(e => e.value == 'down')
+                .attr('opacity', 0)  // don't highlight the segment lines in each subset;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line').lower()    // lower the #segment-line
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line')
+                .selectAll('path')
+                .filter(e => e.value == 'down')
+                .attr('opacity', 0)    // don't highlight the segement lines in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('.line')
+                .attr('opacity', 0.5)    // make the line chart normal;
+        });
 
     trendGroups
         .selectAll(".arrows-stable")
@@ -831,9 +965,76 @@ function LineChart({
         .attr("width", 15)
         .on("mouseover", (d) => {
             debugger;
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .querySelector('#column-highlight-trend'))
+                .selectAll('rect')
+                .filter(e => e == 'stable')
+                .attr('opacity', 0.5)  // highlight the vertical rect in trend;
+
+
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg'))
+                .selectAll('.subset-line-text')
+                .selectAll('#container-segment-line')
+                .selectAll('.line-groups')
+                .selectAll('path')
+                .filter(e => e.value == 'stable')
+                .attr('opacity', 1)  // highlight the segment lines in each subset;
+
+
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line').raise()    // raise the #segment-line
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line')
+                .selectAll('path')
+                .filter(e => e.value == 'stable')
+                .attr('opacity', 1)    // highlight the segement lines in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('.line')
+                .attr('opacity', 0.2)    // make the line chart grey;
         })
         .on("mouseout", (d) => {
             debugger;
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .querySelector('#column-highlight-trend'))
+                .selectAll('rect')
+                .filter(e => e == 'stable')
+                .attr('opacity', 0)  // don't highlight the vertical rect in trend;
+
+            d3.select(d.path[5]
+                .querySelector('#div-matrix')
+                .querySelector('svg'))
+                .selectAll('.subset-line-text')
+                .selectAll('#container-segment-line')
+                .selectAll('.line-groups')
+                .selectAll('path')
+                .filter(e => e.value == 'stable')
+                .attr('opacity', 0)  // don't highlight the segment lines in each subset;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line').lower()    // lower the #segment-line
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#segment-line')
+                .selectAll('path')
+                .filter(e => e.value == 'stable')
+                .attr('opacity', 0)    // don't highlight the segement lines in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('.line')
+                .attr('opacity', 0.5)    // make the line chart normal;
         });
     // } else {
     //     d3
@@ -912,21 +1113,28 @@ function LineChart({
 
     // ---------------------------------------
     // Visualize the line segments
-    var pathSegment = (d) => d3.line()([[x(d.point[0][0]),y(d.point[0][1])],[
-        x(d.point[1][0]),y(d.point[1][1])
+    var pathSegment = (d) => d3.line()([[x(d.point[0][0]), y(d.point[0][1])], [
+        x(d.point[1][0]), y(d.point[1][1])
     ]]);
     d3.select(node)
-    .selectAll("g.line")
-    .selectAll('#segment-line')
-    .data(d => [d])
-    .join('g')
-    .attr('id','segment-line')
-    .selectAll('path')
-    .data(d => d.timeTrend)
-    .join('path')
-    .attr('d', d => pathSegment(d))
-    .attr('stroke','red')
-    .attr('opacity',0)
+        .selectAll("g.global-line")
+        .selectAll('#segment-line')
+        .data(d => [d])
+        .join('g')
+        .attr('id', 'segment-line')
+        .selectAll('path')
+        .data(d => d.timeTrend)
+        .join('path')
+        .attr('d', d => pathSegment(d))
+        .attr('stroke', 'red')
+        .attr('fill', 'none')
+        .attr('stroke-width', lineWidth)
+        .attr('opacity', 0)
+
+    d3.select(node)
+        .selectAll("g.global-line")
+        .selectAll('#segment-line')
+        .lower();
 
 
 
