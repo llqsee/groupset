@@ -12,6 +12,51 @@ function LineChart({
     firstAggeragateAttribute, // the first aggeragate attribute
     secondAggeragateAttribute // the second aggeragate attribute
 }) {
+
+    // ---------------------------------------------------
+    // Add timeTrend for dataset;
+    data.map(d => {
+        d.timeTrend = [];
+        var keys = brushedAttributes;;
+        for(var n = 0; n < brushedAttributes.length-1; n++){
+            if (dataJson.rank == "yes") {
+                if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+                    -0.02
+                ) {
+                    // d.Trend["up"] = d.Trend["up"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
+                } else if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+                    0.02
+                ) {
+                    // d.Trend["down"] = d.Trend["down"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
+                } else {
+                    // d.Trend["stable"] = d.Trend["stable"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
+                }
+            } else {
+                if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+                    0.02
+                ) {
+                    // d.Trend["up"] = d.Trend["up"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
+                } else if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+                    -0.02
+                ) {
+                    // d.Trend["down"] = d.Trend["down"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
+                } else {
+                    // d.Trend["stable"] = d.Trend["stable"] + 1;
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
+                }
+            }
+        }
+    })
+
     // -------------------------------------------------------------
     // parse the input data and nodes' parameters;
     debugger;
@@ -399,7 +444,7 @@ function LineChart({
 
     // ----------------------------------------------
     // Add the filter selection and input
-    AddFilterPanel(categoryData, node, brushedAttributes); 
+    AddFilterPanel(categoryData, node, brushedAttributes);
     // var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
     // if (firstAggeragateValue == 'Category') {
     //     AddFilterPanel(categoryData, node, brushedAttributes);
@@ -407,7 +452,7 @@ function LineChart({
     //     var leftLayout = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left');
     //     d3.select(leftLayout).select('.parameter-filter').selectAll('*').remove();
     // }
- 
+
 
     // -------------------------------------------------
     // Add the options to sort method dropdown
@@ -863,6 +908,40 @@ function LineChart({
         .attr("text-anchor", "middle");
 
     d3.select(node).selectAll('.connection-area').lower(); // put the connection area in the background
+
+
+    // ---------------------------------------
+    // Visualize the line segments
+    var pathSegment = (d) => d3.line()([[x(d.point[0][0]),y(d.point[0][1])],[
+        x(d.point[1][0]),y(d.point[1][1])
+    ]]);
+    d3.select(node)
+    .selectAll("g.line")
+    .selectAll('#segment-line')
+    .data(d => [d])
+    .join('g')
+    .attr('id','segment-line')
+    .selectAll('path')
+    .data(d => d.timeTrend)
+    .join('path')
+    .attr('d', d => pathSegment(d))
+    .attr('stroke','red')
+    .attr('opacity',0)
+
+
+
+
+    // d3.select(node).selectAll('#container-segment-line').data([data]).join('g')
+    // .attr('id','container-segment-line')
+    // .selectAll('.line-groups')
+    // .data(d => d)
+    // .join('g')
+    // .attr('.line-groups')
+    // .selectAll('.line')
+    // .data(d => d.timeTrend)
+    // .join('path')
+    // .attr('d', d => )
+
 
     node.parentElement.value = categoryData;
     node.parentElement.dispatchEvent(new CustomEvent("input"));

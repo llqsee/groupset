@@ -1264,7 +1264,7 @@ function renderCombinationMatrix({
           .select("#div-line")
           .selectAll(".line")
           .filter((d) => selectName.findIndex((e) => e == d[id]) == -1)
-          .selectAll("path")
+          .selectAll(".line")
           .attr("stroke", "grey")
           .attr("opacity", 0.05); // make the global lines grey while mouseover the set
 
@@ -1521,12 +1521,26 @@ function renderCombinationMatrix({
 
             // --------------------------------------------
             // highlight the up, down, and stable line segments
-            debugger;
             d3.select(d.currentTarget.parentElement.querySelector('#container-segment-line'))
               .selectAll('.line-groups')
               .selectAll('path')
               .filter(d => d.value == dt)
               .attr('opacity', 1)   // filter the line segments and highlight them
+
+              // --------------------------------------
+              // Highlight the segment lines in global line chart
+              debugger;
+              d3.select(d.path[5]
+              .querySelector('#layout-right-top')
+              .querySelector('#div-line')
+              .querySelector('svg'))
+              .selectAll('.line')
+              .filter((f) => selectName.findIndex((e) => e == f[id]) != -1)
+              .selectAll('#segment-line')
+              .selectAll('path')
+              .filter(f => f.value != dt)
+              .attr('opacity',0.5)
+
 
           } else {
             // don't highlight any vertical in trends
