@@ -118,7 +118,8 @@
             </div>
         </div>
         <div id="layout-lastside">
-
+            <div id="statistic"></div>
+            <div id="table"></div>>
         </div>
     </div>
 
@@ -224,7 +225,7 @@
             .attr('value', d => d.name)
             .text(d => d.name)
 
-        table = d3.select('#layout-lastside');
+        table = d3.select('#layout-lastside').select('#table');
 
 
 
@@ -371,6 +372,8 @@
 
                         ChangeParameter();
 
+                        tableFun({x:dataset,rows:[dataJson.id].concat(dataJson.temporalAttributes),node:table.node()});
+
                     })
 
                     // ----------------------------------------------------------------
@@ -492,6 +495,8 @@
                                 }); // visualize the combination sets
 
                                 ChangeParameter();
+
+                                tableFun({x:dataset,rows:[dataJson.id].concat(dataJson.temporalAttributes),node:table.node()});
                             }
                         )
                     })

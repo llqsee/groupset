@@ -277,6 +277,8 @@ function ChangeParameter() {
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value
             }); // visualize the combination matrix
+
+            tableFun({x:dataset,rows:[dataJson.id].concat(d.currentTarget.value),node:table.node()}); // visualize the table
         }); // when we brush
 
     svgLine.select("#cardinality-button").on("click", (d) => {

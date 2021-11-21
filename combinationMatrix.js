@@ -1602,7 +1602,7 @@ function renderCombinationMatrix({
               .selectAll('#segment-line')
               .selectAll('path')
               .filter(f => f.value == dt)
-              .attr('opacity', 0)  // don't highlight the segment lines
+              .attr('opacity', 0)  // don't highlight the segment lines in global line chart
 
           }
 

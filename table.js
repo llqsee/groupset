@@ -1,16 +1,16 @@
-function tableFun(x,rows,node) {
+function tableFun({x,rows,node}={}) {
     // console.log(x)
     // debugger
-    var x = x.slice(0,50);
+    var x = x.slice(0,200);
 
     d3.select(node).selectAll('*').remove();
 
-    table = d3.select(node).append('table')
+    tableSVG = d3.select(node).append('table')
         .style("border-collapse", "collapse")
         .style("border", "2px black solid");
 
     // headers
-    table.append("thead").append("tr")
+    tableSVG.append("thead").append("tr")
         .selectAll("th")
         .data(rows)
         .enter().append("th")
@@ -19,11 +19,11 @@ function tableFun(x,rows,node) {
         .style("padding", "1px")
         .style("background-color", "lightgray")
         .style("font-weight", "bold")
-        .style("font-size","7px")
+        .style("font-size","12px")
         .style("text-transform", "uppercase");
     // debugger
     // data
-    table.append("tbody")
+    tableSVG.append("tbody")
         .selectAll("tr").data(x, d => d)
         .enter().append("tr")
         .on("mouseover", function () {
@@ -38,7 +38,7 @@ function tableFun(x,rows,node) {
         .style("border", "1px black solid")
         .style("padding", "1px")
         .text(function (d) { return d; })
-        .style("font-size", "7px");
+        .style("font-size", "12px");
 };
 
 function transfertoArray(y, rows) {

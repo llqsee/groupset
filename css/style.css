@@ -5,20 +5,36 @@ body{
 #layout-left {
     width:10%;
     float: left;
-    height:100vh;
+    height:calc(100vh - 20px);
     font-size: 12px;
 }
 #layout-right {
     width:70%;
     float: left;
-    height:100vh;
+    height:calc(100vh - 20px);
     font-size: 12px;
 }
 #layout-lastside{
     width:20%;
     float: left;
-    height:100vh;
+    height:calc(100vh - 20px);
     font-size: 12px;
+    overflow-y: hidden;
+}
+
+#statistic{
+    /* width:20%; */
+    float:none;
+    height:calc(40vh - 10px);
+    font-size: 12px;
+}
+
+#table{
+    /* width:20%; */
+    float:none;
+    height:calc(60vh - 10px);
+    font-size: 12px;
+    overflow-x: auto;
 }
 .parameters {
     margin-left: 15px;
