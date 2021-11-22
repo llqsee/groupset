@@ -440,6 +440,8 @@ function LineChart({
         }
     }
 
+    node.parentElement.value = categoryData;
+    node.parentElement.dispatchEvent(new CustomEvent("input"));   // give the parentElement a value
 
     // ----------------------------------------------
     // Add the filter selection and input
@@ -640,23 +642,23 @@ function LineChart({
         // debugger;
     }
     function Dragging(event, d, i) {
-        // debugger;
+        debugger;
 
         var index = this.parentElement.parentElement.parentElement
             .value
             .findIndex(e => e.name == d3.select(this).data()[0].name)  // get the index of this in category data;
 
-        var limitationMaxMin = d3.max([d3.min([y(this.parentElement.parentElement.parentElement
-            .value[index + 1].edgeMax), event.y])
-            , y(this.parentElement.parentElement.parentElement
-                .value[index].edgeMin)]);
+        var limitationMaxMin = d3.max([d3.min([this.parentElement.parentElement.parentElement
+            .value[index + 1].edgeMax, y.invert(event.y)])
+            , this.parentElement.parentElement.parentElement
+                .value[index].edgeMin]);
 
-        d3.select(this).data()[0].edgeMax = Number(y.invert(limitationMaxMin).toFixed(2))    // calculate the new data;
+        d3.select(this).data()[0].edgeMax = Number(limitationMaxMin.toFixed(2))    // calculate the new data;
 
 
 
         this.parentElement.parentElement.parentElement
-            .value[index + 1].edgeMin = Number(y.invert(event.y).toFixed(2))  // the value of index + 1 has been changed;
+            .value[index + 1].edgeMin = Number(limitationMaxMin.toFixed(2))  // the value of index + 1 has been changed;
 
 
         d3.select(this.parentElement.parentElement)
@@ -686,7 +688,7 @@ function LineChart({
 
 
         d3.select(this)
-            .attr('transform', `translate(${margin.left},${limitationMaxMin - 7.5 * 1.414})rotate(45)`) // change the position of diamond
+            .attr('transform', `translate(${margin.left},${y(limitationMaxMin) - 7.5 * 1.414})rotate(45)`) // change the position of diamond
 
 
     }
@@ -1376,8 +1378,4 @@ function LineChart({
     // .data(d => d.timeTrend)
     // .join('path')
     // .attr('d', d => )
-
-
-    node.parentElement.value = categoryData;
-    node.parentElement.dispatchEvent(new CustomEvent("input"));
 }

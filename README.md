@@ -21,14 +21,14 @@ TODO list:
 - ~~highlight on all rows/colomns when the mouse hover a specific interval so it is easy to track  chagnes;~~
 - ~~have the arrows as header and we should also can sort based on the arrows;~~
 - ~~hightlight the lines when you hover the text in the top line chart;~~
-- ~~add the option that don't aggregate; ~~
+- ~~add the option that don't aggregate;~~
 - ~~Don't use two much colors to display the lines.~~
 - ~~Show the context while brushing the time points;~~
 - ~~Add distribution in the brushed area;~~
 - ~~collapse and expand the groups;~~
 - color the lines based on which categories that they belongs;
-- drag the lines to generate new categories;
-- add the predefined categories;
+- ~~drag the lines to generate new categories;~~
+- ~~add the predefined categories;~~
 - ~~highlight the time points while hovering the groups;~~
 - ~~add labels for line chart in aggeragated sets;~~
 - ~~add the sets with 0 elements;~~
@@ -45,7 +45,7 @@ TODO list:
 - Hover row - > if on attribute view, highlight the row + filter line chart; if on upset matrix also highlight the column
 - Hover column -> highlight the column + line chart
 - ~~Hover line in the line chart -> highlight the corresponding rows and columns~~
-- Naming groups -> like fuzzycuts (but right now only for the main categories)
+- ~~Naming groups -> like fuzzycuts (but right now only for the main categories)~~
 - Deviation attribute -> keep in mind we need to address it (either in the paper discussion or in the tool) but no action required at the moment
 - ~~Ordering -> very important, should be done soon~~
 - Evaluation: define a date for the first round (begining/mid november) + protocol/questions/datasets + schedule a second round late in november (that adressed the changes/suggestions from the first round)
