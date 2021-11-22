@@ -643,17 +643,17 @@ function LineChart({
         // debugger;
 
         var index = this.parentElement.parentElement.parentElement
-        .value
-        .findIndex(e => e.name == d3.select(this).data()[0].name)  // get the index of this in category data;
+            .value
+            .findIndex(e => e.name == d3.select(this).data()[0].name)  // get the index of this in category data;
 
-        var limitationMaxMin=d3.max([d3.min([y(this.parentElement.parentElement.parentElement
-            .value[index+1].edgeMax),event.y])
-            ,y(this.parentElement.parentElement.parentElement
-            .value[index].edgeMin)]);
+        var limitationMaxMin = d3.max([d3.min([y(this.parentElement.parentElement.parentElement
+            .value[index + 1].edgeMax), event.y])
+            , y(this.parentElement.parentElement.parentElement
+                .value[index].edgeMin)]);
 
         d3.select(this).data()[0].edgeMax = Number(y.invert(limitationMaxMin).toFixed(2))    // calculate the new data;
 
-       
+
 
         this.parentElement.parentElement.parentElement
             .value[index + 1].edgeMin = Number(y.invert(event.y).toFixed(2))  // the value of index + 1 has been changed;
@@ -688,7 +688,7 @@ function LineChart({
         d3.select(this)
             .attr('transform', `translate(${margin.left},${limitationMaxMin - 7.5 * 1.414})rotate(45)`) // change the position of diamond
 
-        
+
     }
     function Draged(event) {
         // debugger;
@@ -745,7 +745,7 @@ function LineChart({
     d3.select(node).selectAll('#drag-diamond')
         .data([categoryDataDeletOneElement])
         .join('g')
-        .attr('id','drag-diamond')
+        .attr('id', 'drag-diamond')
         .selectAll('rect')
         .data(d => d)
         .join('rect')
@@ -757,6 +757,163 @@ function LineChart({
         .attr('stroke-width', 0)
         .attr('transform', d => `translate(${margin.left},${y(d.edgeMax) - 7.5 * 1.414})rotate(45)`)
         .call(drag)   // create the container
+
+
+    // ---------------------------------------------------------
+    // Visualize the parameters for inputing names of categories
+    var nameNode = node
+        .parentElement
+        .parentElement
+        .parentElement
+        .parentElement
+        .querySelector("#layout-left")
+        .querySelector('.parameter-name');   // the node of inputting name;
+
+    d3.select(nameNode)
+        .selectAll('input')
+        .data(categoryData)
+        .join('input')
+        .attr('type', 'text')
+        .style('width', '70%')
+        .attr('placeholder', d => d.name)
+        .on('input', d => {
+            debugger;
+            d.target.__data__.name = d.currentTarget.value    // change the value of parent node
+            node.parentElement.value = d.currentTarget.parentElement.value; // change the value of div-line node
+
+            AddFilterPanel(node.parentElement.value, node, brushedAttributes);  // re-visualize the filter node
+
+            // ----------------------------------------------
+            // re-visualize the distribution
+            var categoryData = node.parentElement.value;
+            var data4Dis = [];
+            dataJson.temporalAttributes.map(d => {
+                var e = {};
+                e.name = d;
+                // categoryData.map(f => e[f.name] = []);
+                categoryData.map(f => e[f.name] = []);
+                data4Dis.push(e);
+                return e;
+            })            // init the data4Dis
+
+
+            dataset.map(d => {
+                dataJson.temporalAttributes.map(e => {
+                    var category = categoryData.find((f, i) => i < (categoryData.length - 1)
+                        ? +d[e] >= +f.edgeMin && +d[e] < +f.edgeMax : +d[e] > +f.edgeMin)
+                    if (category != null) {
+                        // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
+                        data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
+                    }
+
+                })
+            })    // Add the values into data4Dis;
+
+            var stack = d3.stack().keys(categoryData.map(d => d.name))
+                .value((data, key) => data[key])
+            // .order(d3.stackOrderAscending)
+            // .offset(d3.stackOffsetNone);
+
+            var distributionData = stack(data4Dis)
+            //  .value((data4Dis, key) => data4Dis[key])
+            distributionData.map((d, i) => {
+
+                if (distributionData.length == 2) {
+                    if (colorCategory == null) {
+                        d.color = colorbrewer.YlGn[3][i]
+                    } else {
+                        d.color = colorbrewer[colorCategory][3][i];
+                    }
+                } else {
+                    if (colorCategory == null) {
+                        d.color = colorbrewer.YlGn[distributionData.length][i]
+                    } else {
+                        d.color = colorbrewer[colorCategory][distributionData.length][i]
+                    }
+                }
+
+                return d
+                // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
+            })
+
+            d3.select(node)
+                .select('#distribution')
+                .selectAll('.distribution-group')
+                .data(distributionData)
+                .join('g')
+                // .attr('opacity', 0.4)
+                .attr('fill', d => d.color)
+                .attr('class', 'distribution-group')
+                .selectAll('rect')
+                .data(d => d)
+                .join('rect')
+                .attr('stroke-width', 0)
+                .attr('x', d => xBrush(d.data.name) - widthBar / 2)
+                .attr('width', widthBar)
+                .attr('y', d => yBrush(d[1]))
+                .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
+            var legendStep = heightDistribution / distributionData.length;
+            var legendData = categoryData.map((d, i) => {
+                var e = {};
+                e.value = d.name;
+                e.index = i;
+                if (distributionData.length == 2) {
+                    if (colorCategory == null) {
+                        e.color = colorbrewer.YlGn[3][i]
+                    } else {
+                        e.color = colorbrewer[colorCategory][3][i];
+                    }
+                } else {
+                    if (colorCategory == null) {
+                        e.color = colorbrewer.YlGn[distributionData.length][i]
+                    } else {
+                        e.color = colorbrewer[colorCategory][distributionData.length][i]
+                    }
+                }
+                return e
+            })
+            var widthLegend = d3.min([legendStep * 0.8, 20]);
+            d3.select(node)
+                .select("#distribution")
+                .selectAll('.legend')
+                .data(legendData)
+                .join('g')
+                .attr('class', 'legend')
+                .selectAll('rect')
+                .data(d => [d])
+                .join('rect')
+                .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 30)
+                .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index))
+                .attr('width', widthLegend)
+                .attr('height', widthLegend)
+                .attr('stroke-width', 0)
+                .attr('fill', d => d.color) // visualize the legend
+
+            d3.select(node)
+                .select("#distribution")
+                .selectAll('.legend')
+                .data(legendData)
+                .join('g')
+                .attr('class', 'legend')
+                .selectAll('text')
+                .data(d => [d])
+                .join('text')
+                .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
+                .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index) + widthLegend / 2)
+                .attr('font-size', '12px')
+                .attr('dominant-baseline', 'middle')
+                .attr('text-anchor', 'end')
+                .text(d => d.value)   // visualize the text of legend;
+            // ------------------------------------------------
+
+            nameNode.dispatchEvent(new CustomEvent('input'));
+            node.parentElement.dispatchEvent(new CustomEvent('input'));
+        }) // add the input
+
+    nameNode.value = categoryData;
+    nameNode.dispatchEvent(new CustomEvent('input'));
+
+
 
     // ------------------------------------------------------
     // Visualize the connection areas
