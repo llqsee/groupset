@@ -397,6 +397,7 @@
                                 debugger;
                                 // dataset = e.map((e) => { e.color = get_random_color(); return e })
                                 dataset = e.map((e) => { e.color = 'black'; return e })
+                                dataset.length>1000?dataset = dataset.slice(0,1000):dataset;
                                 dataJson = dealDataJson(index, dataset);
                                 // ---------------------------------------------
                                 // Add the options for the aggregates
