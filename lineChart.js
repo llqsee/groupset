@@ -637,11 +637,62 @@ function LineChart({
     // -------------------------------------------------------------
     // Add category lines (the lines to display the categories' range)
     function DragStart(event) {
-        debugger;
+        // debugger;
     }
-    function Dragging() { }
+    function Dragging(event, d, i) {
+        // debugger;
+
+        var index = this.parentElement.parentElement.parentElement
+        .value
+        .findIndex(e => e.name == d3.select(this).data()[0].name)  // get the index of this in category data;
+
+        var limitationMaxMin=d3.max([d3.min([y(this.parentElement.parentElement.parentElement
+            .value[index+1].edgeMax),event.y])
+            ,y(this.parentElement.parentElement.parentElement
+            .value[index].edgeMin)]);
+
+        d3.select(this).data()[0].edgeMax = Number(y.invert(limitationMaxMin).toFixed(2))    // calculate the new data;
+
+       
+
+        this.parentElement.parentElement.parentElement
+            .value[index + 1].edgeMin = Number(y.invert(event.y).toFixed(2))  // the value of index + 1 has been changed;
+
+
+        d3.select(this.parentElement.parentElement)
+            .selectAll('.category-line')
+            .filter(d => d.name == d3.select(this).data()[0].name) // get the corresponding line's element;
+            .attr('d', pathCateLine(d3.select(this).data()[0]))   // re-create the line;
+
+        d3.select(node)
+            .selectAll("g.connection-area")
+            .data(this.parentElement.parentElement.parentElement
+                .value)
+            .join("g")
+            .attr("class", "connection-area")
+            .selectAll("path")
+            .data((d) => [d])
+            .join("path")
+            .attr("d", (d) =>
+                pathArea([
+                    [0, y(d.edgeMin)],
+                    [width - margin.right - widthAttribute, y(d.edgeMin)],
+                    [width - margin.right - widthAttribute, y(d.edgeMax)],
+                    [0, y(d.edgeMax)]
+                ])
+            )
+            .attr("fill", "#dedede")
+            .attr("opacity", 0)    // re-draw the connection area;
+
+
+        d3.select(this)
+            .attr('transform', `translate(${margin.left},${limitationMaxMin - 7.5 * 1.414})rotate(45)`) // change the position of diamond
+
+        
+    }
     function Draged(event) {
-        debugger;
+        // debugger;
+        this.parentElement.parentElement.parentElement.dispatchEvent(new CustomEvent("input"));
     }
 
     var drag = d3
@@ -680,13 +731,32 @@ function LineChart({
                     .attr("stroke-width", 1),
             (exit) => exit.remove()
         )
-        .on("mouseover", (d) => {
-            // d3.select(d.currentTarget).attr("stroke-width", 4);
-        })
-        .on("mouseout", (d) => {
-            // d3.select(d.currentTarget).attr("stroke-width", 2);
-        })
-        .call(drag);
+    // .on("mouseover", (d) => {
+    //     // debugger;
+    //     d3.select(d.currentTarget).style("cursor", 'ns-resize');
+    // })
+    // .on("mouseout", (d) => {
+    //     // d3.select(d.currentTarget).attr("stroke-width", 2);
+    // })
+    // .call(drag)
+
+    // --------------------------------------
+    // Visualize the dragging diamonds
+    d3.select(node).selectAll('#drag-diamond')
+        .data([categoryDataDeletOneElement])
+        .join('g')
+        .attr('id','drag-diamond')
+        .selectAll('rect')
+        .data(d => d)
+        .join('rect')
+        // .attr('x',margin.left)
+        // .attr('y',d => y(d.edgeMax))
+        .attr('width', 15)
+        .attr('height', 15)
+        .attr('fill', 'black')
+        .attr('stroke-width', 0)
+        .attr('transform', d => `translate(${margin.left},${y(d.edgeMax) - 7.5 * 1.414})rotate(45)`)
+        .call(drag)   // create the container
 
     // ------------------------------------------------------
     // Visualize the connection areas
@@ -712,7 +782,7 @@ function LineChart({
         // .attr("stroke", "none")
         // .attr("stroke-width", 0)
         .on("mouseover", (d) => {
-            debugger;
+            // debugger;
             d3.select(d.currentTarget).attr("opacity", 0.3);
             d3.select(d.path[4])
                 .select("#svg-connect-line")
@@ -727,7 +797,7 @@ function LineChart({
                 .attr("opacity", 0.3); // highlight the connection area in combination matrix
         })
         .on("mouseout", (d) => {
-            debugger;
+            // debugger;
             d3.select(d.currentTarget).attr("opacity", 0);
             d3.select(d.path[4])
                 .select("#svg-connect-line")

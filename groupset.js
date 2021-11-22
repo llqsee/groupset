@@ -1,3 +1,5 @@
+const { toNamespacedPath } = require("path");
+
 function ChangeParameter() {
     // ------------------------------------------------------------------------
     // change the width of lines
@@ -691,4 +693,52 @@ function ChangeParameter() {
             treeData: newTreData
         });
     })
+
+    divLine.node().addEventListener('input', d => {
+        debugger;
+
+        connectionLine({
+            selfNode: svgLine
+                .node()
+                .parentElement.parentElement.querySelector("#layout-right-top-left"),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            dataJson: dataJson,
+            dataset: dataset
+        });  // visualize the connection area in connection node;
+
+        renderCombinationMatrix({
+            node: svgMatrix.node(),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            orderCate: parameterSort.node().value ,
+            orderSecond:parameterSortSecond.node().value ,
+            dataset: dataset,
+            id: dataJson.id,
+            attributesCut: dataJson.temporalAttributes,
+            // degrees: [1, 2, 3],
+            // setMember: [],
+            // probability: [],
+            dataJson: dataJson,
+            circleType: "circle",
+            type: "percentage",
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            yHeight: +setHeight.select("input").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value,
+            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value,
+            filterPara: filterElement.node().value
+        });
+    })  // when we change drag the diamond;
+
+    nameCategory.node().addEventListener('input', d => {
+        debugger;
+    })  // when we change the name of categories
 }

@@ -641,7 +641,7 @@ function renderCombinationMatrix({
             .attr("x", (d) => xScaleFirstTrend(d.trend))
             .attr("y", 0.5 * y_step_group)
             .attr("dominant-baseline", "middle")
-            .attr("font-size", "12px")
+            .attr("font-size", "9px")
             .attr("text-anchor", "middle"),
         (update) =>
           update.call((update) =>
@@ -1949,7 +1949,7 @@ function renderCombinationMatrix({
             .attr("x", (d) => xScaleTrend(d.trend))
             .attr("y", 0.5 * y_step)
             .attr("dominant-baseline", "middle")
-            .attr("font-size", "12px")
+            .attr("font-size", "9px")
             .attr("text-anchor", "middle"),
         (update) =>
           update.call((update) =>
