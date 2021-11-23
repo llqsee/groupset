@@ -11,6 +11,10 @@ Open the app at: http://localhost:3000/
 
 TODO list:
 
+- K-means
+- Traffic missing value;
+- Add between changes
+- Add sorting by degree;
 - ~~Add the second sort;~~
 - ~~Highlight the changes of trends;~~
 - ~~Add other filtering category;~~
