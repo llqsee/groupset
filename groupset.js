@@ -23,14 +23,17 @@ function ChangeParameter() {
             lineWidth: inputValue,
             secondAggeragateAttribute: secondAggeragate
                 .select("select")
-                .node().value
+                .node().value,
+            classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                ? classMethod.selectAll('input')._groups[0][1].value
+                : classMethod.selectAll('input')._groups[0][0].value
         }); // visualize the line chart
 
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: parameterSort.node().value ,
-            orderSecond:parameterSortSecond.node().value ,
+            orderCate: parameterSort.node().value,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -74,7 +77,10 @@ function ChangeParameter() {
             lineWidth: +lineWidth.select("input").node().value,
             secondAggeragateAttribute: secondAggeragate
                 .select("select")
-                .node().value
+                .node().value,
+            classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                ? classMethod.selectAll('input')._groups[0][1].value
+                : classMethod.selectAll('input')._groups[0][0].value
         });
         debugger;
         connectionLine({
@@ -89,8 +95,8 @@ function ChangeParameter() {
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: parameterSort.node().value ,
-            orderSecond:parameterSortSecond.node().value ,
+            orderCate: parameterSort.node().value,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -125,7 +131,7 @@ function ChangeParameter() {
                     node: svgMatrix.node(),
                     dataFromFuzzy: svgLine.node().parentElement.value,
                     orderCate: d.currentTarget.__data__.name,
-                    orderSecond:parameterSortSecond.node().value,
+                    orderSecond: parameterSortSecond.node().value,
                     dataset: dataset,
                     id: dataJson.id,
                     attributesCut: dataJson.temporalAttributes,
@@ -164,7 +170,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
-            orderSecond:parameterSortSecond.node().value ,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -207,7 +213,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
-            orderSecond:parameterSortSecond.node().value ,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -250,13 +256,16 @@ function ChangeParameter() {
                 lineWidth: +lineWidth.select("input").node().value,
                 secondAggeragateAttribute: secondAggeragate
                     .select("select")
-                    .node().value
+                    .node().value,
+                classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                    ? classMethod.selectAll('input')._groups[0][1].value
+                    : classMethod.selectAll('input')._groups[0][0].value
             }); // visualize the line chart
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: svgLine.node().parentElement.value[0].name,
-                orderSecond:parameterSortSecond.node().value ,
+                orderSecond: parameterSortSecond.node().value,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -280,7 +289,7 @@ function ChangeParameter() {
                 filterPara: filterElement.node().value
             }); // visualize the combination matrix
 
-            tableFun({x:dataset,rows:[dataJson.id].concat(d.currentTarget.value),node:table.node()}); // visualize the table
+            tableFun({ x: dataset, rows: [dataJson.id].concat(d.currentTarget.value), node: table.node() }); // visualize the table
         }); // when we brush
 
     svgLine.select("#cardinality-button").on("click", (d) => {
@@ -288,7 +297,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: "cardinality",
-            orderSecond:parameterSortSecond.node().value ,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -324,7 +333,7 @@ function ChangeParameter() {
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: d.currentTarget.__data__,
-                orderSecond:parameterSortSecond.node().value,
+                orderSecond: parameterSortSecond.node().value,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -358,7 +367,7 @@ function ChangeParameter() {
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: d.currentTarget.__data__.name,
-                orderSecond:parameterSortSecond.node().value ,
+                orderSecond: parameterSortSecond.node().value,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -400,14 +409,17 @@ function ChangeParameter() {
                 lineWidth: +lineWidth.select("input").node().value,
                 secondAggeragateAttribute: secondAggeragate
                     .select("select")
-                    .node().value
+                    .node().value,
+                classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                    ? classMethod.selectAll('input')._groups[0][1].value
+                    : classMethod.selectAll('input')._groups[0][0].value
             }); // visualize the line chart
 
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: svgLine.node().parentElement.value[0].name,
-                orderSecond:parameterSortSecond.node().value ,
+                orderSecond: parameterSortSecond.node().value,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -450,14 +462,17 @@ function ChangeParameter() {
                 secondAggeragateAttribute: inputValue,
                 secondAggeragateAttribute: secondAggeragate
                     .select("select")
-                    .node().value
+                    .node().value,
+                classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                    ? classMethod.selectAll('input')._groups[0][1].value
+                    : classMethod.selectAll('input')._groups[0][0].value
             }); // visualize the line chart
 
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
                 orderCate: svgLine.node().parentElement.value[0].name,
-                orderSecond:parameterSortSecond.node().value ,
+                orderSecond: parameterSortSecond.node().value,
                 dataset: dataset,
                 id: dataJson.id,
                 attributesCut: dataJson.temporalAttributes,
@@ -493,7 +508,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
-            orderSecond:parameterSortSecond.node().value ,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -524,7 +539,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
-            orderSecond:parameterSortSecond.node().value ,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -562,7 +577,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: svgLine.node().parentElement.value[0].name,
-            orderSecond:parameterSortSecond.node().value ,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -602,7 +617,10 @@ function ChangeParameter() {
             colorCategory: d.currentTarget.value,
             secondAggeragateAttribute: secondAggeragate
                 .select("select")
-                .node().value
+                .node().value,
+            classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                ? classMethod.selectAll('input')._groups[0][1].value
+                : classMethod.selectAll('input')._groups[0][0].value
         }); // visualize the line chart
         // debugger;
     })// when we change the color scales;
@@ -625,7 +643,7 @@ function ChangeParameter() {
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
             orderCate: sortValue,
-            orderSecond:parameterSortSecond.node().value ,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -653,7 +671,7 @@ function ChangeParameter() {
 
     // When we sort the subsets;
     parameterSortSecond.on('input', d => {
-   debugger;
+        debugger;
         // Define the parameters upated in this interaction, new sorting values
         var sortValue = d.currentTarget.value;
 
@@ -668,8 +686,8 @@ function ChangeParameter() {
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: parameterSort.node().value ,
-            orderSecond:sortValue,
+            orderCate: parameterSort.node().value,
+            orderSecond: sortValue,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -709,8 +727,8 @@ function ChangeParameter() {
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: parameterSort.node().value ,
-            orderSecond:parameterSortSecond.node().value ,
+            orderCate: parameterSort.node().value,
+            orderSecond: parameterSortSecond.node().value,
             dataset: dataset,
             id: dataJson.id,
             attributesCut: dataJson.temporalAttributes,
@@ -737,6 +755,63 @@ function ChangeParameter() {
             filterPara: filterElement.node().value
         });
     })  // when we change drag the diamond;
+
+    classMethod.node().addEventListener("input", (d) => {
+        debugger;
+        var clusterValue;
+        if (d3.select(d.currentTarget).selectAll("input")._groups[0][0].checked) {
+            clusterValue = d3.select(d.currentTarget).selectAll("input")._groups[0][0]
+                .value;
+        } else {
+            clusterValue = d3.select(d.currentTarget).selectAll("input")._groups[0][1]
+                .value;
+        }
+
+        LineChart({
+            data: dataset,
+            dataJson: dataJson,
+            node: svgLine.node(),
+            n: +nPara.select('input').node().value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value,
+            classMethod: clusterValue
+        }); // visualize the line chart
+
+        renderCombinationMatrix({
+            node: svgMatrix.node(),
+            dataFromFuzzy: svgLine.node().parentElement.value,
+            orderCate: parameterSort.node().value,
+            orderSecond: parameterSortSecond.node().value,
+            dataset: dataset,
+            id: dataJson.id,
+            attributesCut: dataJson.temporalAttributes,
+            // degrees: [1, 2, 3],
+            // setMember: [],
+            // probability: [],
+            dataJson: dataJson,
+            circleType: "circle",
+            type: "percentage",
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            brushedAttributes: svgLine.select("#time-brush").node().value,
+            yHeight: +setHeight.select("input").node().value,
+            lineWidth: +lineWidth.select("input").node().value,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value,
+            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                .value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value,
+            filterPara: filterElement.node().value
+        });
+
+    })
 
     nameCategory.node().addEventListener('input', d => {
         debugger;

@@ -116,7 +116,7 @@ function CalTreData({
         d.jsonTrend = JSON.stringify(d.Trend);
         return d
     });
-    if (firstAggeragateAttribute == "Category") {
+    if (firstAggeragateAttribute == "Degree") {
         var trueValue = 'jsonCate';
 
     } else if (firstAggeragateAttribute == "Trend") {
@@ -125,7 +125,7 @@ function CalTreData({
         var trueValue = firstAggeragateAttribute;
     }
 
-    if (secondAggeragateAttribute == "Category") {
+    if (secondAggeragateAttribute == "Degree") {
         var trueValue1 = 'jsonCate';
 
     } else if (secondAggeragateAttribute == "Trend") {
@@ -139,7 +139,7 @@ function CalTreData({
 
     // Add the id, name, and other attributes for each first level group;
     treeDataPlus.map((d, i) => {
-        if (firstAggeragateAttribute == "Category" || firstAggeragateAttribute == "Trend") {
+        if (firstAggeragateAttribute == "Degree" || firstAggeragateAttribute == "Trend") {
             d.value = JSON.parse(d[0])
         } else {
             d.value = d[0];
@@ -186,7 +186,7 @@ function CalTreData({
         d[1][0].id = i + "_" + d[1][0][1].length;
 
         // Calculate the value of second level
-        if (secondAggeragateAttribute == "Category" || secondAggeragateAttribute == "Trend") {
+        if (secondAggeragateAttribute == "Degree" || secondAggeragateAttribute == "Trend") {
             // d.value = JSON.parse(d[0])
             d[1].map(e => e.value = JSON.parse(e[0]));
             // d[1][0].value = JSON.parse(d[1][0][0]);

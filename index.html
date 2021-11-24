@@ -21,6 +21,8 @@
     <script type="text/javascript" src="colorscales.js"></script>
     <script type="text/javascript" src="filterFunction.js"></script>
     <script type="text/javascript" src="table.js"></script>
+    <script type="text/javascript" src="nameBrewer.js"></script>
+    <script src='https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js'></script>
 </head>
 
 <body class="group-body">
@@ -45,6 +47,13 @@
 
             <form class='parameter-name'>
                 <div style='font-weight:bold;margin-top:1em;font-size:12px'>Name of categories</div>
+            </form>
+
+            <form class='parameter-cluster'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Categorization method</div><label
+                    style='margin-top:1em;font-size:12px'><input value='automatic' name='input' style='width:10%;'
+                        type=radio checked></input>Automatic</label><label style='margin-top:1em;font-size:12px'><input
+                        value='manual' name='input' style='width:10%;' type=radio></input>Manual</label>
             </form>
 
             <form class='parameter-empty'>
@@ -154,7 +163,8 @@
             parameterSortSecond,     // the parameter sort methods for second time;
             table,               // the table node
             divLine,              // the output element of catgory data;
-            nameCategory          // the name of categories
+            nameCategory,          // the name of categories
+            classMethod         // the automatic cluster
 
         // $(document).ready(function () {
         //     $("#slider").slider({
@@ -237,7 +247,9 @@
 
         divLine = d3.select('#div-line');
 
-        nameCategory = d3.select('.parameter-name')
+        nameCategory = d3.select('.parameter-name');
+
+        classMethod = d3.select('.parameter-cluster');
 
 
 
@@ -290,7 +302,7 @@
                             .select("select")
                             .selectAll("option")
                             .data(
-                                ["Category"].concat(
+                                ["Degree"].concat(
                                     dataJson.attributes
                                         .filter((d) => d.type == "categorical")
                                         .map((d) => d.name)
@@ -337,7 +349,10 @@
                             lineWidth: +lineWidth.select("input").node().value,
                             secondAggeragateAttribute: secondAggeragate
                                 .select("select")
-                                .node().value
+                                .node().value,
+                            classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                                ? classMethod.selectAll('input')._groups[0][1].value
+                                : classMethod.selectAll('input')._groups[0][0].value
                         }); // visualize the line chart
                         // debugger;
 
@@ -397,7 +412,7 @@
                                 debugger;
                                 // dataset = e.map((e) => { e.color = get_random_color(); return e })
                                 dataset = e.map((e) => { e.color = 'black'; return e })
-                                dataset.length>500?dataset = dataset.slice(0,1000):dataset;
+                                dataset.length > 500 ? dataset = dataset.slice(0, 1000) : dataset;
                                 dataJson = dealDataJson(index, dataset);
                                 // ---------------------------------------------
                                 // Add the options for the aggregates
@@ -405,7 +420,7 @@
                                     .select("select")
                                     .selectAll("option")
                                     .data(
-                                        ["Category"].concat(
+                                        ["Degree"].concat(
                                             dataJson.attributes
                                                 .filter((d) => d.type == "categorical")
                                                 .map((d) => d.name)
@@ -462,7 +477,10 @@
                                     lineWidth: +lineWidth.select("input").node().value,
                                     secondAggeragateAttribute: secondAggeragate
                                         .select("select")
-                                        .node().value
+                                        .node().value,
+                                    classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                                        ? classMethod.selectAll('input')._groups[0][1].value
+                                        : classMethod.selectAll('input')._groups[0][0].value
                                 }); // visualize the line chart
                                 // debugger;
 

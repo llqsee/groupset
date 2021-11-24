@@ -700,7 +700,7 @@ function renderCombinationMatrix({
 
     // ------------------------------------------------
     // Visualize the name of first set if they are not category or trend
-    if (firstAggeragateAttribute != "Category" && firstAggeragateAttribute != "Trend") {
+    if (firstAggeragateAttribute != "Degree" && firstAggeragateAttribute != "Trend") {
       var textMatrix = gRect
         .selectAll("#combination-matrix")
         .data((d) => [d])
@@ -2223,7 +2223,7 @@ function renderCombinationMatrix({
 
     // -----------------------------------------------------
     // Visualize the names of sub sets
-    if (secondAggeragateAttribute != "Category"
+    if (secondAggeragateAttribute != "Degree"
       && secondAggeragateAttribute != "Trend") {
       //   groupLineText
       //   .selectAll(".name-group")

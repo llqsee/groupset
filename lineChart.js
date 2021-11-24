@@ -10,11 +10,13 @@ function LineChart({
     lineWidth, // the width of lines that we can adjust
     colorCategory,      // the color for categories;
     firstAggeragateAttribute, // the first aggeragate attribute
-    secondAggeragateAttribute // the second aggeragate attribute
+    secondAggeragateAttribute, // the second aggeragate attribute
+    classMethod            // if it is automatic method
 }) {
 
     // ---------------------------------------------------
-    // Add timeTrend for dataset;
+    // Add timeTrend for dataset and create an array for clustering;
+    var clusterArray = [];
     data.map(d => {
         d.timeTrend = [];
         var keys = brushedAttributes;;
@@ -53,6 +55,11 @@ function LineChart({
                     // d.Trend["stable"] = d.Trend["stable"] + 1;
                     d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable' })
                 }
+            }
+        }
+        if (classMethod == 'automatic') {
+            for (var n = 0; n < brushedAttributes.length; n++) {
+                clusterArray.push(d[brushedAttributes[n]]);
             }
         }
     })
@@ -359,41 +366,17 @@ function LineChart({
     // create the category data like 'high', 'middle' and 'low';
     debugger;
     if (node.parentElement.value == null) {
-        if (dataJson.config.length == 0) {
-            // var min = dataJson.min,
-            //     max = dataJson.max,
-            var step = (max - min) / +n;
-            if (n == 2) {
-                var categoryData = [
-                    { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                    { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" }
-                    // { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
-                    // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
-                ];
-            } else if (n == 3) {
-                var categoryData = [
-                    { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                    { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
-                    { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" }
-                    // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
-                ];
-            } else {
-                var categoryData = [
-                    { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                    { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
-                    { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
-                    {
-                        edgeMin: min + step * 3,
-                        edgeMax: min + step * 4,
-                        name: "Very high"
-                    }
-                ];
+        if (classMethod == 'automatic') {
+            var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
+            var categoryData = [];
+            for (var i=0; i<n; i++) {
+                categoryData.push({
+                    edgeMin: +resultCluster[i][0]
+                    , edgeMax: +resultCluster[i][resultCluster[i].length-1]
+                    , name: nameBrewer[n][i]
+                })
             }
         } else {
-            var categoryData = dataJson.config.filter((d) => d.n == n)[0].category;
-        }
-    } else {
-        if (n != node.parentElement.value.length) {
             if (dataJson.config.length == 0) {
                 // var min = dataJson.min,
                 //     max = dataJson.max,
@@ -408,22 +391,14 @@ function LineChart({
                 } else if (n == 3) {
                     var categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                        {
-                            edgeMin: min + step * 1,
-                            edgeMax: min + step * 2,
-                            name: "Middle"
-                        },
+                        { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
                         { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" }
                         // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                     ];
                 } else {
                     var categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                        {
-                            edgeMin: min + step * 1,
-                            edgeMax: min + step * 2,
-                            name: "Middle"
-                        },
+                        { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
                         { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                         {
                             edgeMin: min + step * 3,
@@ -435,11 +410,69 @@ function LineChart({
             } else {
                 var categoryData = dataJson.config.filter((d) => d.n == n)[0].category;
             }
+        }
+
+    } else {
+        if (n != node.parentElement.value.length || (n == node.parentElement.value.length && classMethod != node.parentElement.value.clusterName)) {
+            if (classMethod == 'automatic') {
+                var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
+                var categoryData = [];
+                for (var i=0; i<n; i++) {
+                    categoryData.push({
+                        edgeMin: +resultCluster[i][0]
+                        , edgeMax: +resultCluster[i][resultCluster[i].length-1]
+                        , name: nameBrewer[n][i]
+                    })
+                }
+            } else {
+                if (dataJson.config.length == 0) {
+                    // var min = dataJson.min,
+                    //     max = dataJson.max,
+                    var step = (max - min) / +n;
+                    if (n == 2) {
+                        var categoryData = [
+                            { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
+                            { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" }
+                            // { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
+                            // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
+                        ];
+                    } else if (n == 3) {
+                        var categoryData = [
+                            { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
+                            {
+                                edgeMin: min + step * 1,
+                                edgeMax: min + step * 2,
+                                name: "Middle"
+                            },
+                            { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" }
+                            // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
+                        ];
+                    } else {
+                        var categoryData = [
+                            { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
+                            {
+                                edgeMin: min + step * 1,
+                                edgeMax: min + step * 2,
+                                name: "Middle"
+                            },
+                            { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
+                            {
+                                edgeMin: min + step * 3,
+                                edgeMax: min + step * 4,
+                                name: "Very high"
+                            }
+                        ];
+                    }
+                } else {
+                    var categoryData = dataJson.config.filter((d) => d.n == n)[0].category;
+                }
+            }
+
         } else {
             var categoryData = node.parentElement.value;
         }
     }
-
+    categoryData.clusterName = classMethod;
     node.parentElement.value = categoryData;
     node.parentElement.dispatchEvent(new CustomEvent("input"));   // give the parentElement a value
 
@@ -911,7 +944,7 @@ function LineChart({
             nameNode.dispatchEvent(new CustomEvent('input'));
             node.parentElement.dispatchEvent(new CustomEvent('input'));
         }) // add the input
-
+    categoryData.clusterName = classMethod;
     nameNode.value = categoryData;
     nameNode.dispatchEvent(new CustomEvent('input'));
 
