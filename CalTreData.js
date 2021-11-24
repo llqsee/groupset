@@ -43,6 +43,7 @@ function CalTreData({
         d.Trend = dataForTrend;
         for (var n = 0; n < keys.length - 1; n++) {
             var value1 = dataFromFuzzy.find(e => e.edgeMin<=d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
+            if(dataFromFuzzy.find(e => e.edgeMin<=d[keys[n+1]] && e.edgeMax >= d[keys[n+1]]) == undefined) debugger;
             var value2 = dataFromFuzzy.find(e => e.edgeMin<=d[keys[n+1]] && e.edgeMax >= d[keys[n+1]]).name;
             if (dataJson.rank == "yes") {
                 if (

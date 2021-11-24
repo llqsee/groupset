@@ -345,7 +345,7 @@ function LineChart({
                 if (n == 2) {
                     var categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                        { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" }
+                        { edgeMin: min + step * 1, edgeMax: max, name: "Middle" }
                         // { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                         // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                     ];
@@ -353,7 +353,7 @@ function LineChart({
                     var categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
                         { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
-                        { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" }
+                        { edgeMin: min + step * 2, edgeMax: max, name: "High" }
                         // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                     ];
                 } else {
@@ -363,7 +363,7 @@ function LineChart({
                         { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                         {
                             edgeMin: min + step * 3,
-                            edgeMax: min + step * 4,
+                            edgeMax: max,
                             name: "Very high"
                         }
                     ];
@@ -393,7 +393,7 @@ function LineChart({
                     if (n == 2) {
                         var categoryData = [
                             { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                            { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" }
+                            { edgeMin: min + step * 1, edgeMax: max, name: "Middle" }
                             // { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                             // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                         ];
@@ -405,7 +405,7 @@ function LineChart({
                                 edgeMax: min + step * 2,
                                 name: "Middle"
                             },
-                            { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" }
+                            { edgeMin: min + step * 2, edgeMax: max, name: "High" }
                             // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                         ];
                     } else {
@@ -419,7 +419,7 @@ function LineChart({
                             { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                             {
                                 edgeMin: min + step * 3,
-                                edgeMax: min + step * 4,
+                                edgeMax: max,
                                 name: "Very high"
                             }
                         ];
@@ -445,6 +445,7 @@ function LineChart({
         var keys = brushedAttributes;;
         for (var n = 0; n < brushedAttributes.length - 1; n++) {
             var value1 = categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
+            if(categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]) == undefined) debugger;
             var value2 = categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]).name;
             if (dataJson.rank == "yes") {
                 if (
