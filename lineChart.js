@@ -537,252 +537,255 @@ function LineChart({
 
     // -------------------------------------------------------------
     // Visualize the distribution in the brushed area and the jump distribution;
-    var data4Dis = [];
-    var data4Jump = [];
-    var jumpCategory = [];    // get all the possible values for jumpCategory
-    for (var i = 0; i < categoryData.length - 1; i++) {
-        for (var j = i + 1; j < categoryData.length; j++) {
-            jumpCategory.push(categoryData[i].name + '-' + categoryData[j].name)
-            jumpCategory.push(categoryData[j].name + '-' + categoryData[i].name)
+    renderDis();
+    function renderDis() {
+        var data4Dis = [];
+        var data4Jump = [];
+        var jumpCategory = [];    // get all the possible values for jumpCategory
+        for (var i = 0; i < categoryData.length - 1; i++) {
+            for (var j = i + 1; j < categoryData.length; j++) {
+                jumpCategory.push(categoryData[i].name + '-' + categoryData[j].name)
+                jumpCategory.push(categoryData[j].name + '-' + categoryData[i].name)
+            }
+        }    // get the jumpCategory  ['m-h','h-m'];
+
+        dataJson.temporalAttributes.map(d => {
+            var e = {};
+            e.name = d;
+            var g = {};
+            g.name = d
+            // categoryData.map(f => e[f.name] = []);
+            categoryData.map(f => e[f.name] = []);
+            jumpCategory.map(f => g[f] = 0)
+            data4Dis.push(e);
+            data4Jump.push(g)
+            // data4Jump.push(e);
+            return e;
+        })    // init the data4Dis and data4Jump
+
+
+        dataset.map(d => {
+            dataJson.temporalAttributes.map(e => {
+                var category = categoryData.find((f, i) => i < (categoryData.length - 1)
+                    ? +d[e] >= +f.edgeMin && +d[e] < +f.edgeMax : +d[e] > +f.edgeMin)
+                if (category != null) {
+                    // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
+                    data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
+                }
+                if (d.timeTrend.find(f => f.name == e) != undefined) {
+                    var value = d.timeTrend.find(f => f.name == e).jumpValue   // get the value of jump category
+                    // if (data4Jump.find(f => f.name == e)[value] != undefined) {
+                    data4Jump.find(f => f.name == e)[value]
+                        = +data4Jump.find(f => f.name == e)[value] + 1  // add the value into data4Jump
+                    // }
+
+                }
+
+            })
+        })    // Add the values into data4Dis and data4Jump;
+        debugger;
+        var stack = d3.stack().keys(categoryData.map(d => d.name))
+            .value((data, key) => data[key])  // create the stack generator
+
+        var stackJump = d3.stack().keys(jumpCategory.map(d => d))
+            .value((data, key) => data[key])  // create the stack generator for jump category;
+        // .order(d3.stackOrderAscending)
+        // .offset(d3.stackOffsetNone);
+
+        var distributionData = stack(data4Dis)
+        var jumpDistributionData = stackJump(data4Jump);  // create the stack data for jump;
+        //  .value((data4Dis, key) => data4Dis[key])
+        distributionData.map((d, i) => {
+
+            if (distributionData.length == 2) {
+                if (colorCategory == null) {
+                    d.color = colorbrewer.Greys[3][i]
+                } else {
+                    d.color = colorbrewer[colorCategory][3][i];
+                }
+            } else {
+                if (colorCategory == null) {
+                    d.color = colorbrewer.Greys[distributionData.length][i]
+                } else {
+                    d.color = colorbrewer[colorCategory][distributionData.length][i]
+                }
+            }
+
+            return d
+            // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
+        })   // add the color for each distribution data;
+
+        jumpDistributionData.map((d, i) => {
+            if (distributionData.length == 2) {
+                d.color = colorbrewer.Paired[3][i]
+            } else {
+                d.color = colorbrewer.Paired[jumpDistributionData.length][i]
+            }
+
+            return d
+        })   // add the color for jump distribution data;
+        debugger;
+        if (distributionData.length == 2) {
+            var jumpColorScale = d3.scaleOrdinal()
+                .domain(jumpCategory)
+                .range(colorbrewer.Paired[3]);// create the colorscale for jumpdistribution;
+
+        } else {
+            var jumpColorScale = d3.scaleOrdinal()
+                .domain(jumpCategory)
+                .range(colorbrewer.Paired[jumpDistributionData.length]);// create the colorscale for jumpdistribution;
+
         }
-    }    // get the jumpCategory  ['m-h','h-m'];
 
-    dataJson.temporalAttributes.map(d => {
-        var e = {};
-        e.name = d;
-        var g = {};
-        g.name = d
-        // categoryData.map(f => e[f.name] = []);
-        categoryData.map(f => e[f.name] = []);
-        jumpCategory.map(f => g[f] = 0)
-        data4Dis.push(e);
-        data4Jump.push(g)
-        // data4Jump.push(e);
-        return e;
-    })    // init the data4Dis and data4Jump
+        var legendStep = heightDistribution / distributionData.length;// the step of legend
+        var legendJumpStep = heightDistribution / 3;// the step of legend
 
+        var jumpLegendYScale = d3.scalePoint()
+            .domain(jumpCategory)
+            .range([heightLine + heightDistribution + heightBrush
+                , heightLine + heightDistribution + heightBrush
+            - jumpDistributionData.length * legendJumpStep]) // the jump legend y scale;
 
-    dataset.map(d => {
-        dataJson.temporalAttributes.map(e => {
-            var category = categoryData.find((f, i) => i < (categoryData.length - 1)
-                ? +d[e] >= +f.edgeMin && +d[e] < +f.edgeMax : +d[e] > +f.edgeMin)
-            if (category != null) {
-                // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
-                data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
+        var xBrush = d3
+            .scalePoint()
+            .range([margin.left + widthTrend, width - margin.right - widthAttribute])
+            .domain(dataJson.temporalAttributes); // create the scale for the brush
+
+        var yBrush = d3.scaleLinear().domain([0, dataset.length])
+            .range([heightLine + heightDistribution, heightLine]);
+
+        if (d3.select(node).select('#distribution').node() == null) {
+            d3.select(node).append('g').attr('id', 'distribution')
+        }
+
+        function get_random_color() {
+            var color = "";
+            for (var i = 0; i < 3; i++) {
+                var sub = Math.floor(Math.random() * 256).toString(16);
+                color += sub.length == 1 ? "0" + sub : sub;
             }
-            if (d.timeTrend.find(f => f.name == e) != undefined) {
-                var value = d.timeTrend.find(f => f.name == e).jumpValue   // get the value of jump category
-                // if (data4Jump.find(f => f.name == e)[value] != undefined) {
-                data4Jump.find(f => f.name == e)[value]
-                    = +data4Jump.find(f => f.name == e)[value] + 1  // add the value into data4Jump
-                // }
+            return "#" + color;
+        }
+        var widthBar = d3.min([xBrush.step(), 20])
+        d3.select(node)
+            .select('#distribution')
+            .selectAll('.distribution-group')
+            .data(distributionData)
+            .join('g')
+            // .attr('opacity', 0.4)
+            .attr('fill', d => d.color)
+            .attr('class', 'distribution-group')
+            .selectAll('rect')
+            .data(d => d)
+            .join('rect')
+            .attr('stroke-width', 0)
+            .attr('x', d => xBrush(d.data.name) - widthBar / 2)
+            .attr('width', widthBar / 2)
+            .attr('y', d => yBrush(d[1]))
+            .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the distirbution 
 
+        d3.select(node)
+            .select('#distribution')
+            .selectAll('.jumpdistribution-group')
+            .data(jumpDistributionData)
+            .join('g')
+            .attr('fill', d => d.color)
+            .attr('class', 'jumpdistribution-group')
+            .selectAll('rect')
+            .data(d => d)
+            .join('rect')
+            .attr('stroke-width', 0)
+            .attr('x', d => xBrush(d.data.name))
+            .attr('y', d => yBrush(d[1]))
+            .attr('width', widthBar / 2)
+            .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the jump distribution;
+
+        d3.select(node)
+            .select("#distribution")
+            .selectAll('.jump-legend')
+            .data(jumpCategory)
+            .join('g')
+            .attr('class', 'jump-legend')
+            .selectAll('rect')
+            .data(d => [d])
+            .join('rect')
+            .attr('x', d => width - legendJumpStep)
+            .attr('y', d => jumpLegendYScale(d) - legendJumpStep * 0.4)
+            .attr('width', legendJumpStep * 0.8)
+            .attr('height', legendJumpStep * 0.8)
+            .attr('stroke-width', 0)
+            .attr('fill', d => jumpColorScale(d)) // visualize the jump category legend
+
+
+        d3.select(node)
+            .select('#distribution')
+            .selectAll('.jump-legend')
+            .data(jumpCategory)
+            .join('g')
+            .attr('class', 'jump-legend')
+            .selectAll('text')
+            .data(d => [d])
+            .join('text')
+            .attr('x', d => width - legendJumpStep - 5)
+            .attr('y', d => jumpLegendYScale(d))
+            .text(d => d)
+            .style('font-size', '10px')
+            .attr('dominant-baseline', 'middle')
+            .attr('text-anchor', 'end')    // visualize the text of jump category legend
+
+        var legendData = categoryData.map((d, i) => {
+            var e = {};
+            e.value = d.name;
+            e.index = i;
+            if (distributionData.length == 2) {
+                if (colorCategory == null) {
+                    e.color = colorbrewer.Greys[3][i]
+                } else {
+                    e.color = colorbrewer[colorCategory][3][i];
+                }
+            } else {
+                if (colorCategory == null) {
+                    e.color = colorbrewer.Greys[distributionData.length][i]
+                } else {
+                    e.color = colorbrewer[colorCategory][distributionData.length][i]
+                }
             }
-
+            return e
         })
-    })    // Add the values into data4Dis and data4Jump;
-    debugger;
-    var stack = d3.stack().keys(categoryData.map(d => d.name))
-        .value((data, key) => data[key])  // create the stack generator
+        var widthLegend = d3.min([legendStep * 0.8, 20]);
+        d3.select(node)
+            .select("#distribution")
+            .selectAll('.legend')
+            .data(legendData)
+            .join('g')
+            .attr('class', 'legend')
+            .selectAll('rect')
+            .data(d => [d])
+            .join('rect')
+            .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 30)
+            .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index))
+            .attr('width', widthLegend)
+            .attr('height', widthLegend)
+            .attr('stroke-width', 0)
+            .attr('fill', d => d.color) // visualize the legend
 
-    var stackJump = d3.stack().keys(jumpCategory.map(d => d))
-        .value((data, key) => data[key])  // create the stack generator for jump category;
-    // .order(d3.stackOrderAscending)
-    // .offset(d3.stackOffsetNone);
-
-    var distributionData = stack(data4Dis)
-    var jumpDistributionData = stackJump(data4Jump);  // create the stack data for jump;
-    //  .value((data4Dis, key) => data4Dis[key])
-    distributionData.map((d, i) => {
-
-        if (distributionData.length == 2) {
-            if (colorCategory == null) {
-                d.color = colorbrewer.Greys[3][i]
-            } else {
-                d.color = colorbrewer[colorCategory][3][i];
-            }
-        } else {
-            if (colorCategory == null) {
-                d.color = colorbrewer.Greys[distributionData.length][i]
-            } else {
-                d.color = colorbrewer[colorCategory][distributionData.length][i]
-            }
-        }
-
-        return d
-        // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
-    })   // add the color for each distribution data;
-
-    jumpDistributionData.map((d, i) => {
-        if (distributionData.length == 2) {
-            d.color = colorbrewer.Paired[3][i]
-        } else {
-            d.color = colorbrewer.Paired[jumpDistributionData.length][i]
-        }
-
-        return d
-    })   // add the color for jump distribution data;
-    debugger;
-    if (distributionData.length == 2) {
-        var jumpColorScale = d3.scaleOrdinal()
-            .domain(jumpCategory)
-            .range(colorbrewer.Paired[3]);// create the colorscale for jumpdistribution;
-
-    } else {
-        var jumpColorScale = d3.scaleOrdinal()
-            .domain(jumpCategory)
-            .range(colorbrewer.Paired[jumpDistributionData.length]);// create the colorscale for jumpdistribution;
-
+        d3.select(node)
+            .select("#distribution")
+            .selectAll('.legend')
+            .data(legendData)
+            .join('g')
+            .attr('class', 'legend')
+            .selectAll('text')
+            .data(d => [d])
+            .join('text')
+            .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
+            .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index) + widthLegend / 2)
+            .attr('font-size', '12px')
+            .attr('dominant-baseline', 'middle')
+            .attr('text-anchor', 'end')
+            .text(d => d.value)   // visualize the text of legend;
     }
-
-    var legendStep = heightDistribution / distributionData.length;// the step of legend
-    var legendJumpStep = heightDistribution / 3;// the step of legend
-
-    var jumpLegendYScale = d3.scalePoint()
-        .domain(jumpCategory)
-        .range([heightLine + heightDistribution + heightBrush
-            , heightLine + heightDistribution + heightBrush
-        - jumpDistributionData.length * legendJumpStep]) // the jump legend y scale;
-
-    var xBrush = d3
-        .scalePoint()
-        .range([margin.left + widthTrend, width - margin.right - widthAttribute])
-        .domain(dataJson.temporalAttributes); // create the scale for the brush
-
-    var yBrush = d3.scaleLinear().domain([0, dataset.length])
-        .range([heightLine + heightDistribution, heightLine]);
-
-    if (d3.select(node).select('#distribution').node() == null) {
-        d3.select(node).append('g').attr('id', 'distribution')
-    }
-
-    function get_random_color() {
-        var color = "";
-        for (var i = 0; i < 3; i++) {
-            var sub = Math.floor(Math.random() * 256).toString(16);
-            color += sub.length == 1 ? "0" + sub : sub;
-        }
-        return "#" + color;
-    }
-    var widthBar = d3.min([xBrush.step(), 20])
-    d3.select(node)
-        .select('#distribution')
-        .selectAll('.distribution-group')
-        .data(distributionData)
-        .join('g')
-        // .attr('opacity', 0.4)
-        .attr('fill', d => d.color)
-        .attr('class', 'distribution-group')
-        .selectAll('rect')
-        .data(d => d)
-        .join('rect')
-        .attr('stroke-width', 0)
-        .attr('x', d => xBrush(d.data.name) - widthBar / 2)
-        .attr('width', widthBar / 2)
-        .attr('y', d => yBrush(d[1]))
-        .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the distirbution 
-
-    d3.select(node)
-        .select('#distribution')
-        .selectAll('.jumpdistribution-group')
-        .data(jumpDistributionData)
-        .join('g')
-        .attr('fill', d => d.color)
-        .attr('class', 'jumpdistribution-group')
-        .selectAll('rect')
-        .data(d => d)
-        .join('rect')
-        .attr('stroke-width', 0)
-        .attr('x', d => xBrush(d.data.name))
-        .attr('y', d => yBrush(d[1]))
-        .attr('width', widthBar / 2)
-        .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the jump distribution;
-
-    d3.select(node)
-        .select("#distribution")
-        .selectAll('.jump-legend')
-        .data(jumpCategory)
-        .join('g')
-        .attr('class', 'jump-legend')
-        .selectAll('rect')
-        .data(d => [d])
-        .join('rect')
-        .attr('x', d => width - legendJumpStep)
-        .attr('y', d => jumpLegendYScale(d) - legendJumpStep * 0.4)
-        .attr('width', legendJumpStep * 0.8)
-        .attr('height', legendJumpStep * 0.8)
-        .attr('stroke-width', 0)
-        .attr('fill', d => jumpColorScale(d)) // visualize the jump category legend
-
-
-    d3.select(node)
-        .select('#distribution')
-        .selectAll('.jump-legend')
-        .data(jumpCategory)
-        .join('g')
-        .attr('class', 'jump-legend')
-        .selectAll('text')
-        .data(d => [d])
-        .join('text')
-        .attr('x', d => width - legendJumpStep - 5)
-        .attr('y', d => jumpLegendYScale(d))
-        .text(d => d)
-        .style('font-size', '10px')
-        .attr('dominant-baseline', 'middle')
-        .attr('text-anchor', 'end')    // visualize the text of jump category legend
-
-    var legendData = categoryData.map((d, i) => {
-        var e = {};
-        e.value = d.name;
-        e.index = i;
-        if (distributionData.length == 2) {
-            if (colorCategory == null) {
-                e.color = colorbrewer.Greys[3][i]
-            } else {
-                e.color = colorbrewer[colorCategory][3][i];
-            }
-        } else {
-            if (colorCategory == null) {
-                e.color = colorbrewer.Greys[distributionData.length][i]
-            } else {
-                e.color = colorbrewer[colorCategory][distributionData.length][i]
-            }
-        }
-        return e
-    })
-    var widthLegend = d3.min([legendStep * 0.8, 20]);
-    d3.select(node)
-        .select("#distribution")
-        .selectAll('.legend')
-        .data(legendData)
-        .join('g')
-        .attr('class', 'legend')
-        .selectAll('rect')
-        .data(d => [d])
-        .join('rect')
-        .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 30)
-        .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index))
-        .attr('width', widthLegend)
-        .attr('height', widthLegend)
-        .attr('stroke-width', 0)
-        .attr('fill', d => d.color) // visualize the legend
-
-    d3.select(node)
-        .select("#distribution")
-        .selectAll('.legend')
-        .data(legendData)
-        .join('g')
-        .attr('class', 'legend')
-        .selectAll('text')
-        .data(d => [d])
-        .join('text')
-        .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
-        .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index) + widthLegend / 2)
-        .attr('font-size', '12px')
-        .attr('dominant-baseline', 'middle')
-        .attr('text-anchor', 'end')
-        .text(d => d.value)   // visualize the text of legend;
-
+    // --------------------------------------------------------------------------------
 
     // -------------------------------------------------------------
     // Add category lines (the lines to display the categories' range)
@@ -934,126 +937,8 @@ function LineChart({
             AddFilterPanel(node.parentElement.value, node, brushedAttributes);  // re-visualize the filter node
 
             // ----------------------------------------------
-            // re-visualize the distribution
-            var categoryData = node.parentElement.value;
-            var data4Dis = [];
-            dataJson.temporalAttributes.map(d => {
-                var e = {};
-                e.name = d;
-                // categoryData.map(f => e[f.name] = []);
-                categoryData.map(f => e[f.name] = []);
-                data4Dis.push(e);
-                return e;
-            })            // init the data4Dis
-
-
-            dataset.map(d => {
-                dataJson.temporalAttributes.map(e => {
-                    var category = categoryData.find((f, i) => i < (categoryData.length - 1)
-                        ? +d[e] >= +f.edgeMin && +d[e] < +f.edgeMax : +d[e] > +f.edgeMin)
-                    if (category != null) {
-                        // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
-                        data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
-                    }
-
-                })
-            })    // Add the values into data4Dis;
-
-            var stack = d3.stack().keys(categoryData.map(d => d.name))
-                .value((data, key) => data[key])
-            // .order(d3.stackOrderAscending)
-            // .offset(d3.stackOffsetNone);
-
-            var distributionData = stack(data4Dis)
-            //  .value((data4Dis, key) => data4Dis[key])
-            distributionData.map((d, i) => {
-
-                if (distributionData.length == 2) {
-                    if (colorCategory == null) {
-                        d.color = colorbrewer.YlGn[3][i]
-                    } else {
-                        d.color = colorbrewer[colorCategory][3][i];
-                    }
-                } else {
-                    if (colorCategory == null) {
-                        d.color = colorbrewer.YlGn[distributionData.length][i]
-                    } else {
-                        d.color = colorbrewer[colorCategory][distributionData.length][i]
-                    }
-                }
-
-                return d
-                // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
-            })
-
-            d3.select(node)
-                .select('#distribution')
-                .selectAll('.distribution-group')
-                .data(distributionData)
-                .join('g')
-                // .attr('opacity', 0.4)
-                .attr('fill', d => d.color)
-                .attr('class', 'distribution-group')
-                .selectAll('rect')
-                .data(d => d)
-                .join('rect')
-                .attr('stroke-width', 0)
-                .attr('x', d => xBrush(d.data.name) - widthBar / 2)
-                .attr('width', widthBar)
-                .attr('y', d => yBrush(d[1]))
-                .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
-            var legendStep = heightDistribution / distributionData.length;
-            var legendData = categoryData.map((d, i) => {
-                var e = {};
-                e.value = d.name;
-                e.index = i;
-                if (distributionData.length == 2) {
-                    if (colorCategory == null) {
-                        e.color = colorbrewer.YlGn[3][i]
-                    } else {
-                        e.color = colorbrewer[colorCategory][3][i];
-                    }
-                } else {
-                    if (colorCategory == null) {
-                        e.color = colorbrewer.YlGn[distributionData.length][i]
-                    } else {
-                        e.color = colorbrewer[colorCategory][distributionData.length][i]
-                    }
-                }
-                return e
-            })
-            var widthLegend = d3.min([legendStep * 0.8, 20]);
-            d3.select(node)
-                .select("#distribution")
-                .selectAll('.legend')
-                .data(legendData)
-                .join('g')
-                .attr('class', 'legend')
-                .selectAll('rect')
-                .data(d => [d])
-                .join('rect')
-                .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 30)
-                .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index))
-                .attr('width', widthLegend)
-                .attr('height', widthLegend)
-                .attr('stroke-width', 0)
-                .attr('fill', d => d.color) // visualize the legend
-
-            d3.select(node)
-                .select("#distribution")
-                .selectAll('.legend')
-                .data(legendData)
-                .join('g')
-                .attr('class', 'legend')
-                .selectAll('text')
-                .data(d => [d])
-                .join('text')
-                .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
-                .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index) + widthLegend / 2)
-                .attr('font-size', '12px')
-                .attr('dominant-baseline', 'middle')
-                .attr('text-anchor', 'end')
-                .text(d => d.value)   // visualize the text of legend;
+            // re-visualize the distribution and jump distribution;
+            renderDis();
             // ------------------------------------------------
 
             nameNode.dispatchEvent(new CustomEvent('input'));
