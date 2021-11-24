@@ -13,7 +13,7 @@ TODO list:
 
 - ~~K-means~~
 - Traffic missing value;
-- Add between changes
+- ~~Add between changes;~~
 - ~~Add sorting by degree;~~
 - ~~Add the second sort;~~
 - ~~Highlight the changes of trends;~~

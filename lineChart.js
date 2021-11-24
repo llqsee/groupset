@@ -15,48 +15,9 @@ function LineChart({
 }) {
 
     // ---------------------------------------------------
-    // Add timeTrend for dataset and create an array for clustering;
+    // Create an array for clustering;
     var clusterArray = [];
     data.map(d => {
-        d.timeTrend = [];
-        var keys = brushedAttributes;;
-        for (var n = 0; n < brushedAttributes.length - 1; n++) {
-            if (dataJson.rank == "yes") {
-                if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
-                    -0.02
-                ) {
-                    // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up' })
-                } else if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
-                    0.02
-                ) {
-                    // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down' })
-                } else {
-                    // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable' })
-                }
-            } else {
-                if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
-                    0.02
-                ) {
-                    // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up' })
-                } else if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
-                    -0.02
-                ) {
-                    // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down' })
-                } else {
-                    // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable' })
-                }
-            }
-        }
         if (classMethod == 'automatic') {
             for (var n = 0; n < brushedAttributes.length; n++) {
                 clusterArray.push(d[brushedAttributes[n]]);
@@ -369,10 +330,10 @@ function LineChart({
         if (classMethod == 'automatic') {
             var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
             var categoryData = [];
-            for (var i=0; i<n; i++) {
+            for (var i = 0; i < n; i++) {
                 categoryData.push({
                     edgeMin: +resultCluster[i][0]
-                    , edgeMax: +resultCluster[i][resultCluster[i].length-1]
+                    , edgeMax: +resultCluster[i][resultCluster[i].length - 1]
                     , name: nameBrewer[n][i]
                 })
             }
@@ -417,10 +378,10 @@ function LineChart({
             if (classMethod == 'automatic') {
                 var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
                 var categoryData = [];
-                for (var i=0; i<n; i++) {
+                for (var i = 0; i < n; i++) {
                     categoryData.push({
                         edgeMin: +resultCluster[i][0]
-                        , edgeMax: +resultCluster[i][resultCluster[i].length-1]
+                        , edgeMax: +resultCluster[i][resultCluster[i].length - 1]
                         , name: nameBrewer[n][i]
                     })
                 }
@@ -476,6 +437,54 @@ function LineChart({
     node.parentElement.value = categoryData;
     node.parentElement.dispatchEvent(new CustomEvent("input"));   // give the parentElement a value
 
+
+    // ---------------------------------------------------
+    // Add timeTrend for dataset;
+    data.map(d => {
+        d.timeTrend = [];
+        var keys = brushedAttributes;;
+        for (var n = 0; n < brushedAttributes.length - 1; n++) {
+            var value1 = categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
+            var value2 = categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]).name;
+            if (dataJson.rank == "yes") {
+                if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+                    -0.02
+                ) {
+                    // d.Trend["up"] = d.Trend["up"] + 1;
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: value1 + '-' + value2 })
+                } else if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+                    0.02
+                ) {
+                    // d.Trend["down"] = d.Trend["down"] + 1;
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: value1 + '-' + value2 })
+                } else {
+                    // d.Trend["stable"] = d.Trend["stable"] + 1;
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: value1 + '-' + value2 })
+                }
+            } else {
+                if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+                    0.02
+                ) {
+                    // d.Trend["up"] = d.Trend["up"] + 1;
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: value1 + '-' + value2 })
+                } else if (
+                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+                    -0.02
+                ) {
+                    // d.Trend["down"] = d.Trend["down"] + 1;
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: value1 + '-' + value2 })
+                } else {
+                    // d.Trend["stable"] = d.Trend["stable"] + 1;
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: value1 + '-' + value2 })
+                }
+            }
+        };
+    })
+
+
     // ----------------------------------------------
     // Add the filter selection and input
     AddFilterPanel(categoryData, node, brushedAttributes);
@@ -493,7 +502,7 @@ function LineChart({
     debugger;
     parameterSort.selectAll('option').data(
         ['cardinality', 'up', 'down', 'stable'].concat(
-            categoryData.map(d => 'degree-'+d.name))
+            categoryData.map(d => 'degree-' + d.name))
     )
         .join('option')
         .attr('value', d => d)
@@ -502,7 +511,7 @@ function LineChart({
 
     parameterSortSecond.selectAll('option').data(
         ['cardinality', 'up', 'down', 'stable'].concat(
-            categoryData.map(d => 'degree-'+d.name))
+            categoryData.map(d => 'degree-' + d.name))
     )
         .join('option')
         .attr('value', d => d)
@@ -527,16 +536,30 @@ function LineChart({
     d3.select(node).select('#vertical-line-global').lower();    // put the vertical rects in the background
 
     // -------------------------------------------------------------
-    // Visualize the distribution in the brushed area
+    // Visualize the distribution in the brushed area and the jump distribution;
     var data4Dis = [];
+    var data4Jump = [];
+    var jumpCategory = [];    // get all the possible values for jumpCategory
+    for (var i = 0; i < categoryData.length - 1; i++) {
+        for (var j = i + 1; j < categoryData.length; j++) {
+            jumpCategory.push(categoryData[i].name + '-' + categoryData[j].name)
+            jumpCategory.push(categoryData[j].name + '-' + categoryData[i].name)
+        }
+    }    // get the jumpCategory  ['m-h','h-m'];
+
     dataJson.temporalAttributes.map(d => {
         var e = {};
         e.name = d;
+        var g = {};
+        g.name = d
         // categoryData.map(f => e[f.name] = []);
         categoryData.map(f => e[f.name] = []);
+        jumpCategory.map(f => g[f] = 0)
         data4Dis.push(e);
+        data4Jump.push(g)
+        // data4Jump.push(e);
         return e;
-    })            // init the data4Dis
+    })    // init the data4Dis and data4Jump
 
 
     dataset.map(d => {
@@ -547,28 +570,40 @@ function LineChart({
                 // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
                 data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
             }
+            if (d.timeTrend.find(f => f.name == e) != undefined) {
+                var value = d.timeTrend.find(f => f.name == e).jumpValue   // get the value of jump category
+                // if (data4Jump.find(f => f.name == e)[value] != undefined) {
+                data4Jump.find(f => f.name == e)[value]
+                    = +data4Jump.find(f => f.name == e)[value] + 1  // add the value into data4Jump
+                // }
+
+            }
 
         })
-    })    // Add the values into data4Dis;
-
+    })    // Add the values into data4Dis and data4Jump;
+    debugger;
     var stack = d3.stack().keys(categoryData.map(d => d.name))
-        .value((data, key) => data[key])
+        .value((data, key) => data[key])  // create the stack generator
+
+    var stackJump = d3.stack().keys(jumpCategory.map(d => d))
+        .value((data, key) => data[key])  // create the stack generator for jump category;
     // .order(d3.stackOrderAscending)
     // .offset(d3.stackOffsetNone);
 
     var distributionData = stack(data4Dis)
+    var jumpDistributionData = stackJump(data4Jump);  // create the stack data for jump;
     //  .value((data4Dis, key) => data4Dis[key])
     distributionData.map((d, i) => {
 
         if (distributionData.length == 2) {
             if (colorCategory == null) {
-                d.color = colorbrewer.YlGn[3][i]
+                d.color = colorbrewer.Greys[3][i]
             } else {
                 d.color = colorbrewer[colorCategory][3][i];
             }
         } else {
             if (colorCategory == null) {
-                d.color = colorbrewer.YlGn[distributionData.length][i]
+                d.color = colorbrewer.Greys[distributionData.length][i]
             } else {
                 d.color = colorbrewer[colorCategory][distributionData.length][i]
             }
@@ -576,7 +611,39 @@ function LineChart({
 
         return d
         // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
-    })
+    })   // add the color for each distribution data;
+
+    jumpDistributionData.map((d, i) => {
+        if (distributionData.length == 2) {
+            d.color = colorbrewer.Paired[3][i]
+        } else {
+            d.color = colorbrewer.Paired[jumpDistributionData.length][i]
+        }
+
+        return d
+    })   // add the color for jump distribution data;
+    debugger;
+    if (distributionData.length == 2) {
+        var jumpColorScale = d3.scaleOrdinal()
+            .domain(jumpCategory)
+            .range(colorbrewer.Paired[3]);// create the colorscale for jumpdistribution;
+
+    } else {
+        var jumpColorScale = d3.scaleOrdinal()
+            .domain(jumpCategory)
+            .range(colorbrewer.Paired[jumpDistributionData.length]);// create the colorscale for jumpdistribution;
+
+    }
+
+    var legendStep = heightDistribution / distributionData.length;// the step of legend
+    var legendJumpStep = heightDistribution / 3;// the step of legend
+
+    var jumpLegendYScale = d3.scalePoint()
+        .domain(jumpCategory)
+        .range([heightLine + heightDistribution + heightBrush
+            , heightLine + heightDistribution + heightBrush
+        - jumpDistributionData.length * legendJumpStep]) // the jump legend y scale;
+
     var xBrush = d3
         .scalePoint()
         .range([margin.left + widthTrend, width - margin.right - widthAttribute])
@@ -611,24 +678,72 @@ function LineChart({
         .join('rect')
         .attr('stroke-width', 0)
         .attr('x', d => xBrush(d.data.name) - widthBar / 2)
-        .attr('width', widthBar)
+        .attr('width', widthBar / 2)
         .attr('y', d => yBrush(d[1]))
-        .attr('height', d => yBrush(d[0]) - yBrush(d[1]))
+        .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the distirbution 
 
-    var legendStep = heightDistribution / distributionData.length;
+    d3.select(node)
+        .select('#distribution')
+        .selectAll('.jumpdistribution-group')
+        .data(jumpDistributionData)
+        .join('g')
+        .attr('fill', d => d.color)
+        .attr('class', 'jumpdistribution-group')
+        .selectAll('rect')
+        .data(d => d)
+        .join('rect')
+        .attr('stroke-width', 0)
+        .attr('x', d => xBrush(d.data.name))
+        .attr('y', d => yBrush(d[1]))
+        .attr('width', widthBar / 2)
+        .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the jump distribution;
+
+    d3.select(node)
+        .select("#distribution")
+        .selectAll('.jump-legend')
+        .data(jumpCategory)
+        .join('g')
+        .attr('class', 'jump-legend')
+        .selectAll('rect')
+        .data(d => [d])
+        .join('rect')
+        .attr('x', d => width - legendJumpStep)
+        .attr('y', d => jumpLegendYScale(d) - legendJumpStep * 0.4)
+        .attr('width', legendJumpStep * 0.8)
+        .attr('height', legendJumpStep * 0.8)
+        .attr('stroke-width', 0)
+        .attr('fill', d => jumpColorScale(d)) // visualize the jump category legend
+
+
+    d3.select(node)
+        .select('#distribution')
+        .selectAll('.jump-legend')
+        .data(jumpCategory)
+        .join('g')
+        .attr('class', 'jump-legend')
+        .selectAll('text')
+        .data(d => [d])
+        .join('text')
+        .attr('x', d => width - legendJumpStep - 5)
+        .attr('y', d => jumpLegendYScale(d))
+        .text(d => d)
+        .style('font-size', '10px')
+        .attr('dominant-baseline', 'middle')
+        .attr('text-anchor', 'end')    // visualize the text of jump category legend
+
     var legendData = categoryData.map((d, i) => {
         var e = {};
         e.value = d.name;
         e.index = i;
         if (distributionData.length == 2) {
             if (colorCategory == null) {
-                e.color = colorbrewer.YlGn[3][i]
+                e.color = colorbrewer.Greys[3][i]
             } else {
                 e.color = colorbrewer[colorCategory][3][i];
             }
         } else {
             if (colorCategory == null) {
-                e.color = colorbrewer.YlGn[distributionData.length][i]
+                e.color = colorbrewer.Greys[distributionData.length][i]
             } else {
                 e.color = colorbrewer[colorCategory][distributionData.length][i]
             }

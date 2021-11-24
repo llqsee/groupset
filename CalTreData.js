@@ -42,22 +42,24 @@ function CalTreData({
 
         d.Trend = dataForTrend;
         for (var n = 0; n < keys.length - 1; n++) {
+            var value1 = dataFromFuzzy.find(e => e.edgeMin<=d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
+            var value2 = dataFromFuzzy.find(e => e.edgeMin<=d[keys[n+1]] && e.edgeMax >= d[keys[n+1]]).name;
             if (dataJson.rank == "yes") {
                 if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up',jumpValue:value1+'-'+value2})
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
                     0.02
                 ) {
                     d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down',jumpValue:value1+'-'+value2})
                 } else {
                     d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable',jumpValue:value1+'-'+value2})
                 }
             } else {
                 if (
@@ -65,16 +67,16 @@ function CalTreData({
                     0.02
                 ) {
                     d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up'})
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'up',jumpValue:value1+'-'+value2})
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down'})
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'down',jumpValue:value1+'-'+value2})
                 } else {
                     d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable'})
+                    d.timeTrend.push({point: [[keys[n],d[keys[n]]],[keys[n+1],d[keys[n+1]]]],name:keys[n],value:'stable',jumpValue:value1+'-'+value2})
                 }
             }
         }
@@ -100,7 +102,7 @@ function CalTreData({
     }); // add two attribute to dataset like {low:3,middle:5,hight:5} and {up:3,down:5,stable:7}
     // } // we determine if the there is aggeragate by trend or category and then, we add the attributes to elements
 
-    
+
 
     // ------------------------------------------------
     // We re-struct the dataset with d3.group();
