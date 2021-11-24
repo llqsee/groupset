@@ -493,7 +493,7 @@ function LineChart({
     debugger;
     parameterSort.selectAll('option').data(
         ['cardinality', 'up', 'down', 'stable'].concat(
-            categoryData.map(d => d.name))
+            categoryData.map(d => 'degree-'+d.name))
     )
         .join('option')
         .attr('value', d => d)
@@ -502,7 +502,7 @@ function LineChart({
 
     parameterSortSecond.selectAll('option').data(
         ['cardinality', 'up', 'down', 'stable'].concat(
-            categoryData.map(d => d.name))
+            categoryData.map(d => 'degree-'+d.name))
     )
         .join('option')
         .attr('value', d => d)

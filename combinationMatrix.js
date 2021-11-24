@@ -112,8 +112,8 @@ function renderCombinationMatrix({
     // Reorder the sets number
     if (orderCate == "cardinality") {
       data.sort((a, b) => b[1].length - a[1].length);
-    } else if (dataFromFuzzy.findIndex((d) => d.name == orderCate) != -1) {
-      data.sort((a, b) => b.categoryGroup[orderCate] - a.categoryGroup[orderCate]); // re-order the treedata
+    } else if (dataFromFuzzy.findIndex((d) => 'degree-' + d.name == orderCate) != -1) {
+      data.sort((a, b) => b.categoryGroup[orderCate.split('-')[1]] - a.categoryGroup[orderCate.split('-')[1]]); // re-order the treedata
     } else if (
       orderCate == "up" ||
       orderCate == "down" ||
@@ -128,9 +128,9 @@ function renderCombinationMatrix({
         return d;
       })
       // data.sort((a, b) => b[1].length - a[1].length)
-    } else if (dataFromFuzzy.findIndex((d) => d.name == orderSecond) != -1) {
+    } else if (dataFromFuzzy.findIndex((d) => 'degree-' + d.name == orderSecond) != -1) {
       data.map(d => {
-        d[1].sort((a, b) => b.categoryGroup[orderSecond] - a.categoryGroup[orderSecond])
+        d[1].sort((a, b) => b.categoryGroup[orderCate.split('-')[1]] - a.categoryGroup[orderCate.split('-')[1]])
         return d;
       })
     } else if (
@@ -1743,9 +1743,9 @@ function renderCombinationMatrix({
         //   .attr('opacity',0)     // don't highlight the segment lines in subsets
 
         d3.select(d.path[1].querySelector("#container-segment-line"))
-        .selectAll('.line-groups')
-        .selectAll('path')
-        .attr('opacity',0)
+          .selectAll('.line-groups')
+          .selectAll('path')
+          .attr('opacity', 0)
 
         d3.select(d.path[5]
           .querySelector('#layout-right-top')
