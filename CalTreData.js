@@ -52,22 +52,25 @@ function CalTreData({
                 var value2 = dataFromFuzzy.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]).name;
             } else {
                 var value2 = '';
-            } if (dataJson.rank == "yes") {
+            } 
+
+            var addValue = value1 == value2? 'stable':value1 + '-'+ value2;
+            if (dataJson.rank == "yes") {
                 if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
                     0.02
                 ) {
                     d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
                 } else {
                     d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
                 }
             } else {
                 if (
@@ -75,16 +78,16 @@ function CalTreData({
                     0.02
                 ) {
                     d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
                 } else {
                     d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue})
                 }
             }
         }

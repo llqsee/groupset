@@ -456,22 +456,24 @@ function LineChart({
                 var value2 = '';
             }
 
+            var addValue = value1 == value2 ? 'stable' : value1 + '-' + value2;
+
             if (dataJson.rank == "yes") {
                 if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
                     0.02
                 ) {
                     // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
                 } else {
                     // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
                 }
             } else {
                 if (
@@ -479,16 +481,16 @@ function LineChart({
                     0.02
                 ) {
                     // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
                 } else {
                     // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: value1 + '-' + value2 })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
                 }
             }
         };
@@ -553,15 +555,21 @@ function LineChart({
         var data4Jump = [];
         var jumpCategory = [];    // get all the possible values for jumpCategory
         for (var i = 0; i < categoryData.length - 1; i++) {
-            jumpCategory.push(categoryData[i].name + '-' + categoryData[i].name)
+
+            jumpCategory.push('stable')
             for (var j = i + 1; j < categoryData.length; j++) {
                 jumpCategory.push(categoryData[i].name + '-' + categoryData[j].name)
                 jumpCategory.push(categoryData[j].name + '-' + categoryData[i].name)
             }
-            if (i == categoryData.length - 2) {
-                jumpCategory.push(categoryData[i + 1].name + '-' + categoryData[i + 1].name)
-            }
+            // if (i == categoryData.length - 2) {
+            //     jumpCategory.push(categoryData[i + 1].name + '-' + categoryData[i + 1].name)
+            // }
         }    // get the jumpCategory  ['m-h','h-m'];
+
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+        jumpCategory = jumpCategory.filter(onlyUnique);
 
         dataJson.temporalAttributes.map(d => {
             // var e = {};

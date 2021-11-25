@@ -10,10 +10,10 @@ Open the app at: http://localhost:3000/
 
 
 TODO list:
-- could you please fix the trafic dataset? I am meeting people familiar with this dataset today and want to do a study with them
+- ~~could you please fix the trafic dataset? I am meeting people familiar with this dataset today and want to do a study with them~~
 - also we talked about cumulative either add the cumulative traffic (I remember you already did it) and an interesting case study could be https://observablehq.com/@fil/covid-19-derived-chart (not a priority but could illustrate the discussion at the end of the paper)
 - then could you please add more soccer seasons?
-- the stacked chart of change is interesting but I find it difficult to understand the 2 vertical bars. Why don’t we only have one single vertical stack of bars? Adding up all the categories should be a 100% chart (if you include the stable changes)
+- ~~the stacked chart of change is interesting but I find it difficult to understand the 2 vertical bars. Why don’t we only have one single vertical stack of bars? Adding up all the categories should be a 100% chart (if you include the stable changes)~~
 - could you add a mod without any aggregation at all? or is it what by degree does? so we would have each row as an element, eg. soccer team with no gray bar
 - I am not sure we can make sens of the table, if you could add attribuets like in UpSet that would probably be interesting (simple boxplot of distirbution)
 would be interesting to have a checkbox in the aggreagtion bar to filter the main view and only keep the elements from the aggregation group (the rest could be grayed out). this would be particularly useful for the MNIST dataset. this will also help to illustrate the paper.
