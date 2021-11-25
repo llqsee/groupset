@@ -350,7 +350,7 @@ function renderCombinationMatrix({
     //   .attr("stroke", "grey")
     //   .attr("opacity", 0.4)
     //   .attr("stroke-dasharray", "3,6");
-
+    // --------------------------------------------------------------------------------
 
     // --------------------------------------------------------------------
     // render the rectangles for hover the specific sets;
@@ -436,6 +436,7 @@ function renderCombinationMatrix({
     // d.path[2].dispatchEvent(new CustomEvent("input"));
     // return d.path[2];
     // });
+    // ----------------------------------------------------------------------
 
     // ---------------------------------------------------------------------
     // render the circles in combination matrix for first level set
@@ -2441,7 +2442,21 @@ function renderCombinationMatrix({
       .attr('opacity', 0)
 
 
+    // ---------------------------------------
+    // We delet all the elements if the firstAggregate is equal to 'No aggregate'
+    if (firstAggeragateAttribute == 'No aggregate') {
+      d3.select(node).selectAll('.set').select('#selected-rect-group').remove();
 
+      d3.select(node).selectAll('.set').select('#combination-matrix').remove();
+
+      d3.select(node).selectAll('.set').select('#cardinality-bar-groups').remove();
+
+      d3.select(node).selectAll('.set').select('#oneAttribute-bar-groups').remove();
+
+      d3.select(node).selectAll('.set').attr('transform', `translate(0,0)`);
+    }
+
+    // -------------------------------------
 
 
     // ------------------------------------------------

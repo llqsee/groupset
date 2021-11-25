@@ -134,6 +134,8 @@ function CalTreData({
 
     } else if (firstAggeragateAttribute == "Trend") {
         var trueValue = 'jsonTrend';
+    } else if(firstAggeragateAttribute == 'No aggregate'){
+        var trueValue = 'No aggregate';
     } else {
         var trueValue = firstAggeragateAttribute;
     }
