@@ -444,9 +444,18 @@ function LineChart({
         d.timeTrend = [];
         var keys = brushedAttributes;;
         for (var n = 0; n < brushedAttributes.length - 1; n++) {
-            var value1 = categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
-            if(categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]) == undefined) debugger;
-            var value2 = categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]).name;
+            if (categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]) != undefined) {
+                var value1 = categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
+
+            } else {
+                var value1 = '';
+            }
+            if (categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]) != undefined) {
+                var value2 = categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]).name;
+            } else {
+                var value2 = '';
+            }
+
             if (dataJson.rank == "yes") {
                 if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
@@ -540,39 +549,43 @@ function LineChart({
     // Visualize the distribution in the brushed area and the jump distribution;
     renderDis();
     function renderDis() {
-        var data4Dis = [];
+        // var data4Dis = [];
         var data4Jump = [];
         var jumpCategory = [];    // get all the possible values for jumpCategory
         for (var i = 0; i < categoryData.length - 1; i++) {
+            jumpCategory.push(categoryData[i].name + '-' + categoryData[i].name)
             for (var j = i + 1; j < categoryData.length; j++) {
                 jumpCategory.push(categoryData[i].name + '-' + categoryData[j].name)
                 jumpCategory.push(categoryData[j].name + '-' + categoryData[i].name)
             }
+            if (i == categoryData.length - 2) {
+                jumpCategory.push(categoryData[i + 1].name + '-' + categoryData[i + 1].name)
+            }
         }    // get the jumpCategory  ['m-h','h-m'];
 
         dataJson.temporalAttributes.map(d => {
-            var e = {};
-            e.name = d;
+            // var e = {};
+            // e.name = d;
             var g = {};
             g.name = d
             // categoryData.map(f => e[f.name] = []);
-            categoryData.map(f => e[f.name] = []);
+            // categoryData.map(f => e[f.name] = []);
             jumpCategory.map(f => g[f] = 0)
-            data4Dis.push(e);
+            // data4Dis.push(e);
             data4Jump.push(g)
             // data4Jump.push(e);
-            return e;
+            // return e;
         })    // init the data4Dis and data4Jump
 
 
         dataset.map(d => {
             dataJson.temporalAttributes.map(e => {
-                var category = categoryData.find((f, i) => i < (categoryData.length - 1)
-                    ? +d[e] >= +f.edgeMin && +d[e] < +f.edgeMax : +d[e] > +f.edgeMin)
-                if (category != null) {
-                    // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
-                    data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
-                }
+                // var category = categoryData.find((f, i) => i < (categoryData.length - 1)
+                //     ? +d[e] >= +f.edgeMin && +d[e] < +f.edgeMax : +d[e] > +f.edgeMin)
+                // if (category != null) {
+                //     // data4Dis.find(f => f.name == e)[category.name].push(d[e]);
+                //     data4Dis.find(f => f.name == e)[category.name] = +data4Dis.find(f => f.name == e)[category.name] + 1
+                // }
                 if (d.timeTrend.find(f => f.name == e) != undefined) {
                     var value = d.timeTrend.find(f => f.name == e).jumpValue   // get the value of jump category
                     // if (data4Jump.find(f => f.name == e)[value] != undefined) {
@@ -584,61 +597,68 @@ function LineChart({
 
             })
         })    // Add the values into data4Dis and data4Jump;
-        debugger;
-        var stack = d3.stack().keys(categoryData.map(d => d.name))
-            .value((data, key) => data[key])  // create the stack generator
+        // debugger;
+        // var stack = d3.stack().keys(categoryData.map(d => d.name))
+        //     .value((data, key) => data[key])  // create the stack generator
 
         var stackJump = d3.stack().keys(jumpCategory.map(d => d))
             .value((data, key) => data[key])  // create the stack generator for jump category;
         // .order(d3.stackOrderAscending)
         // .offset(d3.stackOffsetNone);
 
-        var distributionData = stack(data4Dis)
+        // var distributionData = stack(data4Dis)
         var jumpDistributionData = stackJump(data4Jump);  // create the stack data for jump;
         //  .value((data4Dis, key) => data4Dis[key])
-        distributionData.map((d, i) => {
+        // distributionData.map((d, i) => {
 
-            if (distributionData.length == 2) {
-                if (colorCategory == null) {
-                    d.color = colorbrewer.Greys[3][i]
-                } else {
-                    d.color = colorbrewer[colorCategory][3][i];
-                }
-            } else {
-                if (colorCategory == null) {
-                    d.color = colorbrewer.Greys[distributionData.length][i]
-                } else {
-                    d.color = colorbrewer[colorCategory][distributionData.length][i]
-                }
-            }
+        //     if (distributionData.length == 2) {
+        //         if (colorCategory == null) {
+        //             d.color = colorbrewer.Greys[3][i]
+        //         } else {
+        //             d.color = colorbrewer[colorCategory][3][i];
+        //         }
+        //     } else {
+        //         if (colorCategory == null) {
+        //             d.color = colorbrewer.Greys[distributionData.length][i]
+        //         } else {
+        //             d.color = colorbrewer[colorCategory][distributionData.length][i]
+        //         }
+        //     }
 
-            return d
-            // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
-        })   // add the color for each distribution data;
+        //     return d
+        //     // d.color = distributionData.length == 2 ? colorbrewer[colorCategory][3][i] || colorbrewer.YlGn[3][i]: colorbrewer[colorCategory][distributionData.length][i] || colorbrewer.YlGn[distributionData.length][i]
+        // })   // add the color for each distribution data;
+        // jumpDistributionData.map((d,i) => d.color = d3.polateRainBow(d3.range(jumpDistributionData.length)[i]/(jumpDistributionData.length-1)))
 
-        jumpDistributionData.map((d, i) => {
-            if (distributionData.length == 2) {
-                d.color = colorbrewer.Paired[3][i]
-            } else {
-                d.color = colorbrewer.Paired[jumpDistributionData.length][i]
-            }
+        //         jumpDistributionData.map((d, i) => {
+        //             if (jumpDistributionData.length == 2) {
+        //                 d.color = colorbrewer.Paired[3][i]
+        //             } else {
+        //                 d.color = colorbrewer.Paired[jumpDistributionData.length][i]
+        //             }
 
-            return d
-        })   // add the color for jump distribution data;
-        debugger;
-        if (distributionData.length == 2) {
-            var jumpColorScale = d3.scaleOrdinal()
-                .domain(jumpCategory)
-                .range(colorbrewer.Paired[3]);// create the colorscale for jumpdistribution;
+        //             return d
+        //         })   // add the color for jump distribution data;
+        // debugger;
+        var jumpColor = jumpCategory.map((d, i) => d3.interpolateRainbow(d3.range(jumpDistributionData.length)[i] / jumpDistributionData.length))
 
-        } else {
-            var jumpColorScale = d3.scaleOrdinal()
-                .domain(jumpCategory)
-                .range(colorbrewer.Paired[jumpDistributionData.length]);// create the colorscale for jumpdistribution;
+        var jumpColorScale = d3.scaleOrdinal()
+            .domain(jumpCategory)
+            .range(jumpColor);// create the colorscale for jumpdistribution;
 
-        }
+        // if (jumpDistributionData.length == 2) {
+        //     var jumpColorScale = d3.scaleOrdinal()
+        //         .domain(jumpCategory)
+        //         .range(colorbrewer.Paired[3]);// create the colorscale for jumpdistribution;
 
-        var legendStep = heightDistribution / distributionData.length;// the step of legend
+        // } else {
+        //     var jumpColorScale = d3.scaleOrdinal()
+        //         .domain(jumpCategory)
+        //         .range(colorbrewer.Paired[jumpDistributionData.length]);// create the colorscale for jumpdistribution;
+
+        // }
+
+        // var legendStep = heightDistribution / distributionData.length;// the step of legend
         var legendJumpStep = heightDistribution / 3;// the step of legend
 
         var jumpLegendYScale = d3.scalePoint()
@@ -659,46 +679,46 @@ function LineChart({
             d3.select(node).append('g').attr('id', 'distribution')
         }
 
-        function get_random_color() {
-            var color = "";
-            for (var i = 0; i < 3; i++) {
-                var sub = Math.floor(Math.random() * 256).toString(16);
-                color += sub.length == 1 ? "0" + sub : sub;
-            }
-            return "#" + color;
-        }
+        // function get_random_color() {
+        //     var color = "";
+        //     for (var i = 0; i < 3; i++) {
+        //         var sub = Math.floor(Math.random() * 256).toString(16);
+        //         color += sub.length == 1 ? "0" + sub : sub;
+        //     }
+        //     return "#" + color;
+        // }
         var widthBar = d3.min([xBrush.step(), 20])
-        d3.select(node)
-            .select('#distribution')
-            .selectAll('.distribution-group')
-            .data(distributionData)
-            .join('g')
-            // .attr('opacity', 0.4)
-            .attr('fill', d => d.color)
-            .attr('class', 'distribution-group')
-            .selectAll('rect')
-            .data(d => d)
-            .join('rect')
-            .attr('stroke-width', 0)
-            .attr('x', d => xBrush(d.data.name) - widthBar / 2)
-            .attr('width', widthBar / 2)
-            .attr('y', d => yBrush(d[1]))
-            .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the distirbution 
+        // d3.select(node)
+        //     .select('#distribution')
+        //     .selectAll('.distribution-group')
+        //     .data(distributionData)
+        //     .join('g')
+        //     // .attr('opacity', 0.4)
+        //     .attr('fill', d => d.color)
+        //     .attr('class', 'distribution-group')
+        //     .selectAll('rect')
+        //     .data(d => d)
+        //     .join('rect')
+        //     .attr('stroke-width', 0)
+        //     .attr('x', d => xBrush(d.data.name) - widthBar / 2)
+        //     .attr('width', widthBar / 2)
+        //     .attr('y', d => yBrush(d[1]))
+        //     .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the distirbution 
 
         d3.select(node)
             .select('#distribution')
             .selectAll('.jumpdistribution-group')
             .data(jumpDistributionData)
             .join('g')
-            .attr('fill', d => d.color)
+            .attr('fill', d => jumpColorScale(d))
             .attr('class', 'jumpdistribution-group')
             .selectAll('rect')
             .data(d => d)
             .join('rect')
             .attr('stroke-width', 0)
-            .attr('x', d => xBrush(d.data.name))
+            .attr('x', d => xBrush(d.data.name) + xBrush.step() / 2 - widthBar / 2)
             .attr('y', d => yBrush(d[1]))
-            .attr('width', widthBar / 2)
+            .attr('width', widthBar)
             .attr('height', d => yBrush(d[0]) - yBrush(d[1]))  // visualize the jump distribution;
 
         d3.select(node)
@@ -734,57 +754,57 @@ function LineChart({
             .attr('dominant-baseline', 'middle')
             .attr('text-anchor', 'end')    // visualize the text of jump category legend
 
-        var legendData = categoryData.map((d, i) => {
-            var e = {};
-            e.value = d.name;
-            e.index = i;
-            if (distributionData.length == 2) {
-                if (colorCategory == null) {
-                    e.color = colorbrewer.Greys[3][i]
-                } else {
-                    e.color = colorbrewer[colorCategory][3][i];
-                }
-            } else {
-                if (colorCategory == null) {
-                    e.color = colorbrewer.Greys[distributionData.length][i]
-                } else {
-                    e.color = colorbrewer[colorCategory][distributionData.length][i]
-                }
-            }
-            return e
-        })
-        var widthLegend = d3.min([legendStep * 0.8, 20]);
-        d3.select(node)
-            .select("#distribution")
-            .selectAll('.legend')
-            .data(legendData)
-            .join('g')
-            .attr('class', 'legend')
-            .selectAll('rect')
-            .data(d => [d])
-            .join('rect')
-            .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 30)
-            .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index))
-            .attr('width', widthLegend)
-            .attr('height', widthLegend)
-            .attr('stroke-width', 0)
-            .attr('fill', d => d.color) // visualize the legend
+        // var legendData = categoryData.map((d, i) => {
+        //     var e = {};
+        //     e.value = d.name;
+        //     e.index = i;
+        //     if (distributionData.length == 2) {
+        //         if (colorCategory == null) {
+        //             e.color = colorbrewer.Greys[3][i]
+        //         } else {
+        //             e.color = colorbrewer[colorCategory][3][i];
+        //         }
+        //     } else {
+        //         if (colorCategory == null) {
+        //             e.color = colorbrewer.Greys[distributionData.length][i]
+        //         } else {
+        //             e.color = colorbrewer[colorCategory][distributionData.length][i]
+        //         }
+        //     }
+        //     return e
+        // })
+        // var widthLegend = d3.min([legendStep * 0.8, 20]);
+        // d3.select(node)
+        //     .select("#distribution")
+        //     .selectAll('.legend')
+        //     .data(legendData)
+        //     .join('g')
+        //     .attr('class', 'legend')
+        //     .selectAll('rect')
+        //     .data(d => [d])
+        //     .join('rect')
+        //     .attr('x', d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 30)
+        //     .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index))
+        //     .attr('width', widthLegend)
+        //     .attr('height', widthLegend)
+        //     .attr('stroke-width', 0)
+        //     .attr('fill', d => d.color) // visualize the legend
 
-        d3.select(node)
-            .select("#distribution")
-            .selectAll('.legend')
-            .data(legendData)
-            .join('g')
-            .attr('class', 'legend')
-            .selectAll('text')
-            .data(d => [d])
-            .join('text')
-            .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
-            .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index) + widthLegend / 2)
-            .attr('font-size', '12px')
-            .attr('dominant-baseline', 'middle')
-            .attr('text-anchor', 'end')
-            .text(d => d.value)   // visualize the text of legend;
+        // d3.select(node)
+        //     .select("#distribution")
+        //     .selectAll('.legend')
+        //     .data(legendData)
+        //     .join('g')
+        //     .attr('class', 'legend')
+        //     .selectAll('text')
+        //     .data(d => [d])
+        //     .join('text')
+        //     .attr("x", d => xBrush(dataJson.temporalAttributes[0]) - widthBar * 0.5 - 33)
+        //     .attr('y', d => heightLine + legendStep * (categoryData.length - 1 - d.index) + widthLegend / 2)
+        //     .attr('font-size', '12px')
+        //     .attr('dominant-baseline', 'middle')
+        //     .attr('text-anchor', 'end')
+        //     .text(d => d.value)   // visualize the text of legend;
     }
     // --------------------------------------------------------------------------------
 
@@ -846,6 +866,7 @@ function LineChart({
     }
     function Draged(event) {
         // debugger;
+        renderDis();
         this.parentElement.parentElement.parentElement.dispatchEvent(new CustomEvent("input"));
     }
 

@@ -54,10 +54,10 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
         .selectAll("rect")
         .data([1])
         .join("rect")
-        .attr("x", margin.left + widthTrend - widthBar / 2)
+        .attr("x", margin.left + widthTrend)
         .attr(
             "width",
-            width - margin.left - margin.right - widthAttribute - widthTrend + widthBar
+            width - margin.left - margin.right - widthAttribute - widthTrend
         )
         .attr("y", heightLine + heightDistribution)
         .attr("height", heightBrush)

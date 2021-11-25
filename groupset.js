@@ -605,25 +605,25 @@ function ChangeParameter() {
         });
     }) // when we click the collapse and expand sets (first level sets)
 
-    colorScale.on('input', d => {
-        debugger;
-        LineChart({
-            data: dataset,
-            dataJson: dataJson,
-            node: svgLine.node(),
-            n: +nPara.select('input').node().value,
-            brushedAttributes: svgLine.select("#time-brush").node().value,
-            lineWidth: +lineWidth.select("input").node().value,
-            colorCategory: d.currentTarget.value,
-            secondAggeragateAttribute: secondAggeragate
-                .select("select")
-                .node().value,
-            classMethod: classMethod.selectAll('input')._groups[0][1].checked
-                ? classMethod.selectAll('input')._groups[0][1].value
-                : classMethod.selectAll('input')._groups[0][0].value
-        }); // visualize the line chart
-        // debugger;
-    })// when we change the color scales;
+    // colorScale.on('input', d => {
+    //     debugger;
+    //     LineChart({
+    //         data: dataset,
+    //         dataJson: dataJson,
+    //         node: svgLine.node(),
+    //         n: +nPara.select('input').node().value,
+    //         brushedAttributes: svgLine.select("#time-brush").node().value,
+    //         lineWidth: +lineWidth.select("input").node().value,
+    //         colorCategory: d.currentTarget.value,
+    //         secondAggeragateAttribute: secondAggeragate
+    //             .select("select")
+    //             .node().value,
+    //         classMethod: classMethod.selectAll('input')._groups[0][1].checked
+    //             ? classMethod.selectAll('input')._groups[0][1].value
+    //             : classMethod.selectAll('input')._groups[0][0].value
+    //     }); // visualize the line chart
+    //     // debugger;
+    // })// when we change the color scales;
 
     // When we sort the combination matrix while clicking the sort dropdown
     parameterSort.on('input', d => {

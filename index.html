@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' type="text/css" href="css/style.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/d3-scale-chromatic@3"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="dataLoading.js"></script>
     <!-- <script type="text/javascript" src="main.js"></script> -->
@@ -117,8 +118,8 @@
             </form> -->
 
             <form class="color-option">
-                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Select the colors:</div>
-                <select></select>
+                <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>Select the colors:</div> -->
+                <!-- <select></select> -->
             </form>
 
             <div class='parameter-filter'>
@@ -234,14 +235,14 @@
 
         parameterSortSecond = d3.select('.parameter-sort-second').select('select');
 
-        var colorData = Object.keys(colorbrewer).map(d => { var e = {}; e.name = d; e.value = colorbrewer[d]; return e })
-        colorScale = d3.select('.color-option')
-            .select('select')
-        colorScale.selectAll('option')
-            .data(colorData)
-            .join('option')
-            .attr('value', d => d.name)
-            .text(d => d.name)
+        // var colorData = Object.keys(colorbrewer).map(d => { var e = {}; e.name = d; e.value = colorbrewer[d]; return e })
+        // colorScale = d3.select('.color-option')
+        //     .select('select')
+        // colorScale.selectAll('option')
+        //     .data(colorData)
+        //     .join('option')
+        //     .attr('value', d => d.name)
+        //     .text(d => d.name)
 
         table = d3.select('#layout-lastside').select('#table');
 
