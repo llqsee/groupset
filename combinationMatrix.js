@@ -2453,7 +2453,7 @@ function renderCombinationMatrix({
 
       d3.select(node).selectAll('.set').select('#oneAttribute-bar-groups').remove();
 
-      d3.select(node).selectAll('.set').attr('transform', `translate(0,0)`);
+      d3.select(node).selectAll('.set').attr('transform', `translate(0,${-margin.top})`);
     }
 
     // -------------------------------------
