@@ -871,6 +871,13 @@ function LineChart({
             .attr('transform', `translate(${margin.left},${y(limitationMaxMin) - 7.5 * 1.414})rotate(45)`) // change the position of diamond
 
 
+        d3.select(this.parentElement)
+            .select('.category-text')
+            .attr('y', y(limitationMaxMin) - 3)
+            .text(limitationMaxMin % 1 == 0
+                ? limitationMaxMin
+                : limitationMaxMin
+                    .toFixed(2))    // move the text 
     }
     function Draged(event) {
         // debugger;
@@ -893,27 +900,49 @@ function LineChart({
             [0, y(d.edgeMax)],
             [width - margin.right - widthAttribute, y(d.edgeMax)]
         ]);
-    d3.select(node)
-        .selectAll(".category-line")
+    var categoryLineText = d3.select(node)
+        .selectAll(".category-line-text")
         .data(categoryDataDeletOneElement)
-        .join(
-            (enter) =>
-                enter
-                    .append("path")
-                    .attr("d", pathCateLine)
-                    .attr("class", "category-line")
-                    .attr("stroke-dasharray", "3,3")
-                    .attr("stroke", "black")
-                    .attr("stroke-width", 1),
-            (update) =>
-                update
-                    .attr("d", pathCateLine)
-                    .attr("class", "category-line")
-                    .attr("stroke-dasharray", "3,3")
-                    .attr("stroke", "black")
-                    .attr("stroke-width", 1),
-            (exit) => exit.remove()
-        )
+        .join('g')
+        .attr('class', 'category-line-text')
+    // .join(
+    //     (enter) =>
+    //         enter
+    //             .append("path")
+    //             .attr("d", pathCateLine)
+    //             .attr("class", "category-line-text")
+    //             .attr("stroke-dasharray", "3,3")
+    //             .attr("stroke", "black")
+    //             .attr("stroke-width", 1),
+    //     (update) =>
+    //         update
+    //             .attr("d", pathCateLine)
+    //             .attr("class", "category-line-text")
+    //             .attr("stroke-dasharray", "3,3")
+    //             .attr("stroke", "black")
+    //             .attr("stroke-width", 1),
+    //     (exit) => exit.remove()
+    // )
+
+    categoryLineText.selectAll('.category-line')
+        .data(d => [d])
+        .join('path')
+        .attr('class', 'category-line')
+        .attr("d", pathCateLine)
+        .attr("stroke-dasharray", "3,3")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+
+    categoryLineText.selectAll('.category-text')
+        .data(d => [d])
+        .join('text')
+        .attr('class', 'category-text')
+        .attr('x', margin.left - 15)
+        .attr('y', d => y(d.edgeMax) - 3)
+        .text(d => d.edgeMax)
+        .attr('dominant-basedline', 'hange')
+        .attr('text-anchor', 'end')
+
     // .on("mouseover", (d) => {
     //     // debugger;
     //     d3.select(d.currentTarget).style("cursor", 'ns-resize');
@@ -922,24 +951,39 @@ function LineChart({
     //     // d3.select(d.currentTarget).attr("stroke-width", 2);
     // })
     // .call(drag)
+    // ----------------------------------------------------------------------------
+
 
     // --------------------------------------
     // Visualize the dragging diamonds
-    d3.select(node).selectAll('#drag-diamond')
-        .data([categoryDataDeletOneElement])
-        .join('g')
-        .attr('id', 'drag-diamond')
-        .selectAll('rect')
-        .data(d => d)
+
+    categoryLineText.selectAll('.diamond')
+        .data(d => [d])
         .join('rect')
-        // .attr('x',margin.left)
-        // .attr('y',d => y(d.edgeMax))
+        .attr('class', 'diamond')
         .attr('width', 15)
         .attr('height', 15)
         .attr('fill', 'black')
         .attr('stroke-width', 0)
         .attr('transform', d => `translate(${margin.left},${y(d.edgeMax) - 7.5 * 1.414})rotate(45)`)
         .call(drag)   // create the container
+
+
+    // d3.select(node).selectAll('#drag-diamond')
+    //     .data([categoryDataDeletOneElement])
+    //     .join('g')
+    //     .attr('id', 'drag-diamond')
+    //     .selectAll('rect')
+    //     .data(d => d)
+    //     .join('rect')
+    //     // .attr('x',margin.left)
+    //     // .attr('y',d => y(d.edgeMax))
+    //     .attr('width', 15)
+    //     .attr('height', 15)
+    //     .attr('fill', 'black')
+    //     .attr('stroke-width', 0)
+    //     .attr('transform', d => `translate(${margin.left},${y(d.edgeMax) - 7.5 * 1.414})rotate(45)`)
+    //     .call(drag)   // create the container
 
 
     // ---------------------------------------------------------
