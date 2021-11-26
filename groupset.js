@@ -59,6 +59,7 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value
         }); // visualize the combination sets
+        addClickToSet();
     });
 
     // -----------------------------------------------------------------
@@ -122,6 +123,7 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value
         });
+        addClickToSet();
 
         d3.select("#layout-right-top-left")
             .selectAll(".connect-area")
@@ -158,6 +160,7 @@ function ChangeParameter() {
                     filterPara: filterElement.node().value
                 });
             }); // when click the connection-line to order the sets
+            addClickToSet();
     });
 
     setHeight.node().addEventListener("input", (d) => {
@@ -196,6 +199,7 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value
         }); // visualize the combination matrix
+        addClickToSet();
     });
 
     // -----------------------------------------------------------------
@@ -237,6 +241,7 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value
         }); // visualize the combination matrix
+        addClickToSet();
     });
 
     // -----------------------------------------------------------------
@@ -288,6 +293,7 @@ function ChangeParameter() {
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value
             }); // visualize the combination matrix
+            addClickToSet();
 
             tableFun({ x: dataset, rows: [dataJson.id].concat(d.currentTarget.value), node: table.node() }); // visualize the table
         }); // when we brush
@@ -320,6 +326,7 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value
         }); // visualize the combination matrix
+        addClickToSet();
         // d3.select(d.path[4].querySelector("#div-matrix").querySelector("svg"))
         //   .selectAll(".set")
         //   .sort((a, b) => a.childNode.length - b.childNode.length);
@@ -356,6 +363,7 @@ function ChangeParameter() {
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value
             }); // visualize the combination matrix
+            addClickToSet();
             // debugger;
         }); // when click the trend buttons;
 
@@ -393,6 +401,7 @@ function ChangeParameter() {
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value
             });
+            addClickToSet();
         }); // when click the connection-line to order the sets
 
     firstAggeragate
@@ -444,6 +453,7 @@ function ChangeParameter() {
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value
             });
+            addClickToSet();
         }); // when we click the second aggeragate option;
 
     secondAggeragate
@@ -496,6 +506,7 @@ function ChangeParameter() {
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value
             });
+            addClickToSet();
         }); // when we click the second aggeragate option;
 
     collapse.node().addEventListener("input", d => {
@@ -531,6 +542,7 @@ function ChangeParameter() {
             collapse: inputValue,
             filterPara: filterElement.node().value
         });
+        addClickToSet();
     })
 
     filterElement.on('input', d => {
@@ -564,46 +576,52 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: d.currentTarget.value
         });
+        addClickToSet();
     })
 
-    svgMatrix.selectAll('.set').on('click', d => {
-        debugger;
-        d.currentTarget.__data__.expand == 'true' ? d.currentTarget.__data__.expand = 'false' : d.currentTarget.__data__.expand = 'true';
-        // d.currentTarget.__data__ == 
-        var newTreData = d3.select(d.currentTarget.parentElement.parentElement).selectAll('.set').data();
-
-
-        renderCombinationMatrix({
-            node: svgMatrix.node(),
-            dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: svgLine.node().parentElement.value[0].name,
-            orderSecond: parameterSortSecond.node().value,
-            dataset: dataset,
-            id: dataJson.id,
-            attributesCut: dataJson.temporalAttributes,
-            // degrees: [1, 2, 3],
-            // setMember: [],
-            // probability: [],
-            dataJson: dataJson,
-            circleType: "circle",
-            type: "percentage",
-            empty: isEmpty.selectAll('input')._groups[0][1].checked
-                ? isEmpty.selectAll('input')._groups[0][1].value
-                : isEmpty.selectAll('input')._groups[0][0].value,
-            brushedAttributes: svgLine.select("#time-brush").node().value,
-            yHeight: +setHeight.select("input").node().value,
-            lineWidth: +lineWidth.select("input").node().value,
-            secondAggeragateAttribute: secondAggeragate.select("select").node()
-                .value,
-            firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value,
-            collapse: collapse.selectAll('input')._groups[0][1].checked
-                ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value,
-            treeData: newTreData
-        });
-    }) // when we click the collapse and expand sets (first level sets)
+    addClickToSet();
+    function addClickToSet(){
+        svgMatrix.selectAll('.set').selectAll('#selected-rect-group').on('click', d => {
+            debugger;
+            d.currentTarget.__data__.expand == 'true' ? d.currentTarget.__data__.expand = 'false' : d.currentTarget.__data__.expand = 'true';
+            // d.currentTarget.__data__ == 
+            var newTreData = d3.select(d.currentTarget.parentElement.parentElement.parentElement).selectAll('.set').data();
+    
+    
+            renderCombinationMatrix({
+                node: svgMatrix.node(),
+                dataFromFuzzy: svgLine.node().parentElement.value,
+                orderCate: svgLine.node().parentElement.value[0].name,
+                orderSecond: parameterSortSecond.node().value,
+                dataset: dataset,
+                id: dataJson.id,
+                attributesCut: dataJson.temporalAttributes,
+                // degrees: [1, 2, 3],
+                // setMember: [],
+                // probability: [],
+                dataJson: dataJson,
+                circleType: "circle",
+                type: "percentage",
+                empty: isEmpty.selectAll('input')._groups[0][1].checked
+                    ? isEmpty.selectAll('input')._groups[0][1].value
+                    : isEmpty.selectAll('input')._groups[0][0].value,
+                brushedAttributes: svgLine.select("#time-brush").node().value,
+                yHeight: +setHeight.select("input").node().value,
+                lineWidth: +lineWidth.select("input").node().value,
+                secondAggeragateAttribute: secondAggeragate.select("select").node()
+                    .value,
+                firstAggeragateAttribute: firstAggeragate.select("select").node()
+                    .value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                filterPara: filterElement.node().value,
+                treeData: newTreData
+            });
+            addClickToSet();
+        }) // when we click the collapse and expand sets (first level sets)
+    }
+   
 
     // colorScale.on('input', d => {
     //     debugger;
@@ -666,6 +684,7 @@ function ChangeParameter() {
             filterPara: filterElement.node().value,
             treeData: newTreData
         });
+        addClickToSet();
 
     });
 
@@ -710,6 +729,7 @@ function ChangeParameter() {
             filterPara: filterElement.node().value,
             treeData: newTreData
         });
+        addClickToSet();
     })
 
     divLine.node().addEventListener('input', d => {
@@ -754,6 +774,7 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value
         });
+        addClickToSet();
     })  // when we change drag the diamond;
 
     classMethod.node().addEventListener("input", (d) => {
@@ -810,6 +831,7 @@ function ChangeParameter() {
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value
         });
+        addClickToSet();
 
     })
 
