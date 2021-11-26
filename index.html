@@ -92,16 +92,16 @@
             </form>
 
             <form class='parameter-sort'>
-                <div style='font-weight:bold;margin-top:1em;font-size:12px'>First, sort by:</div><select>
+                <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>First, sort by:</div><select>
                     <option value="cardinality" style='font-size:12px'>Cardinality</option>
-                </select>
+                </select> -->
             </form>
 
 
             <form class='parameter-sort-second'>
-                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Then, sort by:</div><select>
-                    <!-- <option value="cardinality" style='font-size:12px'>Cardinality</option> -->
-                </select>
+                <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>Then, sort by:</div><select> -->
+                <!-- <option value="cardinality" style='font-size:12px'>Cardinality</option> -->
+                <!-- </select> -->
             </form>
 
             <form class='parameter-expand'>
@@ -231,9 +231,9 @@
         filterElement = d3.select('.parameter-filter')
 
         // Assign the element to parameterSort;
-        parameterSort = d3.select('.parameter-sort').select('select');
+        parameterSort = d3.select('.parameter-sort');
 
-        parameterSortSecond = d3.select('.parameter-sort-second').select('select');
+        parameterSortSecond = d3.select('.parameter-sort-second');
 
         // var colorData = Object.keys(colorbrewer).map(d => { var e = {}; e.name = d; e.value = colorbrewer[d]; return e })
         // colorScale = d3.select('.color-option')
@@ -303,7 +303,7 @@
                             .select("select")
                             .selectAll("option")
                             .data(
-                                ["No aggregate","Degree"].concat(
+                                ["No aggregate", "Degree"].concat(
                                     dataJson.attributes
                                         .filter((d) => d.type == "categorical")
                                         .map((d) => d.name)
@@ -353,7 +353,10 @@
                                 .node().value,
                             classMethod: classMethod.selectAll('input')._groups[0][1].checked
                                 ? classMethod.selectAll('input')._groups[0][1].value
-                                : classMethod.selectAll('input')._groups[0][0].value
+                                : classMethod.selectAll('input')._groups[0][0].value,
+                            firstAggeragateAttribute: firstAggeragate
+                                .select("select")
+                                .node().value
                         }); // visualize the line chart
                         // debugger;
 
@@ -421,7 +424,7 @@
                                     .select("select")
                                     .selectAll("option")
                                     .data(
-                                        ["No aggregate","Degree"].concat(
+                                        ["No aggregate", "Degree"].concat(
                                             dataJson.attributes
                                                 .filter((d) => d.type == "categorical")
                                                 .map((d) => d.name)
@@ -481,7 +484,10 @@
                                         .node().value,
                                     classMethod: classMethod.selectAll('input')._groups[0][1].checked
                                         ? classMethod.selectAll('input')._groups[0][1].value
-                                        : classMethod.selectAll('input')._groups[0][0].value
+                                        : classMethod.selectAll('input')._groups[0][0].value,
+                                    firstAggeragateAttribute: firstAggeragate
+                                        .select("select")
+                                        .node().value
                                 }); // visualize the line chart
                                 // debugger;
 

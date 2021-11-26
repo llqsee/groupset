@@ -130,7 +130,7 @@ function renderCombinationMatrix({
       // data.sort((a, b) => b[1].length - a[1].length)
     } else if (dataFromFuzzy.findIndex((d) => 'degree-' + d.name == orderSecond) != -1) {
       data.map(d => {
-        d[1].sort((a, b) => b.categoryGroup[orderCate.split('-')[1]] - a.categoryGroup[orderCate.split('-')[1]])
+        d[1].sort((a, b) => b.categoryGroup[orderSecond.split('-')[1]] - a.categoryGroup[orderSecond.split('-')[1]])
         return d;
       })
     } else if (
@@ -374,6 +374,13 @@ function renderCombinationMatrix({
       .attr("opacity", 0.6)
       .attr("rx", 8)
       .attr("stroke-width", 0)
+      // .on('click', d => {
+      //   // debugger;
+      //   d.currentTarget.__data__.expand == 'true' ? d.currentTarget.__data__.expand = 'false' : d.currentTarget.__data__.expand = 'true';
+      //   d.currentTarget.parentElement.parentElement.dispatchEvent(new CustomEvent("input"));
+      //   // d.currentTarget.__data__ == 
+      //   //         var newTreData = d3.select(d.currentTarget.parentElement.parentElement.parentElement).selectAll('.set').data();
+      // })
     // .on("mouseenter", (d) => {
     //   d3.select(d.currentTarget)
     //     .attr("fill", "#ededed")

@@ -10,7 +10,8 @@ Open the app at: http://localhost:3000/
 
 
 TODO list:
-- Fix the sorting feature while no aggregate first;
+- Optimize the workflow, to make it run fast;
+- ~~Fix the sorting feature while no aggregate first;~~
 - Highlight the between changes while hover the subsets;
 - ~~could you please fix the trafic dataset? I am meeting people familiar with this dataset today and want to do a study with them~~
 - also we talked about cumulative either add the cumulative traffic (I remember you already did it) and an interesting case study could be https://observablehq.com/@fil/covid-19-derived-chart (not a priority but could illustrate the discussion at the end of the paper)

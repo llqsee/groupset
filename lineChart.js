@@ -512,23 +512,69 @@ function LineChart({
     // -------------------------------------------------
     // Add the options to sort method dropdown
     debugger;
-    parameterSort.selectAll('option').data(
-        ['cardinality', 'up', 'down', 'stable'].concat(
-            categoryData.map(d => 'degree-' + d.name))
-    )
-        .join('option')
-        .attr('value', d => d)
-        .text(d => d)
-        .style('dont-size', '12px')
+    if (firstAggeragateAttribute == 'No aggregate') {
+        parameterSort.selectAll('*').remove();
+        parameterSortSecond
+            .selectAll('div')
+            .data(['Sort by'])
+            .join('div')
+            .text(d => d)
+            .style('font-size', '12px')
+            .style('font-weight', 'bold')
+            .style('margin-top', '1em');
 
-    parameterSortSecond.selectAll('option').data(
-        ['cardinality', 'up', 'down', 'stable'].concat(
-            categoryData.map(d => 'degree-' + d.name))
-    )
-        .join('option')
-        .attr('value', d => d)
-        .text(d => d)
-        .style('dont-size', '12px')
+        parameterSortSecond.selectAll('select')
+            .data([1])
+            .join('select')
+            .selectAll('option').data(
+                ['cardinality', 'up', 'down', 'stable'].concat(
+                    categoryData.map(d => 'degree-' + d.name))
+            )
+            .join('option')
+            .attr('value', d => d)
+            .text(d => d)
+            .style('dont-size', '12px')
+    } else {
+        parameterSort
+            .selectAll('div')
+            .data(['First, sort by'])
+            .join('div')
+            .text(d => d)
+            .style('font-size', '12px')
+            .style('font-weight', 'bold')
+            .style('margin-top', '1em');
+        parameterSort.selectAll('select').data([1]).join('select').selectAll('option').data(
+            ['cardinality', 'up', 'down', 'stable'].concat(
+                categoryData.map(d => 'degree-' + d.name))
+        )
+            .join('option')
+            .attr('value', d => d)
+            .text(d => d)
+            .style('dont-size', '12px')
+
+
+        parameterSortSecond
+            .selectAll('div')
+            .data(['Thun, sort by'])
+            .join('div')
+            .text(d => d)
+            .style('font-size', '12px')
+            .style('font-weight', 'bold')
+            .style('margin-top', '1em');
+
+        parameterSortSecond.selectAll('select')
+            .data([1])
+            .join('select')
+            .selectAll('option').data(
+                ['cardinality', 'up', 'down', 'stable'].concat(
+                    categoryData.map(d => 'degree-' + d.name))
+            )
+            .join('option')
+            .attr('value', d => d)
+            .text(d => d)
+            .style('dont-size', '12px')
+    }
+
 
     // --------------------------------------------------------------
     // Add the vertical rects

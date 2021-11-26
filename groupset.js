@@ -26,8 +26,12 @@ function ChangeParameter() {
                 .node().value,
             classMethod: classMethod.selectAll('input')._groups[0][1].checked
                 ? classMethod.selectAll('input')._groups[0][1].value
-                : classMethod.selectAll('input')._groups[0][0].value
+                : classMethod.selectAll('input')._groups[0][0].value,
+            firstAggeragateAttribute: firstAggeragate
+                .select("select")
+                .node().value
         }); // visualize the line chart
+        // addClickToSort();
 
         renderCombinationMatrix({
             node: svgMatrix.node(),
@@ -81,8 +85,12 @@ function ChangeParameter() {
                 .node().value,
             classMethod: classMethod.selectAll('input')._groups[0][1].checked
                 ? classMethod.selectAll('input')._groups[0][1].value
-                : classMethod.selectAll('input')._groups[0][0].value
+                : classMethod.selectAll('input')._groups[0][0].value,
+            firstAggeragateAttribute: firstAggeragate
+                .select("select")
+                .node().value
         });
+        // addClickToSort();
         debugger;
         connectionLine({
             selfNode: svgLine
@@ -160,7 +168,7 @@ function ChangeParameter() {
                     filterPara: filterElement.node().value
                 });
             }); // when click the connection-line to order the sets
-            addClickToSet();
+        addClickToSet();
     });
 
     setHeight.node().addEventListener("input", (d) => {
@@ -264,8 +272,12 @@ function ChangeParameter() {
                     .node().value,
                 classMethod: classMethod.selectAll('input')._groups[0][1].checked
                     ? classMethod.selectAll('input')._groups[0][1].value
-                    : classMethod.selectAll('input')._groups[0][0].value
+                    : classMethod.selectAll('input')._groups[0][0].value,
+                firstAggeragateAttribute: firstAggeragate
+                    .select("select")
+                    .node().value
             }); // visualize the line chart
+            // addClickToSort();
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
@@ -421,8 +433,10 @@ function ChangeParameter() {
                     .node().value,
                 classMethod: classMethod.selectAll('input')._groups[0][1].checked
                     ? classMethod.selectAll('input')._groups[0][1].value
-                    : classMethod.selectAll('input')._groups[0][0].value
+                    : classMethod.selectAll('input')._groups[0][0].value,
+                firstAggeragateAttribute: inputValue
             }); // visualize the line chart
+            // addClickToSort();
 
             renderCombinationMatrix({
                 node: svgMatrix.node(),
@@ -470,13 +484,17 @@ function ChangeParameter() {
                 brushedAttributes: svgLine.select("#time-brush").node().value,
                 lineWidth: +lineWidth.select("input").node().value,
                 secondAggeragateAttribute: inputValue,
-                secondAggeragateAttribute: secondAggeragate
-                    .select("select")
-                    .node().value,
+                // secondAggeragateAttribute: secondAggeragate
+                //     .select("select")
+                //     .node().value,
                 classMethod: classMethod.selectAll('input')._groups[0][1].checked
                     ? classMethod.selectAll('input')._groups[0][1].value
-                    : classMethod.selectAll('input')._groups[0][0].value
+                    : classMethod.selectAll('input')._groups[0][0].value,
+                firstAggeragateAttribute: firstAggeragate
+                    .select("select")
+                    .node().value
             }); // visualize the line chart
+            // addClickToSort();
 
             renderCombinationMatrix({
                 node: svgMatrix.node(),
@@ -580,14 +598,14 @@ function ChangeParameter() {
     })
 
     addClickToSet();
-    function addClickToSet(){
+    function addClickToSet() {
         svgMatrix.selectAll('.set').selectAll('#selected-rect-group').on('click', d => {
             debugger;
             d.currentTarget.__data__.expand == 'true' ? d.currentTarget.__data__.expand = 'false' : d.currentTarget.__data__.expand = 'true';
             // d.currentTarget.__data__ == 
             var newTreData = d3.select(d.currentTarget.parentElement.parentElement.parentElement).selectAll('.set').data();
-    
-    
+
+
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
@@ -621,7 +639,7 @@ function ChangeParameter() {
             addClickToSet();
         }) // when we click the collapse and expand sets (first level sets)
     }
-   
+
 
     // colorScale.on('input', d => {
     //     debugger;
@@ -644,93 +662,96 @@ function ChangeParameter() {
     // })// when we change the color scales;
 
     // When we sort the combination matrix while clicking the sort dropdown
-    parameterSort.on('input', d => {
-        debugger;
-        // Define the parameters upated in this interaction, new sorting values
-        var sortValue = d.currentTarget.value;
+    // addClickToSort();
+    // function addClickToSort() {
+        parameterSort.on('input', d => {
+            debugger;
+            // Define the parameters upated in this interaction, new sorting values
+            var sortValue = d.currentTarget.querySelector('select').value
 
-        // Get the saved tree data;
-        var newTreData = d.path[3]
-            .querySelector('#layout-right')
-            .querySelector('#div-matrix')
-            .querySelector('svg')
-            .value
+            // Get the saved tree data;
+            var newTreData = d.path[3]
+                .querySelector('#layout-right')
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .value
 
-        // re-draw the combinatiom matrix based on the new sorting input
-        renderCombinationMatrix({
-            node: svgMatrix.node(),
-            dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: sortValue,
-            orderSecond: parameterSortSecond.node().value,
-            dataset: dataset,
-            id: dataJson.id,
-            attributesCut: dataJson.temporalAttributes,
-            dataJson: dataJson,
-            circleType: "circle",
-            type: "percentage",
-            empty: isEmpty.selectAll('input')._groups[0][1].checked
-                ? isEmpty.selectAll('input')._groups[0][1].value
-                : isEmpty.selectAll('input')._groups[0][0].value,
-            brushedAttributes: svgLine.select("#time-brush").node().value,
-            yHeight: +setHeight.select("input").node().value,
-            lineWidth: +lineWidth.select("input").node().value,
-            secondAggeragateAttribute: secondAggeragate.select("select").node()
-                .value,
-            firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value,
-            collapse: collapse.selectAll('input')._groups[0][1].checked
-                ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value,
-            treeData: newTreData
+            // re-draw the combinatiom matrix based on the new sorting input
+            renderCombinationMatrix({
+                node: svgMatrix.node(),
+                dataFromFuzzy: svgLine.node().parentElement.value,
+                orderCate: sortValue,
+                orderSecond: parameterSortSecond.node().value,
+                dataset: dataset,
+                id: dataJson.id,
+                attributesCut: dataJson.temporalAttributes,
+                dataJson: dataJson,
+                circleType: "circle",
+                type: "percentage",
+                empty: isEmpty.selectAll('input')._groups[0][1].checked
+                    ? isEmpty.selectAll('input')._groups[0][1].value
+                    : isEmpty.selectAll('input')._groups[0][0].value,
+                brushedAttributes: svgLine.select("#time-brush").node().value,
+                yHeight: +setHeight.select("input").node().value,
+                lineWidth: +lineWidth.select("input").node().value,
+                secondAggeragateAttribute: secondAggeragate.select("select").node()
+                    .value,
+                firstAggeragateAttribute: firstAggeragate.select("select").node()
+                    .value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                filterPara: filterElement.node().value,
+                treeData: newTreData
+            });
+            addClickToSet();
+
         });
-        addClickToSet();
 
-    });
+        // When we sort the subsets;
+        parameterSortSecond.on('input', d => {
+            debugger;
+            // Define the parameters upated in this interaction, new sorting values
+            var sortValue = d.currentTarget.querySelector('select').value
+            // Get the saved tree data;
+            var newTreData = d.path[3]
+                .querySelector('#layout-right')
+                .querySelector('#div-matrix')
+                .querySelector('svg')
+                .value
 
-    // When we sort the subsets;
-    parameterSortSecond.on('input', d => {
-        debugger;
-        // Define the parameters upated in this interaction, new sorting values
-        var sortValue = d.currentTarget.value;
+            // re-draw the combinatiom matrix based on the new sorting input
+            renderCombinationMatrix({
+                node: svgMatrix.node(),
+                dataFromFuzzy: svgLine.node().parentElement.value,
+                orderCate: parameterSort.node().value,
+                orderSecond: sortValue,
+                dataset: dataset,
+                id: dataJson.id,
+                attributesCut: dataJson.temporalAttributes,
+                dataJson: dataJson,
+                circleType: "circle",
+                type: "percentage",
+                empty: isEmpty.selectAll('input')._groups[0][1].checked
+                    ? isEmpty.selectAll('input')._groups[0][1].value
+                    : isEmpty.selectAll('input')._groups[0][0].value,
+                brushedAttributes: svgLine.select("#time-brush").node().value,
+                yHeight: +setHeight.select("input").node().value,
+                lineWidth: +lineWidth.select("input").node().value,
+                secondAggeragateAttribute: secondAggeragate.select("select").node()
+                    .value,
+                firstAggeragateAttribute: firstAggeragate.select("select").node()
+                    .value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value,
+                filterPara: filterElement.node().value,
+                treeData: newTreData
+            });
+            addClickToSet();
+        })
 
-        // Get the saved tree data;
-        var newTreData = d.path[3]
-            .querySelector('#layout-right')
-            .querySelector('#div-matrix')
-            .querySelector('svg')
-            .value
-
-        // re-draw the combinatiom matrix based on the new sorting input
-        renderCombinationMatrix({
-            node: svgMatrix.node(),
-            dataFromFuzzy: svgLine.node().parentElement.value,
-            orderCate: parameterSort.node().value,
-            orderSecond: sortValue,
-            dataset: dataset,
-            id: dataJson.id,
-            attributesCut: dataJson.temporalAttributes,
-            dataJson: dataJson,
-            circleType: "circle",
-            type: "percentage",
-            empty: isEmpty.selectAll('input')._groups[0][1].checked
-                ? isEmpty.selectAll('input')._groups[0][1].value
-                : isEmpty.selectAll('input')._groups[0][0].value,
-            brushedAttributes: svgLine.select("#time-brush").node().value,
-            yHeight: +setHeight.select("input").node().value,
-            lineWidth: +lineWidth.select("input").node().value,
-            secondAggeragateAttribute: secondAggeragate.select("select").node()
-                .value,
-            firstAggeragateAttribute: firstAggeragate.select("select").node()
-                .value,
-            collapse: collapse.selectAll('input')._groups[0][1].checked
-                ? collapse.selectAll('input')._groups[0][1].value
-                : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value,
-            treeData: newTreData
-        });
-        addClickToSet();
-    })
+    // }
 
     divLine.node().addEventListener('input', d => {
         debugger;
@@ -798,8 +819,12 @@ function ChangeParameter() {
             secondAggeragateAttribute: secondAggeragate
                 .select("select")
                 .node().value,
-            classMethod: clusterValue
+            classMethod: clusterValue,
+            firstAggeragateAttribute: firstAggeragate
+                .select("select")
+                .node().value
         }); // visualize the line chart
+        // addClickToSort();
 
         renderCombinationMatrix({
             node: svgMatrix.node(),
