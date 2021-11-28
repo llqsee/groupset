@@ -50,21 +50,23 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
         .data([1])
         .join("g")
         .attr("id", "time-brush");
-    brushSvg
-        .selectAll("rect")
-        .data([1])
-        .join("rect")
-        .attr("x", margin.left + widthTrend)
-        .attr(
-            "width",
-            width - margin.left - margin.right - widthAttribute - widthTrend
-        )
-        .attr("y", heightLine + heightDistribution)
-        .attr("height", heightBrush)
-        .attr("fill", "#dedede")
-        .attr("opacity", 0.5)
-        .attr("stroke", "black")
-        .attr("stroke-width", 0);
+    // brushSvg
+    //     .selectAll("rect")
+    //     .data([1])
+    //     .join("rect")
+    //     .attr("x", margin.left + widthTrend)
+    //     .attr(
+    //         "width",
+    //         width - margin.left - margin.right - widthAttribute - widthTrend
+    //     )
+    //     .attr("y", margin.top)
+    //     .attr("height", heightLine+heightDistribution+30)
+    //     .attr("fill", "#dedede")
+    //     .attr("opacity", 0)
+    //     .attr("stroke", "black")
+    //     .attr("stroke-width", 0)
+
+    d3.select(node).select('#time-brush').raise();
     function brushstart(event) { }
     function brushing(event) {
         debugger;
@@ -80,9 +82,9 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
             .join('text')
             .attr('class', 'text-left')
             .attr('x', selection[0] + 5)
-            .attr('y', heightLine + heightDistribution + 5)
+            .attr('y', margin.top)
             .attr('text-anchor', 'start')
-            .attr('dominant-baseline', 'hanging')
+            .attr('dominant-baseline', 'auto')
             .style('font-size', '15px')
             .style('color', 'black')
             .text(d => d)    // the left handle's text of the brush area
@@ -93,7 +95,7 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
             .join('text')
             .attr('class', 'text-right')
             .attr('x', selection[1] - 5)
-            .attr('y', heightLine + heightDistribution + heightBrush - 5)
+            .attr('y', margin.top)
             .attr('text-anchor', 'end')
             .attr('dominant-baseline', 'auto')
             .style('font-size', '15px')
@@ -128,7 +130,7 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
             (d, i) => i >= indexX0 && i <= indexX1
         ); // extract the attributes
 
-        brushedAttributes = selectedAttributes;
+        brushedAttributes = selectedAttributes;   // update the selectedAttributes;
 
         d3.select(this).node().parentElement.value = selectedAttributes;
         d3.select(this)
@@ -139,9 +141,13 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
     var brush = d3
         .brushX()
         .extent([
-            [margin.left + widthTrend, heightLine + heightDistribution],
-            [width - margin.right - widthAttribute, heightLine + heightDistribution + heightBrush]
+            [margin.left + widthTrend, margin.top],
+            [width - margin.right - widthAttribute, heightLine]
         ])
+        // .extent([
+        //     [margin.left + widthTrend, heightLine + heightDistribution],
+        //     [width - margin.right - widthAttribute, heightLine + heightDistribution + heightBrush]
+        // ])
         // .on("start", brushstart)
         .on("brush", brushing)
         .on("end", brushed);
@@ -157,12 +163,12 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
         d3.select(node)
             .append("g")
             .attr("id", "x-brush-axis")
-            .attr("transform", `translate(0,${heightBrush + heightDistribution + heightLine})`)
+            .attr("transform", `translate(0,${heightDistribution + heightLine + heightBrush})`)
             .call(xAxis);
     } else {
         d3.select(node)
             .select("#x-brush-axis")
-            .attr("transform", `translate(0,${heightBrush + heightDistribution + heightLine})`)
+            .attr("transform", `translate(0,${heightDistribution + heightLine + heightBrush})`)
             .call(xAxis);
     }
 

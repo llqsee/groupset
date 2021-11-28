@@ -14,7 +14,7 @@ TODO list:
 - ~~Also when we highlight the arrows we should use the color we use in the line chart to highlight segments~~
 - I am also wondering if it happens change occure across 2 categories (eg from HIGH to LOW and not going through medium, this could be very interesting for the first days of the soccer rankings) 
 - Regarding the rank by degree I think there should be a way to rank all the sets at once；
-- A final suggestion, could you also move the brushing to filter over the main line chart? I think we should not filter this main line chart and keep the brushing over it (but the lines below can be brushed) this will save some vertical space.
+- ~~A final suggestion, could you also move the brushing to filter over the main line chart? I think we should not filter this main line chart and keep the brushing over it (but the lines below can be brushed) this will save some vertical space.~~
 - ~~Add the global variance;~~
 - ~~Optimize the workflow, to make it run fast;~~
 - ~~Fix the sorting feature while no aggregate first;~~

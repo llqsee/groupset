@@ -19,8 +19,8 @@ function LineChart({
     var clusterArray = [];
     data.map(d => {
         if (classMethod == 'automatic') {
-            for (var n = 0; n < brushedAttributes.length; n++) {
-                clusterArray.push(d[brushedAttributes[n]]);
+            for (var n = 0; n < dataJson.temporalAttributes.length; n++) {
+                clusterArray.push(d[dataJson.temporalAttributes[n]]);
             }
         }
     })
@@ -54,7 +54,7 @@ function LineChart({
     var x = d3
         .scalePoint()
         .range([margin.left + widthTrend, width - margin.right - widthAttribute])
-        .domain(brushedAttributes);
+        .domain(dataJson.temporalAttributes);
 
     if (dataJson.rank == "yes") {
         var y = d3
@@ -70,7 +70,7 @@ function LineChart({
 
     // -------------------------------------------------------------
     // create the line generator;
-    var path = (p) => d3.line()(brushedAttributes.map((d) => [x(d), y(p[d])]));
+    var path = (p) => d3.line()(dataJson.temporalAttributes.map((d) => [x(d), y(p[d])]));
 
     // -------------------------------------------------------------
     // draw lines;
@@ -184,7 +184,7 @@ function LineChart({
                     .attr("x", width - margin.right - widthAttribute)
                     .attr("dx", 3)
                     .attr("y", (d) =>
-                        y(d[brushedAttributes[brushedAttributes.length - 1]])
+                        y(d[dataJson.temporalAttributes[dataJson.temporalAttributes.length - 1]])
                     )
                     .on("mouseover", (d) => {
                         debugger;
@@ -282,7 +282,7 @@ function LineChart({
                         .attr("x", width - margin.right - widthAttribute)
                         .attr("dx", 3)
                         .attr("y", (d) =>
-                            y(d[brushedAttributes[brushedAttributes.length - 1]])
+                            y(d[dataJson.temporalAttributes[dataJson.temporalAttributes.length - 1]])
                         )
                 );
             },
@@ -329,7 +329,7 @@ function LineChart({
     if (node.parentElement.value == null) {
         if (classMethod == 'automatic') {
             var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
-            // var categoryData = [];
+            categoryData = [];
             for (var i = 0; i < n; i++) {
                 categoryData.push({
                     edgeMin: +resultCluster[i][0]
@@ -344,25 +344,25 @@ function LineChart({
                 var step = (max - min) / +n;
                 if (n == 2) {
                     categoryData = [
-                        { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                        { edgeMin: min + step * 1, edgeMax: max, name: "Middle" }
+                        { edgeMin: min, edgeMax: +(min + step * 1).toFixed(2), name: "Low" },
+                        { edgeMin: +(min + step * 1).toFixed(2), edgeMax: max, name: "Middle" }
                         // { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                         // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                     ];
                 } else if (n == 3) {
                     categoryData = [
-                        { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                        { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
-                        { edgeMin: min + step * 2, edgeMax: max, name: "High" }
+                        { edgeMin: min, edgeMax: +(min + step * 1).toFixed(2), name: "Low" },
+                        { edgeMin: +(min + step * 1).toFixed(2), edgeMax: +(min + step * 2).toFixed(2), name: "Middle" },
+                        { edgeMin: +(min + step * 2).toFixed(2), edgeMax: max, name: "High" }
                         // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                     ];
                 } else {
                     categoryData = [
-                        { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
-                        { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
-                        { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
+                        { edgeMin: min, edgeMax: +(min + step * 1).toFixed(2), name: "Low" },
+                        { edgeMin: +(min + step * 1).toFixed(2), edgeMax: +(min + step * 2).toFixed(2), name: "Middle" },
+                        { edgeMin: +(min + step * 2).toFixed(2), edgeMax: +(min + step * 3).toFixed(2), name: "High" },
                         {
-                            edgeMin: min + step * 3,
+                            edgeMin: +(min + step * 3).toFixed(2),
                             edgeMax: max,
                             name: "Very high"
                         }
@@ -377,7 +377,7 @@ function LineChart({
         if (n != node.parentElement.value.length || (n == node.parentElement.value.length && classMethod != node.parentElement.value.clusterName)) {
             if (classMethod == 'automatic') {
                 var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
-                // categoryData = [];
+                categoryData = [];
                 for (var i = 0; i < n; i++) {
                     categoryData.push({
                         edgeMin: +resultCluster[i][0]
@@ -440,61 +440,67 @@ function LineChart({
 
     // ---------------------------------------------------
     // Add timeTrend for dataset;
-    data.map(d => {
-        d.timeTrend = [];
-        var keys = brushedAttributes;;
-        for (var n = 0; n < brushedAttributes.length - 1; n++) {
-            if (categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]) != undefined) {
-                var value1 = categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
 
-            } else {
-                var value1 = '';
-            }
-            if (categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]) != undefined) {
-                var value2 = categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]).name;
-            } else {
-                var value2 = '';
-            }
-
-            var addValue = value1 == value2 ? 'stable' : value1 + '-' + value2;
-
-            if (dataJson.rank == "yes") {
-                if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
-                    -0.02
-                ) {
-                    // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
-                } else if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
-                    0.02
-                ) {
-                    // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
-                } else {
-                    // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
-                }
-            } else {
-                if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
-                    0.02
-                ) {
-                    // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
-                } else if (
-                    (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
-                    -0.02
-                ) {
-                    // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
-                } else {
-                    // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
-                }
-            }
-        };
+    AddtimeTrend({
+        data:dataset,
+        dataJson:dataJson,
+        categoryData:categoryData
     })
+    // data.map(d => {
+    //     d.timeTrend = [];
+    //     var keys = dataJson.temporalAttributes;
+    //     for (var n = 0; n < dataJson.temporalAttributes.length - 1; n++) {
+    //         if (categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]) != undefined) {
+    //             var value1 = categoryData.find(e => e.edgeMin <= d[keys[n]] && e.edgeMax >= d[keys[n]]).name;
+
+    //         } else {
+    //             var value1 = '';
+    //         }
+    //         if (categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]) != undefined) {
+    //             var value2 = categoryData.find(e => e.edgeMin <= d[keys[n + 1]] && e.edgeMax >= d[keys[n + 1]]).name;
+    //         } else {
+    //             var value2 = '';
+    //         }
+
+    //         var addValue = value1 == value2 ? 'stable' : value1 + '-' + value2;
+
+    //         if (dataJson.rank == "yes") {
+    //             if (
+    //                 (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+    //                 -0.02
+    //             ) {
+    //                 // d.Trend["up"] = d.Trend["up"] + 1;
+    //                 d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
+    //             } else if (
+    //                 (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+    //                 0.02
+    //             ) {
+    //                 // d.Trend["down"] = d.Trend["down"] + 1;
+    //                 d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
+    //             } else {
+    //                 // d.Trend["stable"] = d.Trend["stable"] + 1;
+    //                 d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
+    //             }
+    //         } else {
+    //             if (
+    //                 (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
+    //                 0.02
+    //             ) {
+    //                 // d.Trend["up"] = d.Trend["up"] + 1;
+    //                 d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
+    //             } else if (
+    //                 (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
+    //                 -0.02
+    //             ) {
+    //                 // d.Trend["down"] = d.Trend["down"] + 1;
+    //                 d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
+    //             } else {
+    //                 // d.Trend["stable"] = d.Trend["stable"] + 1;
+    //                 d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
+    //             }
+    //         }
+    //     };
+    // })
 
 
     // ----------------------------------------------
@@ -578,7 +584,7 @@ function LineChart({
 
     // --------------------------------------------------------------
     // Add the vertical rects
-    d3.select(node).selectAll('#vertical-line-global').data([brushedAttributes])
+    d3.select(node).selectAll('#vertical-line-global').data([dataJson.temporalAttributes])
         .join('g')
         .attr('id', 'vertical-line-global')
         .selectAll('rect')
@@ -727,7 +733,7 @@ function LineChart({
             .domain(dataJson.temporalAttributes); // create the scale for the brush
 
         var yBrush = d3.scaleLinear().domain([0, dataset.length])
-            .range([heightLine + heightDistribution, heightLine]);
+            .range([heightLine + heightDistribution + heightBrush, heightLine]);
 
         if (d3.select(node).select('#distribution').node() == null) {
             d3.select(node).append('g').attr('id', 'distribution')
@@ -808,6 +814,8 @@ function LineChart({
             .attr('dominant-baseline', 'middle')
             .attr('text-anchor', 'end')    // visualize the text of jump category legend
 
+        d3.select(node)
+            .select("#distribution").lower()   // let the distribution in the bottom;
         // var legendData = categoryData.map((d, i) => {
         //     var e = {};
         //     e.value = d.name;
@@ -887,6 +895,7 @@ function LineChart({
         this.parentElement.parentElement.parentElement
             .value[index + 1].edgeMin = Number(limitationMaxMin.toFixed(2))  // the value of index + 1 has been changed;
 
+        categoryData.find(d => d.name == d3.select(this).data()[0].name).edgeMax =limitationMaxMin  // change the categoryData;
 
         d3.select(this.parentElement.parentElement)
             .selectAll('.category-line')
@@ -928,9 +937,17 @@ function LineChart({
     }
     function Draged(event) {
         // debugger;
-        this.parentElement.parentElement.parentElement.dispatchEvent(new CustomEvent("input"));
+        
+        AddtimeTrend({
+            data:dataset,
+            dataJson:dataJson,
+            categoryData:categoryData
+        })
+        
         renderDis();    // visualize the distribution;
         renderSegments();   // visualize the segments;
+
+        this.parentElement.parentElement.parentElement.dispatchEvent(new CustomEvent("input"));
     }
 
     var drag = d3
@@ -1498,7 +1515,7 @@ function LineChart({
     // ---------------------------------------
     // Visualize the line segments
     renderSegments();
-    function renderSegments(){
+    function renderSegments() {
         var pathSegment = (d) => d3.line()([[x(d.point[0][0]), y(d.point[0][1])], [
             x(d.point[1][0]), y(d.point[1][1])
         ]]);
@@ -1516,13 +1533,13 @@ function LineChart({
             .attr('fill', 'none')
             .attr('stroke-width', lineWidth)
             .attr('opacity', 0)
-    
+
         d3.select(node)
             .selectAll("g.global-line")
             .selectAll('#segment-line')
             .lower();
     }
-    
+
 
 
 
