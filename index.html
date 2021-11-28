@@ -144,7 +144,7 @@
 
     <script>
         // -------------------------------------------------------------------
-        // Init the all global variables
+        // Init the all global variable
         var dataIndex,      // the data index to be used in dataLoading;
             firstAggeragate,       // the attribute that we fisrt aggregate;
             secondAggeragate,       // the second attribute that we aggregate;
@@ -158,14 +158,20 @@
             dataJson,       // the information of dataset, such as the attributes etc; 
             collapse,     // if it is expand or collapse;
             colorbrewer = colorbrewer,          // the color brewer;
-            filterElement,               // the filter element;
+            filterElement,          // the filter element;
             colorScale,              // the color selection for users;
             parameterSort,          // the parameter sort methods;
             parameterSortSecond,     // the parameter sort methods for second time;
-            table,               // the table node
+            table,               // the table node;
             divLine,              // the output element of catgory data;
-            nameCategory,          // the name of categories
-            classMethod         // the automatic cluster
+            nameCategory,          // the name of categories;
+            classMethod,         // the automatic cluster;
+            dataset,             // the dataset;
+            dataJson,           // the dataJson;
+            categoryData = [],         // the categoryData;
+            treeData,              // the treeData for combination matrix;
+            brushedAttributes,      // the selected attributes;
+            jumpColorScale    // the color scale for the jumpChanges;
 
         // $(document).ready(function () {
         //     $("#slider").slider({
@@ -296,7 +302,7 @@
                         // dataset = d.map((e) => { e.color = get_random_color(); return e })
                         dataset = d.map((e) => { e.color = 'black'; return e })
                         dataJson = dealDataJson(indexSelection[0], dataset);
-
+                        brushedAttributes = dataJson.temporalAttributes;
                         // ---------------------------------------------
                         // Add the options for the aggregates
                         firstAggeragate
@@ -369,6 +375,26 @@
                             dataset: dataset
                         }); // visualize the connected lines
                         debugger;
+
+                        treeData = CalTreData({
+                            dataFromFuzzy: categoryData,
+                            dataset: dataset,
+                            attributesCut: dataJson.temporalAttributes,
+                            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value,
+                            dataJson: dataJson,
+                            brushedAttributes: brushedAttributes,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            firstAggeragateAttribute: firstAggeragate
+                                .select("select")
+                                .node().value,
+                            collapse: collapse.selectAll('input')._groups[0][1].checked
+                                ? collapse.selectAll('input')._groups[0][1].value
+                                : collapse.selectAll('input')._groups[0][0].value
+                        }); // generate the tree data;
                         renderCombinationMatrix({
                             node: svgMatrix.node(),
                             dataFromFuzzy: svgLine.node().parentElement.value,
@@ -386,7 +412,7 @@
                             empty: isEmpty.selectAll('input')._groups[0][1].checked
                                 ? isEmpty.selectAll('input')._groups[0][1].value
                                 : isEmpty.selectAll('input')._groups[0][0].value,
-                            brushedAttributes: svgLine.select("#time-brush").node().value,
+                            brushedAttributes: brushedAttributes,
                             yHeight: +setHeight.select("input").node().value,
                             lineWidth: +lineWidth.select("input").node().value,
                             secondAggeragateAttribute: secondAggeragate
@@ -397,7 +423,8 @@
                             collapse: collapse.selectAll('input')._groups[0][1].checked
                                 ? collapse.selectAll('input')._groups[0][1].value
                                 : collapse.selectAll('input')._groups[0][0].value,
-                            filterPara: filterElement.node().value
+                            filterPara: filterElement.node().value,
+                            treeData: treeData
                         }); // visualize the combination sets
 
                         ChangeParameter();
@@ -418,6 +445,7 @@
                                 dataset = e.map((e) => { e.color = 'black'; return e })
                                 dataset.length > 500 ? dataset = dataset.slice(0, 1000) : dataset;
                                 dataJson = dealDataJson(index, dataset);
+                                brushedAttributes = dataJson.temporalAttributes;
                                 // ---------------------------------------------
                                 // Add the options for the aggregates
                                 firstAggeragate
@@ -500,6 +528,26 @@
                                     dataset: dataset
                                 }); // visualize the connected lines
 
+                                treeData = CalTreData({
+                                    dataFromFuzzy: categoryData,
+                                    dataset: dataset,
+                                    attributesCut: dataJson.temporalAttributes,
+                                    empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                        ? isEmpty.selectAll('input')._groups[0][1].value
+                                        : isEmpty.selectAll('input')._groups[0][0].value,
+                                    dataJson: dataJson,
+                                    brushedAttributes: brushedAttributes,
+                                    secondAggeragateAttribute: secondAggeragate
+                                        .select("select")
+                                        .node().value,
+                                    firstAggeragateAttribute: firstAggeragate
+                                        .select("select")
+                                        .node().value,
+                                    collapse: collapse.selectAll('input')._groups[0][1].checked
+                                        ? collapse.selectAll('input')._groups[0][1].value
+                                        : collapse.selectAll('input')._groups[0][0].value
+                                }); // generate the tree data;
+
                                 renderCombinationMatrix({
                                     node: svgMatrix.node(),
                                     dataFromFuzzy: svgLine.node().parentElement.value,
@@ -528,7 +576,8 @@
                                     collapse: collapse.selectAll('input')._groups[0][1].checked
                                         ? collapse.selectAll('input')._groups[0][1].value
                                         : collapse.selectAll('input')._groups[0][0].value,
-                                    filterPara: filterElement.node().value
+                                    filterPara: filterElement.node().value,
+                                    treeData: treeData
                                 }); // visualize the combination sets
 
                                 ChangeParameter();

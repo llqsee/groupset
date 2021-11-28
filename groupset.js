@@ -61,7 +61,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData: treeData
         }); // visualize the combination sets
         addClickToSet();
     });
@@ -101,6 +102,26 @@ function ChangeParameter() {
             dataset: dataset
         }); // visualize the connected lines
 
+        treeData = CalTreData({
+            dataFromFuzzy: categoryData,
+            dataset: dataset,
+            attributesCut: dataJson.temporalAttributes,
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            dataJson: dataJson,
+            brushedAttributes: brushedAttributes,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value,
+            firstAggeragateAttribute: firstAggeragate
+                .select("select")
+                .node().value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value
+        }); // generate the tree data;
+
         renderCombinationMatrix({
             node: svgMatrix.node(),
             dataFromFuzzy: svgLine.node().parentElement.value,
@@ -129,7 +150,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData:treeData
         });
         addClickToSet();
 
@@ -165,7 +187,8 @@ function ChangeParameter() {
                     collapse: collapse.selectAll('input')._groups[0][1].checked
                         ? collapse.selectAll('input')._groups[0][1].value
                         : collapse.selectAll('input')._groups[0][0].value,
-                    filterPara: filterElement.node().value
+                    filterPara: filterElement.node().value,
+                    treeData:treeData
                 });
             }); // when click the connection-line to order the sets
         addClickToSet();
@@ -205,7 +228,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData:treeData
         }); // visualize the combination matrix
         addClickToSet();
     });
@@ -247,7 +271,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData:treeData
         }); // visualize the combination matrix
         addClickToSet();
     });
@@ -277,6 +302,27 @@ function ChangeParameter() {
                     .select("select")
                     .node().value
             }); // visualize the line chart
+
+            treeData = CalTreData({
+                dataFromFuzzy: categoryData,
+                dataset: dataset,
+                attributesCut: dataJson.temporalAttributes,
+                empty: isEmpty.selectAll('input')._groups[0][1].checked
+                    ? isEmpty.selectAll('input')._groups[0][1].value
+                    : isEmpty.selectAll('input')._groups[0][0].value,
+                dataJson: dataJson,
+                brushedAttributes: brushedAttributes,
+                secondAggeragateAttribute: secondAggeragate
+                    .select("select")
+                    .node().value,
+                firstAggeragateAttribute: firstAggeragate
+                    .select("select")
+                    .node().value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
+            }); // generate the tree data;
+
             // addClickToSort();
             renderCombinationMatrix({
                 node: svgMatrix.node(),
@@ -303,7 +349,8 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                filterPara: filterElement.node().value
+                filterPara: filterElement.node().value,
+                treeData:treeData
             }); // visualize the combination matrix
             addClickToSet();
 
@@ -336,7 +383,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData:treeData
         }); // visualize the combination matrix
         addClickToSet();
         // d3.select(d.path[4].querySelector("#div-matrix").querySelector("svg"))
@@ -373,7 +421,8 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                filterPara: filterElement.node().value
+                filterPara: filterElement.node().value,
+                treeData:treeData
             }); // visualize the combination matrix
             addClickToSet();
             // debugger;
@@ -411,7 +460,8 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                filterPara: filterElement.node().value
+                filterPara: filterElement.node().value,
+                treeData:treeData
             });
             addClickToSet();
         }); // when click the connection-line to order the sets
@@ -437,6 +487,24 @@ function ChangeParameter() {
                 firstAggeragateAttribute: inputValue
             }); // visualize the line chart
             // addClickToSort();
+
+            treeData = CalTreData({
+                dataFromFuzzy: categoryData,
+                dataset: dataset,
+                attributesCut: dataJson.temporalAttributes,
+                empty: isEmpty.selectAll('input')._groups[0][1].checked
+                    ? isEmpty.selectAll('input')._groups[0][1].value
+                    : isEmpty.selectAll('input')._groups[0][0].value,
+                dataJson: dataJson,
+                brushedAttributes: brushedAttributes,
+                secondAggeragateAttribute: secondAggeragate
+                    .select("select")
+                    .node().value,
+                firstAggeragateAttribute: inputValue,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
+            }); // generate the tree data;
 
             renderCombinationMatrix({
                 node: svgMatrix.node(),
@@ -465,7 +533,8 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                filterPara: filterElement.node().value
+                filterPara: filterElement.node().value,
+                treeData:treeData
             });
             addClickToSet();
         }); // when we click the second aggeragate option;
@@ -496,6 +565,24 @@ function ChangeParameter() {
             }); // visualize the line chart
             // addClickToSort();
 
+            treeData = CalTreData({
+                dataFromFuzzy: categoryData,
+                dataset: dataset,
+                attributesCut: dataJson.temporalAttributes,
+                empty: isEmpty.selectAll('input')._groups[0][1].checked
+                    ? isEmpty.selectAll('input')._groups[0][1].value
+                    : isEmpty.selectAll('input')._groups[0][0].value,
+                dataJson: dataJson,
+                brushedAttributes: brushedAttributes,
+                secondAggeragateAttribute: inputValue,
+                firstAggeragateAttribute: firstAggeragate
+                    .select("select")
+                    .node().value,
+                collapse: collapse.selectAll('input')._groups[0][1].checked
+                    ? collapse.selectAll('input')._groups[0][1].value
+                    : collapse.selectAll('input')._groups[0][0].value
+            }); // generate the tree data;
+
             renderCombinationMatrix({
                 node: svgMatrix.node(),
                 dataFromFuzzy: svgLine.node().parentElement.value,
@@ -522,7 +609,8 @@ function ChangeParameter() {
                 collapse: collapse.selectAll('input')._groups[0][1].checked
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
-                filterPara: filterElement.node().value
+                filterPara: filterElement.node().value,
+                treeData:treeData
             });
             addClickToSet();
         }); // when we click the second aggeragate option;
@@ -558,7 +646,8 @@ function ChangeParameter() {
             firstAggeragateAttribute: firstAggeragate.select("select").node()
                 .value,
             collapse: inputValue,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData:treeData
         });
         addClickToSet();
     })
@@ -592,7 +681,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: d.currentTarget.value
+            filterPara: d.currentTarget.value,
+            treeData:treeData
         });
         addClickToSet();
     })
@@ -634,7 +724,7 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData: newTreData
+                treeData:treeData
             });
             addClickToSet();
         }) // when we click the collapse and expand sets (first level sets)
@@ -702,7 +792,7 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData: newTreData
+                treeData:treeData
             });
             addClickToSet();
 
@@ -746,7 +836,7 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData: newTreData
+                treeData:treeData
             });
             addClickToSet();
         })
@@ -764,6 +854,26 @@ function ChangeParameter() {
             dataJson: dataJson,
             dataset: dataset
         });  // visualize the connection area in connection node;
+
+        treeData = CalTreData({
+            dataFromFuzzy: categoryData,
+            dataset: dataset,
+            attributesCut: dataJson.temporalAttributes,
+            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                ? isEmpty.selectAll('input')._groups[0][1].value
+                : isEmpty.selectAll('input')._groups[0][0].value,
+            dataJson: dataJson,
+            brushedAttributes: brushedAttributes,
+            secondAggeragateAttribute: secondAggeragate
+                .select("select")
+                .node().value,
+            firstAggeragateAttribute: firstAggeragate
+                .select("select")
+                .node().value,
+            collapse: collapse.selectAll('input')._groups[0][1].checked
+                ? collapse.selectAll('input')._groups[0][1].value
+                : collapse.selectAll('input')._groups[0][0].value
+        }); // generate the tree data;
 
         renderCombinationMatrix({
             node: svgMatrix.node(),
@@ -793,7 +903,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData:treeData
         });
         addClickToSet();
     })  // when we change drag the diamond;
@@ -854,7 +965,8 @@ function ChangeParameter() {
             collapse: collapse.selectAll('input')._groups[0][1].checked
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
-            filterPara: filterElement.node().value
+            filterPara: filterElement.node().value,
+            treeData:treeData
         });
         addClickToSet();
 

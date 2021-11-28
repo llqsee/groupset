@@ -128,7 +128,7 @@ function brushChart({ dataJson, node, data, n, isEmpty } = {}) {
             (d, i) => i >= indexX0 && i <= indexX1
         ); // extract the attributes
 
-
+        brushedAttributes = selectedAttributes;
 
         d3.select(this).node().parentElement.value = selectedAttributes;
         d3.select(this)

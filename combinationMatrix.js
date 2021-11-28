@@ -39,19 +39,8 @@ function renderCombinationMatrix({
     oneAttribute = oneAttribute || "Average",
     scrollWidth = 20,
     lineWidth = lineWidth || 3,
-    brushedAttributes = brushedAttributes || attributesCut;
-
-  var data = treeData || CalTreData({
-    dataFromFuzzy: dataFromFuzzy,
-    dataset: dataset,
-    attributesCut: attributesCut,
-    empty: empty,
-    dataJson: dataJson,
-    brushedAttributes: brushedAttributes,
-    secondAggeragateAttribute: secondAggeragateAttribute,
-    firstAggeragateAttribute: firstAggeragateAttribute,
-    collapse: collapse
-  }); // generate the tree data;
+    brushedAttributes = brushedAttributes || attributesCut,
+    data = treeData;
 
   // filter the treeData based on the degreess
   // var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
@@ -1031,7 +1020,7 @@ function renderCombinationMatrix({
       .selectAll(".subset-line-text")
       .data((d) => d[1])
       .join("g")
-      .style('display', (d, i, s) => { if (s[0].parentElement.__data__.expand == 'false') { return 'none' } else { return 'inline' } })
+      .style('display', (d, i, s) => { debugger; if (s[0].parentElement.__data__.expand == 'false') { return 'none' } else { return 'inline' } })
       .attr(
         "transform",
         (d) =>
@@ -1084,6 +1073,7 @@ function renderCombinationMatrix({
           })
           .attr("stroke", (d) => d.color)
           .attr("stroke-width", lineWidth)
+          .attr('opacity', 0.5)
           .attr("fill", "none"),
       // .attr("transform", (d) => `translate(0,${y(d.name)})`)
       (update) =>
@@ -1097,6 +1087,7 @@ function renderCombinationMatrix({
                 return path1(d, d.groupMin, d.groupMax);
               })
               .attr("stroke", (d) => d.color)
+              .attr('opacity', 0.5)
               .attr("stroke-width", lineWidth)
               .attr("fill", "none")
           // .attr("transform", (d) => `translate(0,${y(d.name)})`)
@@ -2444,7 +2435,7 @@ function renderCombinationMatrix({
       .join('path')
       .attr('class', 'line')
       .attr('d', d => pathSegment(d, d.min, d.max))
-      .attr('stroke', 'red')
+      .attr('stroke', d => jumpColorScale(d.jumpValue))
       .attr('stroke-width', lineWidth)
       .attr('opacity', 0)
 

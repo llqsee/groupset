@@ -329,7 +329,7 @@ function LineChart({
     if (node.parentElement.value == null) {
         if (classMethod == 'automatic') {
             var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
-            var categoryData = [];
+            // var categoryData = [];
             for (var i = 0; i < n; i++) {
                 categoryData.push({
                     edgeMin: +resultCluster[i][0]
@@ -343,21 +343,21 @@ function LineChart({
                 //     max = dataJson.max,
                 var step = (max - min) / +n;
                 if (n == 2) {
-                    var categoryData = [
+                    categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
                         { edgeMin: min + step * 1, edgeMax: max, name: "Middle" }
                         // { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                         // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                     ];
                 } else if (n == 3) {
-                    var categoryData = [
+                    categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
                         { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
                         { edgeMin: min + step * 2, edgeMax: max, name: "High" }
                         // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                     ];
                 } else {
-                    var categoryData = [
+                    categoryData = [
                         { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
                         { edgeMin: min + step * 1, edgeMax: min + step * 2, name: "Middle" },
                         { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
@@ -369,7 +369,7 @@ function LineChart({
                     ];
                 }
             } else {
-                var categoryData = dataJson.config.filter((d) => d.n == n)[0].category;
+                categoryData = dataJson.config.filter((d) => d.n == n)[0].category;
             }
         }
 
@@ -377,7 +377,7 @@ function LineChart({
         if (n != node.parentElement.value.length || (n == node.parentElement.value.length && classMethod != node.parentElement.value.clusterName)) {
             if (classMethod == 'automatic') {
                 var resultCluster = ss.ckmeans(clusterArray, n);    // calculate the results of cluster
-                var categoryData = [];
+                // categoryData = [];
                 for (var i = 0; i < n; i++) {
                     categoryData.push({
                         edgeMin: +resultCluster[i][0]
@@ -391,14 +391,14 @@ function LineChart({
                     //     max = dataJson.max,
                     var step = (max - min) / +n;
                     if (n == 2) {
-                        var categoryData = [
+                        categoryData = [
                             { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
                             { edgeMin: min + step * 1, edgeMax: max, name: "Middle" }
                             // { edgeMin: min + step * 2, edgeMax: min + step * 3, name: "High" },
                             // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                         ];
                     } else if (n == 3) {
-                        var categoryData = [
+                        categoryData = [
                             { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
                             {
                                 edgeMin: min + step * 1,
@@ -409,7 +409,7 @@ function LineChart({
                             // { edgeMin: min + step * 3, edgeMax: min + step * 4, name: "Very high" }
                         ];
                     } else {
-                        var categoryData = [
+                        categoryData = [
                             { edgeMin: min, edgeMax: min + step * 1, name: "Low" },
                             {
                                 edgeMin: min + step * 1,
@@ -425,12 +425,12 @@ function LineChart({
                         ];
                     }
                 } else {
-                    var categoryData = dataJson.config.filter((d) => d.n == n)[0].category;
+                    categoryData = dataJson.config.filter((d) => d.n == n)[0].category;
                 }
             }
 
         } else {
-            var categoryData = node.parentElement.value;
+            categoryData = node.parentElement.value;
         }
     }
     categoryData.clusterName = classMethod;
@@ -696,7 +696,7 @@ function LineChart({
         // debugger;
         var jumpColor = jumpCategory.map((d, i) => d3.interpolateRainbow(d3.range(jumpDistributionData.length)[i] / jumpDistributionData.length))
 
-        var jumpColorScale = d3.scaleOrdinal()
+        jumpColorScale = d3.scaleOrdinal()
             .domain(jumpCategory)
             .range(jumpColor);// create the colorscale for jumpdistribution;
 
@@ -859,6 +859,7 @@ function LineChart({
         //     .attr('dominant-baseline', 'middle')
         //     .attr('text-anchor', 'end')
         //     .text(d => d.value)   // visualize the text of legend;
+        // return jumpColorScale;
     }
     // --------------------------------------------------------------------------------
 
@@ -927,8 +928,9 @@ function LineChart({
     }
     function Draged(event) {
         // debugger;
-        renderDis();
         this.parentElement.parentElement.parentElement.dispatchEvent(new CustomEvent("input"));
+        renderDis();    // visualize the distribution;
+        renderSegments();   // visualize the segments;
     }
 
     var drag = d3
@@ -1495,28 +1497,32 @@ function LineChart({
 
     // ---------------------------------------
     // Visualize the line segments
-    var pathSegment = (d) => d3.line()([[x(d.point[0][0]), y(d.point[0][1])], [
-        x(d.point[1][0]), y(d.point[1][1])
-    ]]);
-    d3.select(node)
-        .selectAll("g.global-line")
-        .selectAll('#segment-line')
-        .data(d => [d])
-        .join('g')
-        .attr('id', 'segment-line')
-        .selectAll('path')
-        .data(d => d.timeTrend)
-        .join('path')
-        .attr('d', d => pathSegment(d))
-        .attr('stroke', 'red')
-        .attr('fill', 'none')
-        .attr('stroke-width', lineWidth)
-        .attr('opacity', 0)
-
-    d3.select(node)
-        .selectAll("g.global-line")
-        .selectAll('#segment-line')
-        .lower();
+    renderSegments();
+    function renderSegments(){
+        var pathSegment = (d) => d3.line()([[x(d.point[0][0]), y(d.point[0][1])], [
+            x(d.point[1][0]), y(d.point[1][1])
+        ]]);
+        d3.select(node)
+            .selectAll("g.global-line")
+            .selectAll('#segment-line')
+            .data(d => [d])
+            .join('g')
+            .attr('id', 'segment-line')
+            .selectAll('path')
+            .data(d => d.timeTrend)
+            .join('path')
+            .attr('d', d => pathSegment(d))
+            .attr('stroke', d => jumpColorScale(d.jumpValue))
+            .attr('fill', 'none')
+            .attr('stroke-width', lineWidth)
+            .attr('opacity', 0)
+    
+        d3.select(node)
+            .selectAll("g.global-line")
+            .selectAll('#segment-line')
+            .lower();
+    }
+    
 
 
 
