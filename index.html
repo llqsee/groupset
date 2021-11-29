@@ -128,16 +128,17 @@
         </div>
         <div id='layout-right'>
             <div id='layout-right-top' style="width:100%;height:40%;float:left;">
-                <div id='layout-right-top-left' style=width:15%;height:100%;float:left></div>
-                <div style='width:85%;height:100%;float:left;' id='div-line'></div>
+                <div id='layout-right-top-left' style=width:12%;height:100%;float:left></div>
+                <div style='width:68%;height:100%;float:left;' id='div-line'></div>
+                <div id="layout-elements" style="width:20%;height:100%;float: left;"></div>
             </div>
             <div style='width:100%;height:60%;float:left;overflow-y:scroll;overflow-x:hidden' id='div-matrix'>
             </div>
         </div>
-        <div id="layout-lastside">
+        <!-- <div id="layout-lastside">
             <div id="statistic"></div>
             <div id="table"></div>
-        </div>
+        </div> -->
     </div>
 
 
@@ -250,7 +251,7 @@
         //     .attr('value', d => d.name)
         //     .text(d => d.name)
 
-        table = d3.select('#layout-lastside').select('#table');
+        // table = d3.select('#layout-lastside').select('#table');
 
         divLine = d3.select('#div-line');
 
@@ -429,7 +430,7 @@
 
                         ChangeParameter();
 
-                        tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
+                        // tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
 
                     })
 
@@ -582,7 +583,7 @@
 
                                 ChangeParameter();
 
-                                tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
+                                // tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
                             }
                         )
                     })

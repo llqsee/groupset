@@ -35,15 +35,18 @@ function renderCombinationMatrix({
   // d3.select(node).select("#y-label").remove();
   // d3.select(node).selectAll(".set").remove();
   debugger;
-  var width = Number(d3.select(node).attr("width")),
-    margin = margin || { top: 10, left: 15, bottom: 20, right: 70 },
+  var margin = margin || { top: 10, left: 15, bottom: 20, right: 70 },
     dimension = dimension || 2,
     oneAttribute = oneAttribute || "Average",
     scrollWidth = 20,
     lineWidth = lineWidth || 3,
     brushedAttributes = brushedAttributes || attributesCut,
     data = treeData,
-    trendCate = ['up', 'down', 'stable'];
+    trendCate = ['up', 'down', 'stable'],
+    width = Number(d3.select(node).attr("width")) * 0.8,
+    x_range_trend,    // the scale of vertical rects in trend area;
+    xRangeTrend,         // the range of vertical rects in trend area;
+    xScaleTrend;        // the scale of vertical rects in trend area;
 
   // filter the treeData based on the degreess
   // var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
@@ -155,7 +158,7 @@ function renderCombinationMatrix({
       categories = categories.reverse();
     }
     var x_step =
-      (d3.select(node).attr("width") * 0.15 - widthMatrixLeft - margin.left) /
+      (d3.select(node).attr("width") * 0.15 * 0.8 - widthMatrixLeft - margin.left) /
       4,
       y_step = yHeight || 30,
       y_step_group = 25;
@@ -557,9 +560,9 @@ function renderCombinationMatrix({
 
     var dataFortrendStack = stackTrendFirst(data);    // get the data for trend stack;
 
-    var x_range_trend = [
-      d3.select(node).attr("width") * 0.15,
-      d3.select(node).attr("width") * 0.15 + x_step * 3
+    x_range_trend = [
+      d3.select(node).attr("width") * 0.15 * 0.8,
+      d3.select(node).attr("width") * 0.15 * 0.8 + x_step * 3
     ];
 
     var xScaleFirstStackTrend = d3.scaleLinear().domain([0, brushedAttributes.length - 1]).range(x_range_trend);   // the x scale;
@@ -1881,11 +1884,11 @@ function renderCombinationMatrix({
     // render the trends for each sub set
 
     // if (secondAggeragateAttribute == "Trend") {
-    var xRangeTrend = [
-      d3.select(node).attr("width") * 0.15 + 0.5 * x_step,
-      d3.select(node).attr("width") * 0.15 + x_step * 2.5
+    xRangeTrend = [
+      d3.select(node).attr("width") * 0.15 * 0.8 + 0.5 * x_step,
+      d3.select(node).attr("width") * 0.15 * 0.8 + x_step * 2.5
     ];
-    var xScaleTrend = d3
+    xScaleTrend = d3
       .scalePoint()
       .range(xRangeTrend)
       .domain(["up", "down", "stable"]);

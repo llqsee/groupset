@@ -40,11 +40,12 @@ function LineChart({
         t = d3.select(node).transition().duration(750),
         heightLine = height * 0.6,
         heightDistribution = height * 0.15,
-        heightBrush = height * 0.1;
+        heightBrush = height * 0.1,    
+        scrollWidth = 20;
     var widthAttribute = 100;
     var oneAttribute = oneAttribute || "Average";
     var lineWidth = lineWidth || 2;
-    var x_step = ((d3.select(node).attr("width") / 0.85) * 0.15 - 40 - 15) / 4;
+    var x_step = ((d3.select(node).attr("width") / 0.85) * 0.15 - 40 - 15) / 4;  // the step of pie charts;
     var widthTrend = x_step * 3;
 
     // var x_step = (svg.attr("width") - widthMatrixLeft - margin.left) / 4;
