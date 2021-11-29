@@ -442,9 +442,9 @@ function LineChart({
     // Add timeTrend for dataset;
 
     AddtimeTrend({
-        data:dataset,
-        dataJson:dataJson,
-        categoryData:categoryData
+        data: dataset,
+        dataJson: dataJson,
+        categoryData: categoryData
     })
     // data.map(d => {
     //     d.timeTrend = [];
@@ -896,7 +896,7 @@ function LineChart({
         this.parentElement.parentElement.parentElement
             .value[index + 1].edgeMin = Number(limitationMaxMin.toFixed(2))  // the value of index + 1 has been changed;
 
-        categoryData.find(d => d.name == d3.select(this).data()[0].name).edgeMax =limitationMaxMin  // change the categoryData;
+        categoryData.find(d => d.name == d3.select(this).data()[0].name).edgeMax = limitationMaxMin  // change the categoryData;
 
         d3.select(this.parentElement.parentElement)
             .selectAll('.category-line')
@@ -938,13 +938,13 @@ function LineChart({
     }
     function Draged(event) {
         // debugger;
-        
+
         AddtimeTrend({
-            data:dataset,
-            dataJson:dataJson,
-            categoryData:categoryData
+            data: dataset,
+            dataJson: dataJson,
+            categoryData: categoryData
         })
-        
+        renderJumpBar(); // visualize the jumpBar after dragging the diamongds;
         renderDis();    // visualize the distribution;
         renderSegments();   // visualize the segments;
 
@@ -1171,8 +1171,8 @@ function LineChart({
         .attr("x", (d) => xScaleTrend(d) - 7.5)
         .attr("y", height - 15)
         // .attr("class", "fa-solid fa-up-right")
-        .attr('color','red')
-        .attr('href','./icon/up.svg')
+        .attr('color', 'red')
+        .attr('href', './icon/up.svg')
         // .attr(
         //     "href",
         //     "https://liqunliu1990.static.observableusercontent.com/files/5e93b3fd8f829f8e3e7e0382693decfc62538b5a3f4955300746197ffee3fbe6abc6ca519f9c52a98e2ba8b96c22896552e00f494be9ef25df29d67d852f8668?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27up-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=tWqUogU~oBGR0QlWp6BMMr4yVXPZ7-izP7BUxuHIdOTo-8H7Esfs7djLIUIqt0~-6YVH9SooA1RKp6D5hdI7BCenydb33oyTpUDp15wrygCKBkYzUsn~t-JuF2vMJrRtl6BQXDhTyAUI-~dHwjtBaQJej4Gv3C-zXVnrJCJrRGjawlT83rhnujSBUscDHJRlpJYo7UzvZvcVITsLhuQ6UyMq-JnYKAVFYng92UiHmgqg8ibNMzN4Ix3Ntrflgs24hPwAROIR3dDf0Dg3HYbIbH8YN~N7nOLx5YF1zV~A-s01F~UlyN4aObr92ZT9LFD~dlZuxU3OLuN~1b21G2QCYQ__"
@@ -1214,6 +1214,14 @@ function LineChart({
 
             d3.select(d.path[2])
                 .selectAll('.global-line')
+                .selectAll('#jump-bar')
+                .selectAll('g')
+                .filter(e => e.value == 'up')
+                .selectAll('rect')
+                .attr('opacity', 1)   // highlight the jump bar in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
                 .selectAll('.line')
                 .attr('opacity', 0.2)    // make the line chart grey;
         })
@@ -1247,6 +1255,15 @@ function LineChart({
                 .filter(e => e.value == 'up')
                 .attr('opacity', 0)    // don't highlight the segement lines in global line charts;
 
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#jump-bar')
+                .selectAll('g')
+                .filter(e => e.value == 'up')
+                .selectAll('rect')
+                .attr('opacity', 0)   // Don't highlight the jump bar in global line charts;
+
             d3.select(d.path[2])
                 .selectAll('.global-line')
                 .selectAll('.line')
@@ -1268,7 +1285,7 @@ function LineChart({
             "transform",
             (d) => `translate(${xScaleTrend(d) - 7.5},${height - 15})`
         )
-        .attr('href','./icon/down.svg')
+        .attr('href', './icon/down.svg')
         // .attr(
         //     "href",
         //     "https://liqunliu1990.static.observableusercontent.com/files/a652469c555d44d9d9637ca26a1dbcb363a9a421656580b70e117653745303c83f781505b5a33b048b525a6d328ccd99ebc0e3e1e7f24432ad0dfde6ee7d5259?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27down-arrow-svgrepo-com.svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=MlC~wYR7mChf8Fc71gKcypmnXrzXqADbLAlNf~hgxiMoK~9Mp7zT4nM0Nj~mJAsgjxWBIDH2w5cuWjTmD6xq48nzQ5E5lK3Pp8mICv91YIoF25Dvxv2ZGgeX5T8i06mZoeJvjN5AWJUCenpBPTztleCmAt7M4~tJgWiJtpTvenBmdIyB4x5EesS2b4WWvKRhBaYBmndVw9qFTexDM0mmNTj~2F-Ewv3-qZ9fmdIXywtlTBF2TPxh5f5dV2GEiqu4KY-WjtFISttUk3qOsZdjiGAe0LhF23bqlBjZ1nDUjxbz89cnweaiJcTnf-P7Sb0xGF8Ee2b-hI7cXhwlmoj3Xw__"
@@ -1310,6 +1327,15 @@ function LineChart({
 
             d3.select(d.path[2])
                 .selectAll('.global-line')
+                .selectAll('#jump-bar')
+                .selectAll('g')
+                .filter(e => e.value == 'down')
+                .selectAll('rect')
+                .attr('opacity', 1)   // highlight the jump bar in global line charts;
+
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
                 .selectAll('.line')
                 .attr('opacity', 0.2)    // make the line chart grey;
         })
@@ -1345,6 +1371,15 @@ function LineChart({
 
             d3.select(d.path[2])
                 .selectAll('.global-line')
+                .selectAll('#jump-bar')
+                .selectAll('g')
+                .filter(e => e.value == 'down')
+                .selectAll('rect')
+                .attr('opacity', 0)   // don't highlight the jump bar in global line charts;
+
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
                 .selectAll('.line')
                 .attr('opacity', 0.5)    // make the line chart normal;
         });
@@ -1362,7 +1397,7 @@ function LineChart({
             "transform",
             (d) => `translate(${xScaleTrend(d) - 7.5},${height - 15})`
         )
-        .attr('href','./icon/right.svg')
+        .attr('href', './icon/right.svg')
         // .attr(
         //     "href",
         //     "https://liqunliu1990.static.observableusercontent.com/files/9e220282e70b5e7e58f88ec573ae5b13bebc5dcbe7db4e184a7bf818a8b569b6a3fe49664cc1720d1e1ed0fc4ba6432b5ca9abbd1152ba71acf42830b10515e6?response-content-disposition=attachment%3Bfilename*%3DUTF-8%27%27right-arrow-svgrepo-com%2520(1).svg&Expires=1635249600000&Key-Pair-Id=APKAJCHFJLLLU4Y2WVSQ&Signature=b~gqq44XavJ2wzGqrz4r8NPnroue5yZOvO4q8tIfpuMfDyN9DhwmKpzVO-c95PWHm2pl7sDSw6xM5Co4g6j0CrbqppEoeVS6AwRVna3eHo4XvHtKNnPGD52HLKSZwooqjBqlWEetUwVS7Q4YDzVhxm2e~QuvH9iQMmyDBfR1pctiTP80U4ltqq2SA8gOgxdfedF7nuPkKoVQdvaeVnwqM0fCaI5Or8RZKHIdP2ZYwaIyIukOFIHsdr3zjvGi5qjclT-TTW6SfOCq8Fkc7VG0kWneo6tLuK9MyCGVKxtGTAx44FdyfqAFzXbmg018pYkWzrEFIOwA6PSZjzalhK64oA__"
@@ -1404,6 +1439,16 @@ function LineChart({
 
             d3.select(d.path[2])
                 .selectAll('.global-line')
+                .selectAll('#jump-bar')
+                .selectAll('g')
+                .filter(e => e.value == 'stable')
+                .selectAll('rect')
+                .attr('opacity', 1)   // highlight the jump bar in global line charts;
+
+
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
                 .selectAll('.line')
                 .attr('opacity', 0.2)    // make the line chart grey;
         })
@@ -1436,6 +1481,15 @@ function LineChart({
                 .selectAll('path')
                 .filter(e => e.value == 'stable')
                 .attr('opacity', 0)    // don't highlight the segement lines in global line charts;
+
+            d3.select(d.path[2])
+                .selectAll('.global-line')
+                .selectAll('#jump-bar')
+                .selectAll('g')
+                .filter(e => e.value == 'stable')
+                .selectAll('rect')
+                .attr('opacity', 0)   // highlight the jump bar in global line charts;
+
 
             d3.select(d.path[2])
                 .selectAll('.global-line')
@@ -1545,6 +1599,54 @@ function LineChart({
             .lower();
     }
 
+
+    // ------------------------------------------------------
+    // Visualize the jump bars;
+    renderJumpBar();
+    function renderJumpBar(){
+        function CalY(d, x, y) {
+            debugger;
+            var widthBar = x.step() * 0.2;
+            var x1 = x(d.point[0][0]);
+            var y1 = y(d.point[0][1]);
+            var x2 = x(d.point[1][0]);
+            var y2 = y(d.point[1][1]);
+            var xFinal = widthBar * 0.5 + widthBar * d.index;
+            var yFinal = ((y2 - y1) / (x2 - x1)) * xFinal + y1;
+            return yFinal - 5;
+        }
+        d3.select(node)
+            .selectAll('g.global-line')
+            .selectAll('#jump-bar')
+            .data(d => [d])
+            .join('g')
+            .attr('id', 'jump-bar')
+            .selectAll('g')
+            .data(d => d.timeTrend.filter(e => e.jumpNumber != 0))
+            .join('g')
+            .selectAll('rect')
+            .data(d => {
+                // debugger;
+                var smallData = d3.range(Math.abs(d.jumpNumber) + 1)
+                    .map(e => {
+                        var f = {};
+                        f.point = d.point;
+                        f.index = e;
+                        return f;
+                    })
+                return smallData;
+            })
+            .join('rect')
+            .attr('x', d => x(d.point[0][0]) + x.step() * 0.2 * d.index)
+            .attr('y', d => CalY(d, x, y))
+            .attr('width', x.step() * 0.2)
+            .attr('height', 10)
+            .attr('fill', 'black')
+            .attr('stroke', 'none')
+            .attr('sttroke-width', 0)
+            .attr('opacity', 0)
+    }
+    // -------------------------------------------------------
 
 
 

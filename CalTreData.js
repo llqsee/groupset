@@ -708,6 +708,9 @@ function AddtimeTrend({
                 var value2 = '';
             }
 
+            var index1 = categoryData.findIndex(d => d.name == value1);  // the index of value1 in temporalAttributes;
+            var index2 = categoryData.findIndex(d => d.name == value2); // the index of value2 in temporalAttributes;
+            var jumpNumber = +index2 - (+index1);
             var addValue = value1 == value2 ? 'stable' : value1 + '-' + value2;
 
             if (dataJson.rank == "yes") {
@@ -716,16 +719,16 @@ function AddtimeTrend({
                     -0.02
                 ) {
                     // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue, jumpNumber: jumpNumber })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) >
                     0.02
                 ) {
                     // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue, jumpNumber: jumpNumber })
                 } else {
                     // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue, jumpNumber: jumpNumber })
                 }
             } else {
                 if (
@@ -733,16 +736,16 @@ function AddtimeTrend({
                     0.02
                 ) {
                     // d.Trend["up"] = d.Trend["up"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'up', jumpValue: addValue, jumpNumber: jumpNumber })
                 } else if (
                     (d[keys[n + 1]] - d[keys[n]]) / (dataJson.max - dataJson.min) <
                     -0.02
                 ) {
                     // d.Trend["down"] = d.Trend["down"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'down', jumpValue: addValue, jumpNumber: jumpNumber })
                 } else {
                     // d.Trend["stable"] = d.Trend["stable"] + 1;
-                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue })
+                    d.timeTrend.push({ point: [[keys[n], d[keys[n]]], [keys[n + 1], d[keys[n + 1]]]], name: keys[n], value: 'stable', jumpValue: addValue, jumpNumber: jumpNumber })
                 }
             }
         };
