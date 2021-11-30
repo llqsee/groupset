@@ -617,7 +617,7 @@ function CalTreData({
         d[1].map((e, j) => e.id = i + "_" + j)
     })
 
-    debugger;
+    // debugger;
     // calculate the Average attributes for each set
     // treeData1.map((d) => {
     //     d["Average"] = 0;

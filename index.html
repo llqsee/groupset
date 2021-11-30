@@ -131,7 +131,11 @@
             <div id='layout-right-top' style="width:100%;height:40%;float:left;">
                 <div id='layout-right-top-left' style=width:12%;height:100%;float:left></div>
                 <div style='width:68%;height:100%;float:left;' id='div-line'></div>
-                <div id="layout-elements" style="width:20%;height:100%;float: left;"></div>
+                <div id="layout-elements" style="width:20%;height:100%;float: left;">
+                    <div id="element-view" style="width:100%;"></div>
+                    <div id="attribute-view">
+                    </div>
+                </div>
             </div>
             <div style='width:100%;height:60%;float:left;overflow-y:scroll;overflow-x:hidden' id='div-matrix'>
             </div>
@@ -174,7 +178,9 @@
             treeData,              // the treeData for combination matrix;
             brushedAttributes,      // the selected attributes;
             jumpColorScale,    // the color scale for the jumpChanges;
-            multiAttribute = [];     // the attributes to be visualized as box charts;
+            multiAttribute = [],     // the attributes to be visualized as box charts;
+            attributeSelectNode,                // the attribute selections view;
+            elementNode;                // the node of elements;
 
         // $(document).ready(function () {
         //     $("#slider").slider({
@@ -260,6 +266,19 @@
         nameCategory = d3.select('.parameter-name');
 
         classMethod = d3.select('.parameter-cluster');
+
+        // elementNode = d3.select('#layout-elements')
+        //     .append('svg')
+        //     .attr('width', d3.select('#layout-elements').node().getBoundingClientRect().width)
+        //     .attr('height', d3.select('#layout-elements').node().getBoundingClientRect().height)
+        //     .node();
+        elementNode = d3.select('#element-view')
+            .style('height', (d3.select('#layout-elements').node().getBoundingClientRect().height - 20) +'px')
+            .style('width', d3.select('#layout-elements').node().getBoundingClientRect().width+'px')
+
+        attributeSelectNode = d3.select('#attribute-view')
+        .style('height','18px')
+        .node();
 
 
 
@@ -398,6 +417,12 @@
                                 ? collapse.selectAll('input')._groups[0][1].value
                                 : collapse.selectAll('input')._groups[0][0].value
                         }); // generate the tree data;
+
+                        RenderAttributeSelection({
+                            attributes: dataJson.attributes.filter(d => d.type == 'categorical' || d.type == 'quantitative'),
+                            node: attributeSelectNode
+                        })
+
                         renderCombinationMatrix({
                             node: svgMatrix.node(),
                             dataFromFuzzy: svgLine.node().parentElement.value,
@@ -427,10 +452,13 @@
                                 ? collapse.selectAll('input')._groups[0][1].value
                                 : collapse.selectAll('input')._groups[0][0].value,
                             filterPara: filterElement.node().value,
-                            treeData: treeData
+                            treeData: treeData,
+                            attributeSelect: multiAttribute
                         }); // visualize the combination sets
 
                         ChangeParameter();
+
+                      
 
                         // tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
 
@@ -548,8 +576,14 @@
                                         .node().value,
                                     collapse: collapse.selectAll('input')._groups[0][1].checked
                                         ? collapse.selectAll('input')._groups[0][1].value
-                                        : collapse.selectAll('input')._groups[0][0].value
+                                        : collapse.selectAll('input')._groups[0][0].value,
+                                        
                                 }); // generate the tree data;
+
+                                RenderAttributeSelection({
+                                    attributes: dataJson.attributes.filter(d => d.type == 'categorical' || d.type == 'quantitative'),
+                                    node: attributeSelectNode
+                                })
 
                                 renderCombinationMatrix({
                                     node: svgMatrix.node(),
@@ -580,10 +614,13 @@
                                         ? collapse.selectAll('input')._groups[0][1].value
                                         : collapse.selectAll('input')._groups[0][0].value,
                                     filterPara: filterElement.node().value,
-                                    treeData: treeData
+                                    treeData: treeData,
+                                    attributeSelect: multiAttribute
                                 }); // visualize the combination sets
 
                                 ChangeParameter();
+
+                             
 
                                 // tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
                             }

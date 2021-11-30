@@ -1606,7 +1606,6 @@ function LineChart({
     renderJumpBar();
     function renderJumpBar(){
         function CalY(d, x, y) {
-            debugger;
             var widthBar = x.step() * 0.2;
             var x1 = x(d.point[0][0]);
             var y1 = y(d.point[0][1]);

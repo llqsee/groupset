@@ -26,7 +26,8 @@ function renderCombinationMatrix({
   secondAggeragateAttribute, // the second aggeragate attribute
   collapse,           // the collapse or expand;
   filterPara,      // the data for filtering something
-  treeData       // the default tree data
+  treeData,       // the default tree data
+  attributeSelect   // the attributes that we are going to visualize with box chart;
 } = {}) {
   //   ----------------------------------------
   //   remove the all elements except the ordering buttons
@@ -34,7 +35,7 @@ function renderCombinationMatrix({
   // d3.select(node).select("#bars").remove();
   // d3.select(node).select("#y-label").remove();
   // d3.select(node).selectAll(".set").remove();
-  debugger;
+  // debugger;
   var margin = margin || { top: 10, left: 15, bottom: 20, right: 70 },
     dimension = dimension || 2,
     oneAttribute = oneAttribute || "Average",
@@ -46,8 +47,10 @@ function renderCombinationMatrix({
     width = Number(d3.select(node).attr("width")) * 0.8,
     x_range_trend,    // the scale of vertical rects in trend area;
     xRangeTrend,         // the range of vertical rects in trend area;
-    xScaleTrend;        // the scale of vertical rects in trend area;
-
+    xScaleTrend,        // the scale of vertical rects in trend area;
+    xScaleMultiAttribute,  // the x scale for the multiple attribute view;
+    multiAttributeSvg      // the svg container for multiple attributes view;
+       
   // filter the treeData based on the degreess
   // var firstAggeragateValue = node.parentElement.parentElement.parentElement.parentElement.querySelector('#layout-left').querySelector('.parameter-first').querySelector('select').value;
   // if (firstAggeragateValue == 'Category') {
@@ -219,7 +222,7 @@ function renderCombinationMatrix({
     // d3.select(node).selectAll(".circle").remove();
 
     // calculate the translate function;
-    debugger;
+    // debugger;
     function CalculateTranslate(data, index, heightFirst, heightSecond, collapse) {
       var a = data.slice(0, index);   // this a represents the sets before the set we are calculating.
       var translateDistance;
@@ -1001,7 +1004,7 @@ function renderCombinationMatrix({
       .selectAll(".subset-line-text")
       .data((d) => d[1])
       .join("g")
-      .style('display', (d, i, s) => { debugger; if (s[0].parentElement.__data__.expand == 'false') { return 'none' } else { return 'inline' } })
+      .style('display', (d, i, s) => { if (s[0].parentElement.__data__.expand == 'false') { return 'none' } else { return 'inline' } })
       .attr(
         "transform",
         (d) =>
@@ -1224,7 +1227,7 @@ function renderCombinationMatrix({
       .attr("x", margin.left)
       // .attr("y", (d) => y(d.name) - d3.min([x_step, y_step]) * 0.45)
       .attr("y", 0)
-      .attr("width", width - scrollWidth - margin.left)
+      .attr("width", width / 0.8 - scrollWidth - margin.left)
       .attr("height", y_step)
       .attr("fill", "white")
       // .attr("id", "selected-rect-group")
@@ -2421,6 +2424,13 @@ function renderCombinationMatrix({
       .attr('stroke-width', lineWidth)
       .attr('opacity', 0)
 
+
+    // ------------------------------------------------
+    // Visualize the multiple attribute view;
+    RenderAttributes();
+    function RenderAttributes() {
+      
+    }
 
     // ---------------------------------------
     // We delet all the elements if the firstAggregate is equal to 'No aggregate'

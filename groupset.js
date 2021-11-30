@@ -62,7 +62,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value,
-            treeData: treeData
+            treeData: treeData,
+            attributeSelect: multiAttribute
         }); // visualize the combination sets
         addClickToSet();
     });
@@ -151,7 +152,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         });
         addClickToSet();
 
@@ -188,7 +190,8 @@ function ChangeParameter() {
                         ? collapse.selectAll('input')._groups[0][1].value
                         : collapse.selectAll('input')._groups[0][0].value,
                     filterPara: filterElement.node().value,
-                    treeData:treeData
+                    treeData:treeData,
+                    attributeSelect: multiAttribute
                 });
             }); // when click the connection-line to order the sets
         addClickToSet();
@@ -229,7 +232,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         }); // visualize the combination matrix
         addClickToSet();
     });
@@ -272,7 +276,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         }); // visualize the combination matrix
         addClickToSet();
     });
@@ -350,7 +355,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             }); // visualize the combination matrix
             addClickToSet();
 
@@ -384,7 +390,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         }); // visualize the combination matrix
         addClickToSet();
         // d3.select(d.path[4].querySelector("#div-matrix").querySelector("svg"))
@@ -422,7 +429,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             }); // visualize the combination matrix
             addClickToSet();
             // debugger;
@@ -461,7 +469,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             });
             addClickToSet();
         }); // when click the connection-line to order the sets
@@ -534,7 +543,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             });
             addClickToSet();
         }); // when we click the second aggeragate option;
@@ -610,7 +620,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             });
             addClickToSet();
         }); // when we click the second aggeragate option;
@@ -647,7 +658,8 @@ function ChangeParameter() {
                 .value,
             collapse: inputValue,
             filterPara: filterElement.node().value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         });
         addClickToSet();
     })
@@ -682,7 +694,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: d.currentTarget.value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         });
         addClickToSet();
     })
@@ -724,7 +737,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             });
             addClickToSet();
         }) // when we click the collapse and expand sets (first level sets)
@@ -792,7 +806,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             });
             addClickToSet();
 
@@ -836,7 +851,8 @@ function ChangeParameter() {
                     ? collapse.selectAll('input')._groups[0][1].value
                     : collapse.selectAll('input')._groups[0][0].value,
                 filterPara: filterElement.node().value,
-                treeData:treeData
+                treeData:treeData,
+                attributeSelect: multiAttribute
             });
             addClickToSet();
         })
@@ -904,7 +920,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         });
         addClickToSet();
     })  // when we change drag the diamond;
@@ -966,7 +983,8 @@ function ChangeParameter() {
                 ? collapse.selectAll('input')._groups[0][1].value
                 : collapse.selectAll('input')._groups[0][0].value,
             filterPara: filterElement.node().value,
-            treeData:treeData
+            treeData:treeData,
+            attributeSelect: multiAttribute
         });
         addClickToSet();
 
