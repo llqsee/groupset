@@ -1,0 +1,78 @@
+{
+    "file": "mnist/preds.csv",
+    "name": "MNIST",
+    "header": 1,
+    "separator": ",",
+    "rank":"no",
+    "config":[],
+    "id":"id",
+    "temporalAttributes": [
+        "prob_0",
+        "prob_1",
+        "prob_2",
+        "prob_3",
+        "prob_4",
+        "prob_5",
+        "prob_6",
+        "prob_7",
+        "prob_8",
+        "prob_9"
+    ],
+    "attributes": [
+        {
+            "name": "prob_0",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_1",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_2",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_3",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_4",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_5",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_6",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_7",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_8",
+            "type": "quantitative"
+        },
+        {
+            "name": "prob_9",
+            "type": "quantitative"
+        },
+        {
+            "name": "pred",
+            "type": "categorical"
+        },
+        {
+            "name": "label",
+            "type": "categorical"
+        },
+        {
+            "name": "eval",
+            "type": "categorical"
+        }
+    ],
+    "author": "",
+    "description": "",
+    "source": ""
+}

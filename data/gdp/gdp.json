@@ -1,0 +1,19 @@
+{
+  "file": "gdp/gdp-data12.csv",
+  "name": "GDP",
+  "header": 1,
+  "separator": ",",
+  "rank":"no",
+  "config": [],
+  "id": "CountryCode",
+  "temporalAttributes": [],
+  "attributes": [
+    {
+      "name": "^\\d+$",
+      "type": "regExp"
+    }
+  ],
+  "author": "",
+  "description": "",
+  "source": ""
+}

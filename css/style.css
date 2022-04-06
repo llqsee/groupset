@@ -1,0 +1,64 @@
+body{
+    font-size:12px;
+}
+
+#layout-left {
+    width:10%;
+    float: left;
+    height:calc(100vh - 20px - 1.4cm);
+    font-size: 12px;
+    overflow-y:auto;
+}
+#layout-right {
+    width:90%;
+    float: left;
+    height:calc(100vh - 20px  - 1.4cm);
+    font-size: 12px;
+}
+/* #layout-lastside{
+    width:0%;
+    float: left;
+    height:calc(100vh - 20px);
+    font-size: 12px;
+    overflow-y: hidden;
+} */
+
+#statistic{
+    /* width:20%; */
+    float:none;
+    height:calc(40vh - 10px);
+    font-size: 12px;
+}
+
+/* #table{
+    width:20%;
+    float:none;
+    height:calc(60vh - 10px);
+    font-size: 12px;
+    overflow-x: auto;
+} */
+
+.parameters {
+    margin-left: 15px;
+    float:left;
+}
+
+.line{
+    /* border-bottom: 1px solid black; */
+    border: 10;
+    background-color: #000;
+    height: 1px;
+}
+
+.button {
+    border: none;
+    color: white;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline;
+    font-size: 16px;
+    margin-right: 3px;
+    cursor: pointer;
+    background-color: black;
+}

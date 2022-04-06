@@ -1,0 +1,37 @@
+{
+    "file": "grade/studentData.csv",
+    "name": "student grade",
+    "header": 1,
+    "separator": ",",
+    "rank":"no",
+    "config":[],
+    "id":"Name",
+    "temporalAttributes": [
+        "数学物理方法",
+        "交通系统安全技术",
+        "运输机械运用工程理论与技术",
+        "交通运输工程学",
+        "智能运输系统关键技术",
+        "自然辩证法概论",
+        "第一外国语（英）上",
+        "矩阵论",
+        "中国特色社会主义理论与实践",
+        "内燃机性能及排放控制",
+        "第一外国语（英）下",
+        "自动控制理论",
+        "信号分析与数据处理",
+        "可靠性工程",
+        "数值计算",
+        "应用数理统计",
+        "数学模型"
+    ],
+    "attributes": [
+        {
+            "name": "Gender",
+            "type": "categorical"
+        }
+    ],
+    "author": "",
+    "description": "",
+    "source": ""
+}

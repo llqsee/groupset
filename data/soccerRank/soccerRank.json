@@ -1,0 +1,20 @@
+{
+    "file": "soccerRank/soccerRank.csv",
+    "name": "SoccerRank",
+    "header": 1,
+    "separator": ",",
+    "rank": "yes",
+    "config": [
+    ],
+    "id": "team",
+    "temporalAttributes": [],
+    "attributes": [
+      {
+        "name": "^\\d+$",
+        "type": "regExp"
+      }
+    ],
+    "author": "Romain Vuillemot",
+    "description": "",
+    "source": "https://bl.ocks.org/romsson/8a880f9ae280dafce01956405a7e748d  && https://datahub.io/sports-data/french-ligue-1  && https://www.football-data.co.uk/notes.txt"
+  }

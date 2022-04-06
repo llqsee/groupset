@@ -1,0 +1,80 @@
+{
+  "file": "university/universityNew.csv",
+  "name": "University",
+  "header": 1,
+  "separator": ",",
+  "rank": "yes",
+  "config": [
+    {
+      "n": 2,
+      "category": [
+        {
+          "edgeMin": 1,
+          "edgeMax": 101,
+          "name": "Top 100"
+        },
+        {
+          "edgeMin": 101,
+          "edgeMax": 1025,
+          "name": "Others"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "category": [
+        {
+          "edgeMin": 1,
+          "edgeMax": 51,
+          "name": "Top 50"
+        },
+        {
+          "edgeMin": 51,
+          "edgeMax": 501,
+          "name": "Top 500"
+        },
+        {
+          "edgeMin": 501,
+          "edgeMax": 1025,
+          "name": "Others"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "category": [
+        {
+          "edgeMin": 1,
+          "edgeMax": 11,
+          "name": "Top 10"
+        },
+        {
+          "edgeMin": 11,
+          "edgeMax": 51,
+          "name": "Top 50"
+        },
+        {
+          "edgeMin": 51,
+          "edgeMax": 101,
+          "name": "Top 100"
+        },
+        {
+          "edgeMin": 101,
+          "edgeMax": 1025,
+          "name": "Others"
+        }
+      ]
+    }
+  ],
+  "id": "institution",
+  "temporalAttributes": [],
+  "attributes": [
+    {
+      "name": "^\\d+$",
+      "type": "regExp"
+    }
+  ],
+  "author": "",
+  "description": "",
+  "source": ""
+}

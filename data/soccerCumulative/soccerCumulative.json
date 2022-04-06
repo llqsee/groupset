@@ -1,0 +1,19 @@
+{
+    "file": "soccerCumulative/soccerCumulative.csv",
+    "name": "SoccerCumulative",
+    "header": 1,
+    "separator": ",",
+    "rank":"no",
+    "config": [],
+    "id":"Team",
+    "temporalAttributes": [],
+    "attributes": [
+        {
+            "name": "^\\d+$",
+            "type": "regExp"
+        }
+    ],
+    "author": "Romain Vuillemot",
+    "description": "",
+    "source": "https://bl.ocks.org/romsson/8a880f9ae280dafce01956405a7e748d"
+}

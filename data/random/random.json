@@ -1,0 +1,39 @@
+{
+    "file": "random/randomData.csv",
+    "name": "Random",
+    "header": 1,
+    "separator": ",",
+    "rank":"no",
+    "config":[],
+    "id":"id",
+
+    "temporalAttributes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "attributes": [
+        {
+            "name": "value",
+            "type": "quantitative"
+        },
+        {
+            "name": "value1",
+            "type": "quantitative"
+        },
+        {
+            "name": "category0",
+            "type": "categorical"
+        },
+        {
+            "name": "category1",
+            "type": "categorical"
+        }
+    ],
+    "author": "",
+    "description": "",
+    "source": ""
+}

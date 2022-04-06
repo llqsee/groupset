@@ -1,0 +1,14 @@
+[
+    "soccer/soccer.json",
+    "traffic/traffic.json",
+    "random/random.json",
+    "mnist/mnist.json",
+    "grade/grade.json",
+    "gdp/gdp.json",
+    "university/university.json",
+    "universitySmall/universitySmall.json",
+    "soccerCumulative/soccerCumulative.json",
+    "soccerSeasons/soccerSeason.json",
+    "soccerRepeatTeam/soccer.json",
+    "soccerRank/soccerRank.json"
+]

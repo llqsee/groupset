@@ -1,0 +1,88 @@
+{
+  "file": "soccer/soccer.csv",
+  "name": "Soccer",
+  "header": 1,
+  "separator": ",",
+  "rank": "yes",
+  "config": [
+    {
+      "n": 2,
+      "category": [
+        {
+          "edgeMin": 0,
+          "edgeMax": 5,
+          "name": "Top 5"
+        },
+        {
+          "edgeMin": 5,
+          "edgeMax": 20,
+          "name": "Others"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "category": [
+        {
+          "edgeMin": 1,
+          "edgeMax": 6,
+          "name": "Top 5"
+        },
+        {
+          "edgeMin": 6,
+          "edgeMax": 18,
+          "name": "Normal"
+        },
+        {
+          "edgeMin": 18,
+          "edgeMax": 20,
+          "name": "Bottom 3"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "category": [
+        {
+          "edgeMin": 0,
+          "edgeMax": 4,
+          "name": "Top 3"
+        },
+        {
+          "edgeMin": 4,
+          "edgeMax": 11,
+          "name": "Top 10"
+        },
+        {
+          "edgeMin": 11,
+          "edgeMax": 18,
+          "name": "Bottom 10"
+        },
+        {
+          "edgeMin": 18,
+          "edgeMax": 20,
+          "name": "Bottom 3"
+        }
+      ]
+    }
+  ],
+  "id": "Team",
+  "temporalAttributes": [],
+  "attributes": [
+    {
+      "name": "^\\d+$",
+      "type": "regExp"
+    },
+    {
+      "name": "Area",
+      "type": "quantitative"
+    },
+    {
+      "name": "Population",
+      "type": "quantitative"
+    }
+  ],
+  "author": "Romain Vuillemot",
+  "description": "",
+  "source": "https://bl.ocks.org/romsson/8a880f9ae280dafce01956405a7e748d  && https://datahub.io/sports-data/french-ligue-1  && https://www.football-data.co.uk/notes.txt"
+}

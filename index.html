@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>GroupSet</title>
+
+    <!-- <link rel="shortcut icon" href="/favicon.png" type="image/png"> -->
+    <link rel="shortcut icon" type="image/png" href="figures/g.png">
+
+    <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' type="text/css" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/d3-scale-chromatic@3"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="groupset/dataLoading.js"></script>
+    <!-- <script type="text/javascript" src="main.js"></script> -->
+    <script type="text/javascript" src="groupset/combinationMatrix.js"></script>
+    <script type="text/javascript" src="groupset/brushChart.js"></script>
+    <script type="text/javascript" src="groupset/lineChart.js"></script>
+    <script type="text/javascript" src="groupset/connectionLine.js"></script>
+    <script type="text/javascript" src="groupset/CalTreData.js"></script>
+    <script type="text/javascript" src="groupset/groupset.js"></script>
+    <script type="text/javascript" src="groupset/distributionChart.js"></script>
+    <script type="text/javascript" src="groupset/colorscales.js"></script>
+    <script type="text/javascript" src="groupset/filterFunction.js"></script>
+    <script type="text/javascript" src="groupset/table.js"></script>
+    <script type="text/javascript" src="groupset/nameBrewer.js"></script>
+    <script type="text/javascript" src="groupset/multiAttributeFunction.js"></script>
+    <script src='https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js'></script>
+</head>
+
+<body class="group-body">
+    <!-- <script>
+        paraFontSize = '12px'
+    </script> -->
+    <div style="height:100%; width:100%">
+        <div class="navigation" style="width: 100%; background-color: black;margin-bottom: 2pt;">
+            <g style="height: 8cm; font-size: 14pt; color: white; font-weight: bolder;">GroupSet - Visualize the set
+                changes over time</g>
+            <g id="load-data"
+                style="height: 1.4cm; font-size: 12pt; color: white; font-weight: bolder;float: right; padding-right: 3pt;">
+                <label for="myfile">Load your own data (.json):</label>
+                <input type="file" id="load-file"></input>
+            </g>
+        </div>
+
+        <!-- <div class="submit-data" style="width: 100%;">
+            <g style="float:right;"><button class="button" style="font-size: 10pt; padding: 1px 3px; margin-left: 3px;">Submit</button></g>
+            <input type="text" style="float: right; margin: 0px 3px; font-size: 10pt;" id="name" name="name" required minlength="4" maxlength="8" size="30"></input>
+            <g style="float:right; font-size: 10pt;">Please input the json file</g>
+            
+        </div> -->
+
+        <div id='layout-left'>
+            <!-- <form class="load-data">
+                
+            </form> -->
+
+            <form class='parameter-dataset'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px;width:100%; display: inline;'>Select the
+                    dataset</div><select style="width: 70%;">
+                    <!-- <option value="Category" style='font-size:12px'>Category</option> -->
+                </select>
+            </form>
+
+
+            <form class='parameter-number'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Number of categories</div>
+                <input value=3 style='width:60%;' type=range min=2 max=4 step=1></input><label
+                    style='margin-top:1em;font-size:12px;'>3</label>
+            </form>
+
+            <form class='parameter-name'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Name of categories</div>
+            </form>
+
+            <form class='parameter-cluster'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Categorization method</div><label
+                    style='margin-top:1em;font-size:12px'><input value='automatic' name='input' style='width:10%;'
+                        type=radio></input>Automatic</label><label style='margin-top:1em;font-size:12px'><input
+                        value='manual' name='input' style='width:10%;' type=radio checked></input>Manual</label>
+            </form>
+
+            <form class='parameter-empty'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Include empty sets</div><label
+                    style='margin-top:1em;font-size:12px'><input value='empty' name='input' style='width:20%;'
+                        type=radio checked></input>No</label><label style='margin-top:1em;font-size:12px'><input
+                        value='non-empty' name='input' style='width:20%;' type=radio></input>Yes</label>
+            </form>
+            <form class='parameter-height'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Height of Sets</div><input value=60
+                    style='width:60%;' type=range min=30 max=150 step=1></input><label
+                    style='margin-top:1em;font-size:12px'>60</label>
+            </form>
+
+
+            <form class='parameter-widthline'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Width of lines</div><input value=3
+                    style='width:60%;' type=range min=1 max=5 step=1></input><label
+                    style='margin-top:1em;font-size:12px'>3</label>
+            </form>
+
+            <!-- <form>
+                <hr class="line"></hr>
+            </form> -->
+
+            <form class='parameter-first'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>First,aggregate by:</div><select>
+                    <option value="Category" style='font-size:12px'>Category</option>
+                </select>
+            </form>
+            <form class='parameter-second'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Then,aggregate by:</div><select>
+                    <option value="Trend" style='font-size:12px'>Trend</option>
+                </select>
+            </form>
+
+            <form class='parameter-sort'>
+                <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>First, sort by:</div><select>
+                    <option value="cardinality" style='font-size:12px'>Cardinality</option>
+                </select> -->
+            </form>
+
+
+            <form class='parameter-sort-second'>
+                <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>Then, sort by:</div><select> -->
+                <!-- <option value="cardinality" style='font-size:12px'>Cardinality</option> -->
+                <!-- </select> -->
+            </form>
+
+            <form class='parameter-expand'>
+                <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>Aggeragates</div> -->
+                <br>
+                <label style='margin-top:1em;font-size:12px'><input value='collapse' name='input' style='width:20px;'
+                        type=radio></input>Collapse all</label><br><label style='margin-top:1em;font-size:12px'><input
+                        value='expand' name='input' style='width:20px;' type=radio checked></input>Expand all</label>
+            </form>
+            <!-- <form class='parameter-filter'>
+                <div style='font-weight:bold;margin-top:1em;font-size:12px'>Filter the sets</div><input value=60
+                    style='width:60%;' type=range min=0 max=1 step=0.1></input><label
+                    style='margin-top:1em;font-size:12px'>0.5</label>
+            </form> -->
+
+            <form class="color-option">
+                <!-- <div style='font-weight:bold;margin-top:1em;font-size:12px'>Select the colors:</div> -->
+                <!-- <select></select> -->
+            </form>
+
+            <div class='parameter-filter'>
+            </div>
+            <!-- <div id="slider"></div> -->
+        </div>
+        <div id='layout-right'>
+            <div id='layout-right-top' style="width:100%;height:40%;float:left;">
+                <div id='layout-right-top-left' style=width:12%;height:100%;float:left></div>
+                <div style='width:68%;height:100%;float:left;' id='div-line'></div>
+                <div id="layout-elements" style="width:20%;height:100%;float: left;">
+                    <div id="element-view" style="width:100%;"></div>
+                    <div id="attribute-view">
+                    </div>
+                </div>
+            </div>
+            <div style='width:100%;height:60%;float:left;overflow-y:scroll;overflow-x:hidden' id='div-matrix'>
+            </div>
+        </div>
+        <!-- <iframe src="https://datahub.io/sports-data/french-ligue-1/r/0.html" width="100%" height="100%" frameborder="0"></iframe> -->
+        <!-- <div id="layout-lastside">
+            <div id="statistic"></div>
+            <div id="table"></div>
+        </div> -->
+    </div>
+
+
+
+    <script>
+        // -------------------------------------------------------------------
+        // Init the all global variable
+        var dataIndex,      // the data index to be used in dataLoading;
+            firstAggeragate,       // the attribute that we fisrt aggregate;
+            secondAggeragate,       // the second attribute that we aggregate;
+            svgLine,               // the svg of line chart;
+            svgMatrix,                // the svg of combination matrix;
+            lineWidth,                   // the width of lines;
+            nPara,                   // how many categories we created;
+            setHeight,            // the height of the groups;
+            isEmpty,         // if it shows the empty groups;
+            dataset,            // the raw dataset;
+            dataJson,       // the information of dataset, such as the attributes etc; 
+            collapse,     // if it is expand or collapse;
+            colorbrewer = colorbrewer,          // the color brewer;
+            filterElement,          // the filter element;
+            colorScale,              // the color selection for users;
+            parameterSort,          // the parameter sort methods;
+            parameterSortSecond,     // the parameter sort methods for second time;
+            table,               // the table node;
+            divLine,              // the output element of catgory data;
+            nameCategory,          // the name of categories;
+            classMethod,         // the automatic cluster;
+            dataset,             // the dataset;
+            dataJson,           // the dataJson;
+            categoryData = [],         // the categoryData;
+            treeData,              // the treeData for combination matrix;
+            brushedAttributes,      // the selected attributes;
+            jumpColorScale,    // the color scale for the jumpChanges;
+            multiAttribute,     // the attributes to be visualized as box charts;
+            attributeSelectNode,                // the attribute selections view;
+            elementNode,                // the node of elements;
+            loadFile;          // the button for uploading file;
+
+        // $(document).ready(function () {
+        //     $("#slider").slider({
+        //         min: 0,
+        //         max: 100,
+        //         step: 1,
+        //         values: [10, 90],
+        //         slide: function (event, ui) {
+        //             if (ui.values[0] >= ui.values[1]) {
+        //                 return false;
+        //             } else {
+        //                 for (var i = 0; i < ui.values.length; ++i) {
+        //                     $("input.sliderValue[data-index=" + i + "]").val(ui.values[i]);
+        //                 }
+        //             }
+        //         }
+        //     });
+
+        //     $("input.sliderValue").change(function () {
+        //         var $this = $(this);
+        //         $("#slider").slider("values", $this.data("index"), $this.val());
+        //     });
+        // });
+
+        // Add the dataset to the selections
+        dataIndex = d3.select('.parameter-dataset')
+
+        // add the options for the first aggregation
+        firstAggeragate = d3.select('.parameter-first');
+        secondAggeragate = d3.select('.parameter-second');
+        nPara = d3.select('.parameter-number');
+        setHeight = d3.select('.parameter-height');
+        svgLine = d3
+            .select("#div-line")
+            .append("svg")
+            .attr(
+                "width",
+                d3.select("#div-line").node().getBoundingClientRect().width
+            )
+            .attr(
+                "height",
+                d3.select("#div-line").node().getBoundingClientRect().height
+            ); // create the svg for line chart;
+
+        svgMatrix = d3
+            .select("#div-matrix")
+            .append("svg")
+            .attr(
+                "width",
+                d3.select("#div-matrix").node().getBoundingClientRect().width
+            )
+            .attr(
+                "height",
+                d3.select("#div-matrix").node().getBoundingClientRect().height
+            ); // create svg for matrix
+
+        lineWidth = d3.select('.parameter-widthline');
+
+        collapse = d3.select('.parameter-expand');
+
+        isEmpty = d3.select('.parameter-empty');
+
+        filterElement = d3.select('.parameter-filter')
+
+        // Assign the element to parameterSort;
+        parameterSort = d3.select('.parameter-sort');
+
+        parameterSortSecond = d3.select('.parameter-sort-second');
+
+        // var colorData = Object.keys(colorbrewer).map(d => { var e = {}; e.name = d; e.value = colorbrewer[d]; return e })
+        // colorScale = d3.select('.color-option')
+        //     .select('select')
+        // colorScale.selectAll('option')
+        //     .data(colorData)
+        //     .join('option')
+        //     .attr('value', d => d.name)
+        //     .text(d => d.name)
+
+        // table = d3.select('#layout-lastside').select('#table');
+
+        divLine = d3.select('#div-line');
+
+        nameCategory = d3.select('.parameter-name');
+
+        classMethod = d3.select('.parameter-cluster');
+
+        // elementNode = d3.select('#layout-elements')
+        //     .append('svg')
+        //     .attr('width', d3.select('#layout-elements').node().getBoundingClientRect().width)
+        //     .attr('height', d3.select('#layout-elements').node().getBoundingClientRect().height)
+        //     .node();
+        elementNode = d3.select('#element-view')
+            .style('height', (d3.select('#layout-elements').node().getBoundingClientRect().height - 20) + 'px')
+            .style('width', d3.select('#layout-elements').node().getBoundingClientRect().width + 'px')
+
+        attributeSelectNode = d3.select('#attribute-view')
+            .style('height', '18px')
+            .node();
+
+        elementNode = d3.select('#element-view').node();
+
+        loadFile = d3.select('#load-file');
+
+
+
+        // -------------------------------------------------------------------------
+        // load the data from remote server
+        debugger;
+
+        // We define two methods for load data: 1) from the remote server; 2) from the local server;
+        // var methodLoading = 'remote';
+        var methodLoading = 'local';
+        var indexFile = methodLoading == 'remote' ? "https://file-server-liqun.herokuapp.com/files/index.json" : "index.json";
+        var API_ENDPOINT = methodLoading == 'remote' ? "https://file-server-liqun.herokuapp.com/files/" : "data/";
+
+
+        // we run the following codes, if we load data from the local or remote
+        d3
+            .json(indexFile)
+            .then((d) => {
+                var promise = [];
+                for (var i of d) {
+                    var promiseSmall = d3.json(API_ENDPOINT + i);
+                    promise.push(promiseSmall)
+                }
+                Promise.all(promise).then(d1 => {
+                    var indexSelection = d1.map(e => {
+                        var output = {};
+                        output.Title = e.name || `${set} (ERROR)`;
+                        output.Item = e.name.replace(/\W/g, "_").replace(/^([0-9])/, "_$1");
+                        if (!e.file) {
+                            e.file = "__undefined__.csv";
+                        }
+                        output.dataUrl = e.file.match(/^https?:/) ? e.file : API_ENDPOINT + e.file;
+                        output.json = e;
+                        // res.push(output)
+                        // debugger;
+
+                        return output
+                    });
+                    dataIndex.select('select')
+                        .selectAll('option')
+                        .data(indexSelection)
+                        .join('option')
+                        .attr('value', e => e.Item)
+                        .text(e => e.Item)
+
+                    d3.csv(indexSelection[0].dataUrl).then(d => {
+
+                        // ---------------------------------
+                        // the dataset and dataJson
+                        // dataset = d.map((e) => { e.color = get_random_color(); return e })
+                        dataset = d.map((e) => { e.color = 'black'; return e })
+                        dataJson = dealDataJson(indexSelection[0], dataset);
+                        brushedAttributes = dataJson.temporalAttributes;
+                        // ---------------------------------------------
+                        // Add the options for the aggregates
+                        firstAggeragate
+                            .select("select")
+                            .selectAll("option")
+                            .data(
+                                ["No aggregate", "Degree", "Trend"].concat(
+                                    dataJson.attributes
+                                        .filter((d) => d.type == "categorical")
+                                        .map((d) => d.name)
+                                )
+                            )
+                            .join("option")
+                            .text((d) => d)
+                            .attr("value", (d) => d);
+
+                        //   add the optiosn for the second aggregation
+                        secondAggeragate
+                            .select("select")
+                            .selectAll("option")
+                            .data(
+                                ["Trend", "Degree"].concat(
+                                    dataJson.attributes
+                                        .filter((d) => d.type == "categorical")
+                                        .map((d) => d.name)
+                                ).concat('No aggregate')
+                            )
+                            .join("option")
+                            .text((d) => d)
+                            .attr("value", (d) => d);
+
+
+                        // -------------------------------------------------------
+                        // init the visualization
+                        // debugger;
+                        brushChart({
+                            dataJson: dataJson,
+                            node: svgLine.node(),
+                            n: +nPara.select('input').node().value,
+                            data: dataset,
+                            isEmpty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value
+                        }); // visualize the brush
+                        LineChart({
+                            data: dataset,
+                            dataJson: dataJson,
+                            node: svgLine.node(),
+                            n: +nPara.select('input').node().value,
+                            brushedAttributes: svgLine.select("#time-brush").node().value,
+                            lineWidth: +lineWidth.select("input").node().value,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                                ? classMethod.selectAll('input')._groups[0][1].value
+                                : classMethod.selectAll('input')._groups[0][0].value,
+                            firstAggeragateAttribute: firstAggeragate
+                                .select("select")
+                                .node().value
+                        }); // visualize the line chart
+                        // debugger;
+
+                        connectionLine({
+                            selfNode: svgLine
+                                .node()
+                                .parentElement.parentElement.querySelector("#layout-right-top-left"),
+                            dataFromFuzzy: svgLine.node().parentElement.value,
+                            dataJson: dataJson,
+                            dataset: dataset
+                        }); // visualize the connected lines
+
+                        RenderAttributeSelection({
+                            // attributes: dataJson.attributes.filter(d => d.type == 'categorical' || d.type == 'quantitative'),
+                            attributes: dataJson.attributes.filter(d => d.type == 'quantitative'),
+                            node: attributeSelectNode
+                        })
+
+
+                        treeData = CalTreData({
+                            dataFromFuzzy: categoryData,
+                            dataset: dataset,
+                            attributesCut: dataJson.temporalAttributes,
+                            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value,
+                            dataJson: dataJson,
+                            brushedAttributes: brushedAttributes,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            firstAggeragateAttribute: firstAggeragate
+                                .select("select")
+                                .node().value,
+                            collapse: collapse.selectAll('input')._groups[0][1].checked
+                                ? collapse.selectAll('input')._groups[0][1].value
+                                : collapse.selectAll('input')._groups[0][0].value,
+                            attributeSelect: multiAttribute
+                        }); // generate the tree data;
+
+
+                        renderCombinationMatrix({
+                            node: svgMatrix.node(),
+                            dataFromFuzzy: svgLine.node().parentElement.value,
+                            orderCate: parameterSort.node().value,
+                            orderSecond: parameterSortSecond.node().value,
+                            dataset: dataset,
+                            id: dataJson.id,
+                            attributesCut: dataJson.temporalAttributes,
+                            // degrees: [1, 2, 3],
+                            // setMember: [],
+                            // probability: [],
+                            dataJson: dataJson,
+                            circleType: "circle",
+                            type: "percentage",
+                            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value,
+                            brushedAttributes: brushedAttributes,
+                            yHeight: +setHeight.select("input").node().value,
+                            lineWidth: +lineWidth.select("input").node().value,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                                .value,
+                            collapse: collapse.selectAll('input')._groups[0][1].checked
+                                ? collapse.selectAll('input')._groups[0][1].value
+                                : collapse.selectAll('input')._groups[0][0].value,
+                            filterPara: filterElement.node().value,
+                            treeData: treeData,
+                            attributeSelect: multiAttribute
+                        }); // visualize the combination sets
+
+                        ChangeParameter();
+
+
+
+                        // tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
+
+                    })
+
+                    // ----------------------------------------------------------------
+                    // When we change the dataset
+                    dataIndex.select('select').node().addEventListener("input", d => {
+                        debugger
+                        var index = indexSelection.find(e => e.Item == d.currentTarget.value);
+                        d3.csv(index.dataUrl).then(
+                            e => {
+                                debugger;
+                                // dataset = e.map((e) => { e.color = get_random_color(); return e })
+                                dataset = e.map((e) => { e.color = 'black'; return e })
+                                dataset.length > 500 ? dataset = dataset.slice(0, 1000) : dataset;
+                                dataJson = dealDataJson(index, dataset);
+                                if (index.Item == 'SoccerMultipleSeasons') {
+                                    dataJson.temporalAttributes = Object.keys(dataset[0]).slice(1, Object.keys(dataset[0]).length)
+                                }
+                                brushedAttributes = dataJson.temporalAttributes;
+                                // ---------------------------------------------
+                                // Add the options for the aggregates
+                                firstAggeragate
+                                    .select("select")
+                                    .selectAll("option")
+                                    .data(
+                                        ["No aggregate", "Degree", 'Trend'].concat(
+                                            dataJson.attributes
+                                                .filter((d) => d.type == "categorical")
+                                                .map((d) => d.name)
+                                        )
+                                    )
+                                    .join("option")
+                                    .text((d) => d)
+                                    .attr("value", (d) => d);
+
+                                //   add the optiosn for the second aggregation
+                                secondAggeragate
+                                    .select("select")
+                                    .selectAll("option")
+                                    .data(
+                                        ["Trend", 'Degree'].concat(
+                                            dataJson.attributes
+                                                .filter((d) => d.type == "categorical")
+                                                .map((d) => d.name)
+                                        ).concat('No aggregate')
+                                    )
+                                    .join("option")
+                                    .text((d) => d)
+                                    .attr("value", (d) => d);
+
+
+                                // -------------------------------------------------------
+                                // init the visualization after changing the dataset
+                                // debugger;
+                                svgLine.selectAll('*').remove();
+                                d3.select(svgLine
+                                    .node()
+                                    .parentElement.parentElement.querySelector("#layout-right-top-left")).selectAll('*').remove();
+                                svgMatrix.selectAll('*').remove();
+                                svgLine.node().parentElement.value = null;
+
+
+                                brushChart({
+                                    dataJson: dataJson,
+                                    node: svgLine.node(),
+                                    n: +nPara.select('input').node().value,
+                                    data: dataset,
+                                    isEmpty: isEmpty.selectAll('input')._groups[0][1].checked
+                                        ? isEmpty.selectAll('input')._groups[0][1].value
+                                        : isEmpty.selectAll('input')._groups[0][0].value
+                                }); // visualize the brush
+                                // debugger;
+                                // svgLine.node().parentElement.value = null;
+                                LineChart({
+                                    data: dataset,
+                                    dataJson: dataJson,
+                                    node: svgLine.node(),
+                                    n: +nPara.select('input').node().value,
+                                    brushedAttributes: svgLine.select("#time-brush").node().value,
+                                    lineWidth: +lineWidth.select("input").node().value,
+                                    secondAggeragateAttribute: secondAggeragate
+                                        .select("select")
+                                        .node().value,
+                                    classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                                        ? classMethod.selectAll('input')._groups[0][1].value
+                                        : classMethod.selectAll('input')._groups[0][0].value,
+                                    firstAggeragateAttribute: firstAggeragate
+                                        .select("select")
+                                        .node().value
+                                }); // visualize the line chart
+                                // debugger;
+
+                                connectionLine({
+                                    selfNode: svgLine
+                                        .node()
+                                        .parentElement.parentElement.querySelector("#layout-right-top-left"),
+                                    dataFromFuzzy: svgLine.node().parentElement.value,
+                                    dataJson: dataJson,
+                                    dataset: dataset
+                                }); // visualize the connected lines
+                                RenderAttributeSelection({
+                                    // attributes: dataJson.attributes.filter(d => d.type == 'categorical' || d.type == 'quantitative'),
+                                    attributes: dataJson.attributes.filter(d => d.type == 'quantitative'),
+                                    node: attributeSelectNode
+                                })
+                                treeData = CalTreData({
+                                    dataFromFuzzy: categoryData,
+                                    dataset: dataset,
+                                    attributesCut: dataJson.temporalAttributes,
+                                    empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                        ? isEmpty.selectAll('input')._groups[0][1].value
+                                        : isEmpty.selectAll('input')._groups[0][0].value,
+                                    dataJson: dataJson,
+                                    brushedAttributes: brushedAttributes,
+                                    secondAggeragateAttribute: secondAggeragate
+                                        .select("select")
+                                        .node().value,
+                                    firstAggeragateAttribute: firstAggeragate
+                                        .select("select")
+                                        .node().value,
+                                    collapse: collapse.selectAll('input')._groups[0][1].checked
+                                        ? collapse.selectAll('input')._groups[0][1].value
+                                        : collapse.selectAll('input')._groups[0][0].value,
+                                    attributeSelect: multiAttribute
+                                }); // generate the tree data;
+
+
+
+                                renderCombinationMatrix({
+                                    node: svgMatrix.node(),
+                                    dataFromFuzzy: svgLine.node().parentElement.value,
+                                    orderCate: parameterSort.node().value,
+                                    orderSecond: parameterSortSecond.node().value,
+                                    dataset: dataset,
+                                    id: dataJson.id,
+                                    attributesCut: dataJson.temporalAttributes,
+                                    // degrees: [1, 2, 3],
+                                    // setMember: [],
+                                    // probability: [],
+                                    dataJson: dataJson,
+                                    circleType: "circle",
+                                    type: "percentage",
+                                    empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                        ? isEmpty.selectAll('input')._groups[0][1].value
+                                        : isEmpty.selectAll('input')._groups[0][0].value,
+                                    brushedAttributes: svgLine.select("#time-brush").node().value,
+                                    yHeight: +setHeight.select("input").node().value,
+                                    lineWidth: +lineWidth.select("input").node().value,
+                                    secondAggeragateAttribute: secondAggeragate
+                                        .select("select")
+                                        .node().value,
+                                    firstAggeragateAttribute: firstAggeragate.select("select").node()
+                                        .value,
+                                    collapse: collapse.selectAll('input')._groups[0][1].checked
+                                        ? collapse.selectAll('input')._groups[0][1].value
+                                        : collapse.selectAll('input')._groups[0][0].value,
+                                    filterPara: filterElement.node().value,
+                                    treeData: treeData,
+                                    attributeSelect: multiAttribute
+                                }); // visualize the combination sets
+
+                                ChangeParameter();
+
+
+
+                                // tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
+                            }
+                        )
+                    })
+                })
+            })
+
+
+
+
+
+        // ----------------------------------------------------------------
+        // When we load our own data
+        loadFile.on("change", d => {
+
+            var reader = new FileReader();
+
+            reader.onload = function (d) {
+                debugger;
+
+                var inputJson = JSON.parse(d.target.result);
+                inputJson.Title = inputJson.name || `${set} (ERROR)`;
+                inputJson.Item = inputJson.name.replace(/\W/g, "_").replace(/^([0-9])/, "_$1");
+                if (!inputJson.file) {
+                    inputJson.file = "__undefined__.csv";
+                }
+
+                inputJson.dataUrl = inputJson.file;
+                inputJson.json = inputJson;
+
+                // var indexSelection = d1.map(e => {
+                //         var output = {};
+                //         output.Title = e.name || `${set} (ERROR)`;
+                //         output.Item = e.name.replace(/\W/g, "_").replace(/^([0-9])/, "_$1");
+                //         if (!e.file) {
+                //             e.file = "__undefined__.csv";
+                //         }
+                //         output.dataUrl = e.file.match(/^https?:/) ? e.file : API_ENDPOINT + e.file;
+                //         output.json = e;
+                //         // res.push(output)
+                //         // debugger;
+
+                //         return output
+                //     });
+
+                // var index = JSON.parse(d.target.result);
+                var index = inputJson;
+
+                d3.csv(index.dataUrl).then(
+                    e => {
+                        debugger;
+                        // dataset = e.map((e) => { e.color = get_random_color(); return e })
+                        dataset = e.map((e) => { e.color = 'black'; return e })
+                        dataset.length > 500 ? dataset = dataset.slice(0, 1000) : dataset;
+                        dataJson = dealDataJson(index, dataset);
+                        if (index.Item == 'SoccerMultipleSeasons') {
+                            dataJson.temporalAttributes = Object.keys(dataset[0]).slice(1, Object.keys(dataset[0]).length)
+                        }
+                        brushedAttributes = dataJson.temporalAttributes;
+                        // ---------------------------------------------
+                        // Add the options for the aggregates
+                        firstAggeragate
+                            .select("select")
+                            .selectAll("option")
+                            .data(
+                                ["No aggregate", "Degree", 'Trend'].concat(
+                                    dataJson.attributes
+                                        .filter((d) => d.type == "categorical")
+                                        .map((d) => d.name)
+                                )
+                            )
+                            .join("option")
+                            .text((d) => d)
+                            .attr("value", (d) => d);
+
+                        //   add the optiosn for the second aggregation
+                        secondAggeragate
+                            .select("select")
+                            .selectAll("option")
+                            .data(
+                                ["Trend", 'Degree'].concat(
+                                    dataJson.attributes
+                                        .filter((d) => d.type == "categorical")
+                                        .map((d) => d.name)
+                                ).concat('No aggregate')
+                            )
+                            .join("option")
+                            .text((d) => d)
+                            .attr("value", (d) => d);
+
+
+                        // -------------------------------------------------------
+                        // init the visualization after changing the dataset
+                        // debugger;
+                        svgLine.selectAll('*').remove();
+                        d3.select(svgLine
+                            .node()
+                            .parentElement.parentElement.querySelector("#layout-right-top-left")).selectAll('*').remove();
+                        svgMatrix.selectAll('*').remove();
+                        svgLine.node().parentElement.value = null;
+
+
+                        brushChart({
+                            dataJson: dataJson,
+                            node: svgLine.node(),
+                            n: +nPara.select('input').node().value,
+                            data: dataset,
+                            isEmpty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value
+                        }); // visualize the brush
+                        // debugger;
+                        // svgLine.node().parentElement.value = null;
+                        LineChart({
+                            data: dataset,
+                            dataJson: dataJson,
+                            node: svgLine.node(),
+                            n: +nPara.select('input').node().value,
+                            brushedAttributes: svgLine.select("#time-brush").node().value,
+                            lineWidth: +lineWidth.select("input").node().value,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            classMethod: classMethod.selectAll('input')._groups[0][1].checked
+                                ? classMethod.selectAll('input')._groups[0][1].value
+                                : classMethod.selectAll('input')._groups[0][0].value,
+                            firstAggeragateAttribute: firstAggeragate
+                                .select("select")
+                                .node().value
+                        }); // visualize the line chart
+                        // debugger;
+
+                        connectionLine({
+                            selfNode: svgLine
+                                .node()
+                                .parentElement.parentElement.querySelector("#layout-right-top-left"),
+                            dataFromFuzzy: svgLine.node().parentElement.value,
+                            dataJson: dataJson,
+                            dataset: dataset
+                        }); // visualize the connected lines
+                        RenderAttributeSelection({
+                            // attributes: dataJson.attributes.filter(d => d.type == 'categorical' || d.type == 'quantitative'),
+                            attributes: dataJson.attributes.filter(d => d.type == 'quantitative'),
+                            node: attributeSelectNode
+                        })
+                        treeData = CalTreData({
+                            dataFromFuzzy: categoryData,
+                            dataset: dataset,
+                            attributesCut: dataJson.temporalAttributes,
+                            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value,
+                            dataJson: dataJson,
+                            brushedAttributes: brushedAttributes,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            firstAggeragateAttribute: firstAggeragate
+                                .select("select")
+                                .node().value,
+                            collapse: collapse.selectAll('input')._groups[0][1].checked
+                                ? collapse.selectAll('input')._groups[0][1].value
+                                : collapse.selectAll('input')._groups[0][0].value,
+                            attributeSelect: multiAttribute
+                        }); // generate the tree data;
+
+
+
+                        renderCombinationMatrix({
+                            node: svgMatrix.node(),
+                            dataFromFuzzy: svgLine.node().parentElement.value,
+                            orderCate: parameterSort.node().value,
+                            orderSecond: parameterSortSecond.node().value,
+                            dataset: dataset,
+                            id: dataJson.id,
+                            attributesCut: dataJson.temporalAttributes,
+                            // degrees: [1, 2, 3],
+                            // setMember: [],
+                            // probability: [],
+                            dataJson: dataJson,
+                            circleType: "circle",
+                            type: "percentage",
+                            empty: isEmpty.selectAll('input')._groups[0][1].checked
+                                ? isEmpty.selectAll('input')._groups[0][1].value
+                                : isEmpty.selectAll('input')._groups[0][0].value,
+                            brushedAttributes: svgLine.select("#time-brush").node().value,
+                            yHeight: +setHeight.select("input").node().value,
+                            lineWidth: +lineWidth.select("input").node().value,
+                            secondAggeragateAttribute: secondAggeragate
+                                .select("select")
+                                .node().value,
+                            firstAggeragateAttribute: firstAggeragate.select("select").node()
+                                .value,
+                            collapse: collapse.selectAll('input')._groups[0][1].checked
+                                ? collapse.selectAll('input')._groups[0][1].value
+                                : collapse.selectAll('input')._groups[0][0].value,
+                            filterPara: filterElement.node().value,
+                            treeData: treeData,
+                            attributeSelect: multiAttribute
+                        }); // visualize the combination sets
+
+                        ChangeParameter();
+
+                        // tableFun({ x: dataset, rows: [dataJson.id].concat(dataJson.temporalAttributes), node: table.node() });
+                    }
+                )
+
+            }
+
+            reader.readAsText(event.target.files[0]);
+
+        })
+    </script>
+</body>
+
+</html>

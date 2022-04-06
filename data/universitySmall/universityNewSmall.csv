@@ -1,0 +1,101 @@
+2012,2013,2014,2015,institution
+1,1,1,1,Harvard University
+2,4,3,3,Massachusetts Institute of Technology
+3,2,2,2,Stanford University
+4,5,4,4,University of Cambridge
+5,11,12,12,California Institute of Technology
+6,8,9,9,Princeton University
+7,3,5,5,University of Oxford
+8,10,10,11,Yale University
+9,6,6,6,Columbia University
+10,7,7,7,"University of California, Berkeley"
+11,9,8,8,University of Chicago
+12,13,11,10,Cornell University
+13,12,14,14,University of Pennsylvania
+14,14,13,13,University of Tokyo
+15,17,19,16,Johns Hopkins University
+16,18,18,20,Swiss Federal Institute of Technology in Zurich
+17,15,16,17,Kyoto University
+18,33,38,39,Weizmann Institute of Science
+19,16,15,15,"University of California, Los Angeles"
+20,20,20,21,"University of California, San Diego"
+21,49,37,29,Rockefeller University
+22,21,22,23,Hebrew University of Jerusalem
+23,19,17,18,New York University
+24,22,27,26,"University of California, San Francisco"
+25,23,25,25,University of Wisconsin–Madison
+26,24,28,33,University of Illinois at Urbana–Champaign
+27,25,26,28,Duke University
+28,27,39,35,Imperial College London
+29,46,66,75,University of Texas Southwestern Medical Center
+30,26,29,30,University of Texas at Austin
+31,30,30,27,University College London
+32,35,43,45,Osaka University
+33,28,23,22,Northwestern University
+34,32,21,19,"University of Michigan, Ann Arbor"
+35,29,31,32,University of Toronto
+36,34,45,40,University of North Carolina at Chapel Hill
+37,63,58,52,Washington University in St. Louis
+38,42,62,70,University of Utah
+39,31,32,31,University of Washington - Seattle
+40,37,60,64,"University of California, Santa Barbara"
+41,47,42,42,McGill University
+42,38,52,43,"Purdue University, West Lafayette"
+43,51,54,61,Carnegie Mellon University
+44,39,51,51,University of Southern California
+45,53,57,53,"University of California, Davis"
+46,41,63,54,University of Colorado Boulder
+47,65,80,89,"University of California, Irvine"
+48,36,50,58,University of Paris-Sud
+49,44,49,48,"University of Minnesota, Twin Cities"
+50,78,70,68,University of Arizona
+51,66,109,136,Technion – Israel Institute of Technology
+52,52,47,49,"Ohio State University, Columbus"
+53,76,77,81,University of Rochester
+54,64,35,37,École normale supérieure - Paris
+55,55,59,60,University of Florida
+56,57,86,86,Tel Aviv University
+57,94,108,120,Rice University
+58,82,44,44,Dartmouth College
+59,61,71,69,Vanderbilt University
+60,45,56,55,University of Edinburgh
+61,86,36,36,École Polytechnique
+62,54,67,66,Boston University
+63,48,68,63,Pierre-and-Marie-Curie University
+64,50,46,47,"Pennsylvania State University, University Park"
+65,56,75,92,University of Geneva
+66,77,81,83,Brown University
+67,58,61,62,University of British Columbia
+68,59,76,72,"University of Maryland, College Park"
+69,83,93,91,Swiss Federal Institute of Technology in Lausanne
+70,60,73,71,Karolinska Institute
+71,69,53,46,University of Pittsburgh - Pittsburgh Campus
+72,43,33,50,Rutgers University-New Brunswick
+73,80,105,102,"Texas A&M University, College Station"
+74,91,132,125,Nagoya University
+75,40,24,24,Seoul National University
+76,72,69,67,University of Manchester
+77,62,91,112,Sapienza University of Rome
+78,,102,105,Case Western Reserve University
+79,95,72,73,Tohoku University
+80,73,106,97,Arizona State University
+81,93,78,84,Emory University
+82,79,89,76,Ruprecht Karl University of Heidelberg
+83,67,82,79,Ludwig Maximilian University of Munich
+84,71,41,41,University of Virginia
+85,,117,108,Leiden University
+86,,84,95,Tufts University
+87,100,83,80,Georgia Institute of Technology
+88,74,85,96,University of Zurich
+89,98,110,111,University of Helsinki
+90,,99,101,Technical University of Munich
+91,81,111,99,University of Oslo
+92,,115,103,University of Queensland
+93,68,79,74,University of Copenhagen
+94,92,95,88,University of Sydney
+95,,,,Williams College
+96,88,104,90,University of Texas MD Anderson Cancer Center
+97,,147,140,University of Nottingham
+98,,123,123,University of Bristol
+99,84,88,87,Utrecht University
+100,,167,104,Mines ParisTech

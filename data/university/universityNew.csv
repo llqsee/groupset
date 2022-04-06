@@ -1,0 +1,1025 @@
+2012,2013,2014,2015,institution
+1,1,1,1,Harvard University
+2,4,3,3,Massachusetts Institute of Technology
+3,2,2,2,Stanford University
+4,5,4,4,University of Cambridge
+5,11,12,12,California Institute of Technology
+6,8,9,9,Princeton University
+7,3,5,5,University of Oxford
+8,10,10,11,Yale University
+9,6,6,6,Columbia University
+10,7,7,7,"University of California, Berkeley"
+11,9,8,8,University of Chicago
+12,13,11,10,Cornell University
+13,12,14,14,University of Pennsylvania
+14,14,13,13,University of Tokyo
+15,17,19,16,Johns Hopkins University
+16,18,18,20,Swiss Federal Institute of Technology in Zurich
+17,15,16,17,Kyoto University
+18,33,38,39,Weizmann Institute of Science
+19,16,15,15,"University of California, Los Angeles"
+20,20,20,21,"University of California, San Diego"
+21,49,37,29,Rockefeller University
+22,21,22,23,Hebrew University of Jerusalem
+23,19,17,18,New York University
+24,22,27,26,"University of California, San Francisco"
+25,23,25,25,University of Wisconsin–Madison
+26,24,28,33,University of Illinois at Urbana–Champaign
+27,25,26,28,Duke University
+28,27,39,35,Imperial College London
+29,46,66,75,University of Texas Southwestern Medical Center
+30,26,29,30,University of Texas at Austin
+31,30,30,27,University College London
+32,35,43,45,Osaka University
+33,28,23,22,Northwestern University
+34,32,21,19,"University of Michigan, Ann Arbor"
+35,29,31,32,University of Toronto
+36,34,45,40,University of North Carolina at Chapel Hill
+37,63,58,52,Washington University in St. Louis
+38,42,62,70,University of Utah
+39,31,32,31,University of Washington - Seattle
+40,37,60,64,"University of California, Santa Barbara"
+41,47,42,42,McGill University
+42,38,52,43,"Purdue University, West Lafayette"
+43,51,54,61,Carnegie Mellon University
+44,39,51,51,University of Southern California
+45,53,57,53,"University of California, Davis"
+46,41,63,54,University of Colorado Boulder
+47,65,80,89,"University of California, Irvine"
+48,36,50,58,University of Paris-Sud
+49,44,49,48,"University of Minnesota, Twin Cities"
+50,78,70,68,University of Arizona
+51,66,109,136,Technion – Israel Institute of Technology
+52,52,47,49,"Ohio State University, Columbus"
+53,76,77,81,University of Rochester
+54,64,35,37,École normale supérieure - Paris
+55,55,59,60,University of Florida
+56,57,86,86,Tel Aviv University
+57,94,108,120,Rice University
+58,82,44,44,Dartmouth College
+59,61,71,69,Vanderbilt University
+60,45,56,55,University of Edinburgh
+61,86,36,36,École Polytechnique
+62,54,67,66,Boston University
+63,48,68,63,Pierre-and-Marie-Curie University
+64,50,46,47,"Pennsylvania State University, University Park"
+65,56,75,92,University of Geneva
+66,77,81,83,Brown University
+67,58,61,62,University of British Columbia
+68,59,76,72,"University of Maryland, College Park"
+69,83,93,91,Swiss Federal Institute of Technology in Lausanne
+70,60,73,71,Karolinska Institute
+71,69,53,46,University of Pittsburgh - Pittsburgh Campus
+72,43,33,50,Rutgers University-New Brunswick
+73,80,105,102,"Texas A&M University, College Station"
+74,91,132,125,Nagoya University
+75,40,24,24,Seoul National University
+76,72,69,67,University of Manchester
+77,62,91,112,Sapienza University of Rome
+78,,102,105,Case Western Reserve University
+79,95,72,73,Tohoku University
+80,73,106,97,Arizona State University
+81,93,78,84,Emory University
+82,79,89,76,Ruprecht Karl University of Heidelberg
+83,67,82,79,Ludwig Maximilian University of Munich
+84,71,41,41,University of Virginia
+85,,117,108,Leiden University
+86,,84,95,Tufts University
+87,100,83,80,Georgia Institute of Technology
+88,74,85,96,University of Zurich
+89,98,110,111,University of Helsinki
+90,,99,101,Technical University of Munich
+91,81,111,99,University of Oslo
+92,,115,103,University of Queensland
+93,68,79,74,University of Copenhagen
+94,92,95,88,University of Sydney
+95,,,,Williams College
+96,88,104,90,University of Texas MD Anderson Cancer Center
+97,,147,140,University of Nottingham
+98,,123,123,University of Bristol
+99,84,88,87,Utrecht University
+100,,167,104,Mines ParisTech
+,70,34,34,Keio University
+,75,90,94,King's College London
+,85,113,106,Indiana University - Bloomington
+,87,74,65,National University of Singapore
+,89,126,138,Stony Brook University
+,90,48,59,Lomonosov Moscow State University
+,96,160,179,Australian National University
+,97,103,107,University of Alberta
+,99,140,131,Paris Diderot University - Paris 7
+,,40,38,Waseda University
+,,55,56,Peking University
+,,64,77,University of Notre Dame
+,,65,57,National Taiwan University
+,,87,78,Tsinghua University
+,,92,100,Kyushu University
+,,94,82,Katholieke Universiteit Leuven
+,,96,109,Tokyo Institute of Technology
+,,97,93,University of Melbourne
+,,98,158,University of Bonn
+,,100,126,Royal Institute of Technology
+,,101,85,Erasmus University Rotterdam
+,,107,98,Yonsei University
+,,112,118,Michigan State University
+,,114,149,University of the Witwatersrand
+,,116,117,Lund University
+,,118,113,Georgetown University
+,,119,122,Aarhus University
+,,120,116,University of Barcelona
+,,121,121,Baylor College of Medicine
+,,122,114,University of Amsterdam
+,,124,124,Uppsala University
+,,125,141,University of Iowa
+,,127,110,University of Groningen
+,,128,144,Korea Advanced Institute of Science and Technology (KAIST)
+,,129,134,Radboud University Nijmegen
+,,130,115,Korea University
+,,131,132,University of São Paulo
+,,133,127,University of Colorado Denver
+,,134,151,University of Montreal
+,,135,155,Albert Ludwig University of Freiburg
+,,136,119,Ghent University
+,,137,128,University of Glasgow
+,,138,137,University of Miami
+,,139,163,Université libre de Bruxelles
+,,141,150,McMaster University
+,,142,152,University of Birmingham
+,,143,139,University of Texas at Dallas
+,,144,129,VU University Amsterdam
+,,145,159,Wake Forest University
+,,146,148,University of Southampton
+,,148,135,Nanyang Technological University
+,,149,130,University of New South Wales
+,,150,474,Osaka City University
+,,151,161,University of Leeds
+,,152,133,Western University (The University of Western Ontario)
+,,153,320,Kobe University
+,,154,160,University of Basel
+,,155,170,University of Hong Kong
+,,156,164,Indiana University-Purdue University Indianapolis
+,,157,153,Humboldt University of Berlin
+,,158,147,Free University of Berlin
+,,159,156,University of Tübingen
+,,161,176,Goethe University Frankfurt
+,,162,184,University of Houston
+,,163,154,"University of California, Santa Cruz"
+,,164,146,University of Alabama at Birmingham
+,,165,143,Icahn School of Medicine at Mount Sinai
+,,166,167,University of Calgary
+,,168,237,University of Gothenburg
+,,169,177,University of Göttingen
+,,170,145,Monash University
+,,171,142,Southern Methodist University
+,,172,171,Yeshiva University
+,,173,190,University of South Florida - Tampa
+,,174,192,Hanyang University
+,,175,166,Oregon Health & Science University
+,,176,182,University of Strasbourg
+,,177,157,University of Cincinnati
+,,178,173,University of Sheffield
+,,179,162,University of Hamburg
+,,180,202,George Washington University
+,,181,172,University of Milan
+,,182,187,Iowa State University
+,,183,175,"University of Maryland, Baltimore"
+,,184,169,University of Padua
+,,185,181,University of New Mexico
+,,186,165,Pohang University of Science and Technology
+,,187,168,Stockholm University
+,,188,178,Hokkaido University
+,,189,195,Fudan University
+,,190,253,University of Sussex
+,,191,231,Université catholique de Louvain
+,,192,189,Wayne State University
+,,193,183,University of Massachusetts Medical School
+,,194,186,University of Lausanne
+,,195,180,Shanghai Jiao Tong University
+,,196,194,University of Missouri–Columbia
+,,197,174,Technical University of Denmark
+,,198,228,Complutense University of Madrid
+,,199,197,University of Cologne
+,,200,185,"Trinity College, Dublin"
+,,201,200,University of Bern
+,,202,220,Chinese University of Hong Kong
+,,203,196,University of Kansas
+,,204,211,Sungkyunkwan University
+,,205,223,University of Vienna
+,,206,191,Zhejiang University
+,,207,198,University of Georgia
+,,208,219,University of Massachusetts Amherst
+,,209,201,Cardiff University
+,,210,205,University of Münster
+,,211,199,University of Liverpool
+,,212,193,University of Ottawa
+,,213,204,University of Erlangen-Nuremberg
+,,214,209,Queen Mary University of London
+,,215,213,Karlsruhe Institute of Technology
+,,216,332,Louisiana State University - Baton Rouge
+,,217,244,Nanjing University
+,,218,203,University of Illinois at Chicago
+,,219,208,University of Bologna
+,,220,222,University of Manitoba
+,,221,188,Joseph Fourier University
+,,222,214,"University of California, Riverside"
+,,223,235,Julius-Maximilian's University of Würzburg
+,,224,206,Aix-Marseille University
+,,225,216,University of Western Australia
+,,226,229,Laval University
+,,227,227,"University of Tennessee, Knoxville"
+,,228,232,North Carolina State University
+,,229,212,Newcastle University
+,,230,207,Claude Bernard University Lyon 1
+,,231,221,University of Turin
+,,232,215,University of Kiel
+,,233,218,University of Connecticut
+,,234,272,Tulane University
+,,235,350,University of Oklahoma - Norman Campus
+,,236,274,Brandeis University
+,,237,210,Dresden University of Technology
+,,238,230,RWTH Aachen University
+,,239,234,University of Texas Health Science Center at San Antonio
+,,240,259,Virginia Commonwealth University
+,,241,,University of Montpellier 2
+,,242,305,Dalian University of Technology
+,,243,282,Rensselaer Polytechnic Institute
+,,244,236,Paul Sabatier University - Toulouse III
+,,245,217,Paris Descartes University
+,,246,226,National Cheng Kung University
+,,247,281,University of Delaware
+,,248,280,Vrije Universiteit Brussel
+,,249,233,Johannes Gutenberg University of Mainz
+,,250,225,Maastricht University
+,,251,251,University of Düsseldorf
+,,252,242,University of Dundee
+,,253,262,University of Tsukuba
+,,254,241,Autonomous University of Barcelona
+,,255,252,Florida State University
+,,256,291,University of Texas at San Antonio
+,,257,246,London School of Hygiene & Tropical Medicine
+,,258,264,Lehigh University
+,,259,267,University of Kentucky
+,,260,254,Thomas Jefferson University
+,,261,258,Drexel University
+,,262,271,Colorado State University - Fort Collins
+,,263,240,University of Leicester
+,,264,261,Durham University
+,,265,260,Oregon State University
+,,266,247,University of Florence
+,,267,248,University of Cape Town
+,,268,273,"University at Buffalo, The State University of New York"
+,,269,238,University College Dublin
+,,270,239,University of Science and Technology of China
+,,271,256,Virginia Polytechnic Institute and State University
+,,272,268,University of Naples Federico II
+,,273,266,University of Auckland
+,,274,249,University of Texas Health Science Center at Houston
+,,275,255,Delft University of Technology
+,,276,285,University of Aberdeen
+,,277,284,Queen's University
+,,278,257,University of Lisbon
+,,279,290,Hiroshima University
+,,280,269,University of Waterloo
+,,281,245,Okayama University
+,,282,278,University of Ulm
+,,283,311,Chulalongkorn University
+,,284,286,Dalhousie University
+,,285,406,Saint Petersburg State University
+,,286,243,Norwegian University of Science and Technology
+,,287,263,University of Reading
+,,288,276,Wageningen University and Research Centre
+,,289,287,Umeå University
+,,290,308,University of Porto
+,,291,319,Hong Kong University of Science and Technology
+,,292,277,Sun Yat-sen University
+,,293,297,Medical College of Wisconsin
+,,294,289,City College of New York
+,,295,292,Hannover Medical School
+,,296,380,"Washington State University, Pullman"
+,,297,345,Technical University of Berlin
+,,298,300,University of South Carolina - Columbia
+,,299,302,Leipzig University
+,,300,316,University of Stuttgart
+,,301,294,University of Valencia
+,,302,355,Linköping University
+,,303,288,University of Duisburg-Essen
+,,304,296,Ruhr University Bochum
+,,305,283,University of Bergen
+,,306,279,London School of Economics
+,,307,351,Wesleyan University
+,,308,295,University of Pisa
+,,309,304,Autonomous University of Madrid
+,,310,265,Medical University of Vienna
+,,311,306,Stellenbosch University
+,,312,303,Medical University of South Carolina
+,,313,270,Charles University in Prague
+,,314,307,Kyungpook National University
+,,315,482,"University of Science, Malaysia"
+,,316,321,University of Liège
+,,317,506,University of Hull
+,,318,275,Northeastern University
+,,319,353,Kansas State University
+,,320,324,University of Vermont
+,,321,323,Rush University
+,,322,298,University of Louisville
+,,323,309,University of St Andrews
+,,324,293,University of Warwick
+,,325,317,University of Rome Tor Vergata
+,,326,347,University of Innsbruck
+,,327,374,Darmstadt University of Technology
+,,328,341,Indian Institute of Technology Delhi
+,,329,322,Federal University of Rio de Janeiro
+,,330,312,University of Antwerp
+,,331,301,National and Kapodistrian University of Athens
+,,332,326,Boston College
+,,333,329,Vita-Salute San Raffaele University
+,,334,310,Gwangju Institute of Science and Technology
+,,335,314,University of Nebraska–Lincoln
+,,336,325,University of York
+,,337,334,National Autonomous University of Mexico
+,,338,318,University of Regensburg
+,,339,518,Yokohama National University
+,,340,335,University of Adelaide
+,,341,330,University of Genoa
+,,342,343,Queen's University Belfast
+,,343,346,University of Marburg
+,,344,327,University of Pavia
+,,345,340,"St George's, University of London"
+,,346,339,University of Oregon
+,,347,338,University of Navarra
+,,348,361,San Diego State University
+,,349,315,Nankai University
+,,350,336,University of East Anglia
+,,351,399,University of Nebraska Medical Center
+,,352,356,University of Southern Denmark
+,,353,348,Eindhoven University of Technology
+,,354,313,Xiamen University
+,,355,357,University of Otago
+,,356,363,University of Santiago de Compostela
+,,357,333,University of Exeter
+,,358,328,University of Jena
+,,359,344,University of Perugia
+,,360,358,Justus Liebig University Giessen
+,,361,360,College of William and Mary
+,,362,349,Ben-Gurion University of the Negev
+,,363,364,Saint Louis University
+,,364,365,Colorado School of Mines
+,,365,412,Oklahoma State University–Stillwater
+,,366,368,University of Guelph
+,,367,342,University of Trieste
+,,368,411,University of Verona
+,,369,388,"University at Albany, SUNY"
+,,370,420,Tongji University
+,,371,458,Eötvös Loránd University
+,,372,409,University of Alabama - Tuscaloosa
+,,373,366,University of Eastern Finland
+,,374,390,Ewha Womans University
+,,375,373,City University of Hong Kong
+,,376,392,Tokyo Medical and Dental University
+,,377,352,University of Victoria
+,,378,367,University of Buenos Aires
+,,379,378,University of Texas Medical Branch at Galveston
+,,380,401,Kyung Hee University
+,,381,354,Hong Kong Polytechnic University
+,,382,372,Saarland University
+,,383,393,Scuola Normale Superiore di Pisa
+,,384,398,University of Seville
+,,385,396,Beijing Normal University
+,,386,418,Chiba University
+,,387,369,University of Ferrara
+,,388,377,University of Bari Aldo Moro
+,,389,397,Polytechnic University of Milan
+,,390,381,Temple University
+,,391,383,University of Turku
+,,392,421,Aalto University
+,,393,362,Simon Fraser University
+,,394,331,Tianjin University
+,,395,402,Chalmers University of Technology
+,,396,470,Middle East Technical University
+,,397,594,Cranfield University
+,,398,337,York University
+,,399,389,Xi'an Jiaotong University
+,,400,384,Chonnam National University
+,,401,394,University of Central Florida
+,,402,385,University of Lorraine
+,,403,,University of Bordeaux II
+,,404,359,University of New Hampshire
+,,405,371,Versailles Saint-Quentin-en-Yvelines University
+,,406,422,Chonbuk National University
+,,407,419,Kumamoto University
+,,408,400,Huazhong University of Science and Technology
+,,409,472,Brunel University
+,,410,370,Polytechnic University of Catalonia
+,,411,386,National Chiao Tung University
+,,412,443,Southeast University
+,,413,481,Tokyo University of Science
+,,414,387,Catholic University of the Sacred Heart
+,,415,403,Brigham Young University
+,,416,435,Technical University of Madrid
+,,417,486,Nagasaki University
+,,418,407,National Tsing Hua University
+,,419,462,University of Warsaw
+,,420,569,King Saud University
+,,421,405,University of Bath
+,,422,417,Concordia University
+,,423,424,Georgia Regents University
+,,424,468,Niigata University
+,,425,447,University of Oulu
+,,426,375,Pompeu Fabra University
+,,427,427,Vienna University of Technology
+,,428,581,Sogang University
+,,429,434,Gyeongsang National University
+,,430,442,University of Tampere
+,,431,382,University of Milan - Bicocca
+,,432,,University of Bordeaux I
+,,433,416,Swedish University of Agricultural Sciences
+,,434,414,George Mason University
+,,435,391,Jilin University
+,,436,379,University of Delhi
+,,437,404,University of Campinas
+,,438,415,Wuhan University
+,,439,441,West Virginia University
+,,440,452,Pusan National University
+,,441,522,University of Mississippi - Oxford Campus
+,,442,429,University of Arkansas for Medical Sciences
+,,443,444,Miami University
+,,444,512,University of Tokushima
+,,445,408,University of Twente
+,,446,437,Loyola University Chicago
+,,447,433,Ajou University
+,,448,463,Syracuse University
+,,449,426,Lancaster University
+,,450,376,Pontifical Catholic University of Chile
+,,451,425,University of Chile
+,,452,395,Innsbruck Medical University
+,,453,431,University of Granada
+,,454,457,Kanazawa University
+,,455,456,University of Parma
+,,456,446,University of Siena
+,,457,413,Shandong University
+,,458,487,Technical University of Dortmund
+,,459,478,University of KwaZulu-Natal
+,,460,454,"University of Nevada, Reno"
+,,461,513,Yokohama City University
+,,462,471,École normale supérieure de Lyon
+,,463,436,University College Cork
+,,464,460,Ohio University
+,,465,438,Central South University
+,,466,432,University of Modena and Reggio Emilia
+,,467,519,New Mexico State University
+,,468,490,University of Konstanz
+,,469,488,University of Hawaii at Manoa
+,,470,489,University of Nebraska Omaha
+,,471,529,Shinshu University
+,,472,453,University of Strathclyde
+,,473,567,Baylor University
+,,474,440,Polytechnic University of Valencia
+,,475,410,Harbin Institute of Technology
+,,476,475,University of Rennes 1
+,,477,550,University of Arkansas - Fayetteville
+,,478,459,Aristotle University of Thessaloniki
+,,479,451,Jagiellonian University
+,,480,469,Texas Tech University (TTU)
+,,481,450,University of Rostock
+,,482,543,University of Akron
+,,483,455,University of Saskatchewan
+,,484,465,Juntendo University
+,,485,466,University of Wyoming
+,,486,449,Macquarie University
+,,487,533,University of Canterbury
+,,488,428,University of Denver
+,,489,480,Illinois Institute of Technology
+,,490,508,Creighton University
+,,491,464,Bielefeld University
+,,492,498,University of Malaya
+,,493,495,University of Ulsan
+,,494,545,City University London
+,,495,430,Grenoble Institute of Technology
+,,496,526,Federal University of Minas Gerais
+,,497,492,University of Hanover
+,,498,439,South China University of Technology
+,,499,525,University of Surrey
+,,500,536,Otto-von-Guericke University Magdeburg
+,,501,448,Indian Institute of Science
+,,502,501,Tokyo Metropolitan University
+,,503,521,Bar-Ilan University
+,,504,607,Mississippi State University
+,,505,493,"University of Maryland, Baltimore County"
+,,506,467,University of Wollongong
+,,507,620,Flinders University
+,,508,497,Martin Luther University of Halle-Wittenberg
+,,509,524,Graduate University for Advanced Studies
+,,510,483,Clemson University
+,,511,503,University of Brescia
+,,512,509,Georgia State University
+,,513,560,Dongguk University
+,,514,573,University of Fribourg
+,,515,479,Sichuan University
+,,516,461,University of Iceland
+,,517,502,University of Sherbrooke
+,,518,584,University of Graz
+,,519,693,University of Málaga
+,,520,484,University of Zaragoza
+,,521,546,New York Medical College
+,,522,516,SUNY Downstate Medical Center
+,,523,548,École Centrale Paris
+,,524,566,Utah State University
+,,525,504,University of Ljubljana
+,,526,,University of Montpellier 1
+,,527,588,Victoria University of Wellington
+,,528,477,East China University of Science and Technology
+,,529,602,Konkuk University
+,,530,517,University of Potsdam
+,,531,485,University of the Basque Country
+,,532,505,University of Nice Sophia Antipolis
+,,533,500,University of Udine
+,,534,542,National Yang-Ming University
+,,535,596,Indian Institute of Technology Bombay
+,,536,520,University of Bayreuth
+,,537,510,University of Wisconsin–Milwaukee
+,,538,445,University of Dayton
+,,539,473,Nihon University
+,,540,556,Montana State University - Bozeman
+,,541,540,"Royal Holloway, University of London"
+,,542,555,Tokyo Women's Medical University
+,,543,491,Panjab University
+,,544,577,Tampere University of Technology
+,,545,507,University of Coimbra
+,,546,494,University of Newcastle
+,,547,547,Nara Institute of Science and Technology
+,,548,549,Auburn University
+,,549,535,University of Bremen
+,,550,532,Mahidol University
+,,551,515,University of Crete
+,,552,568,Bangor University
+,,553,557,University of Aveiro
+,,554,528,University of Palermo
+,,555,599,Nagoya City University
+,,556,537,University of Tartu
+,,557,499,University of Savoy
+,,558,527,University of Tromsø - The Arctic University of Norway
+,,559,554,University of Missouri–Kansas City
+,,560,705,Beihang University
+,,561,682,American University of Beirut
+,,562,539,University of Nantes
+,,563,632,University of Essex
+,,564,551,University of Zagreb
+,,565,564,National Central University
+,,566,562,University Lille 1: Sciences and Technologies
+,,567,531,University of Catania
+,,568,580,National Polytechnic Institute of Toulouse
+,,569,714,Indian Institute of Technology Kanpur
+,,570,619,Kagoshima University
+,,571,514,Lanzhou University
+,,572,541,James Cook University
+,,573,648,Shizuoka University
+,,574,614,Indian Institute of Technology Kharagpur
+,,575,575,Second University of Naples
+,,576,534,Indian Institute of Technology Madras
+,,577,587,Plymouth University
+,,578,576,International School for Advanced Studies
+,,579,653,Polytechnic University of Turin
+,,580,559,University of Oviedo
+,,581,651,Ehime University
+,,582,582,University of Ioannina
+,,583,570,University of Cagliari
+,,584,736,Tottori University
+,,585,583,Federal University of Rio Grande do Sul
+,,586,571,Kent State University
+,,587,652,University of Los Andes (Colombia)
+,,588,553,Hunan University
+,,589,622,Tokai University
+,,590,600,LSU Health Sciences Center New Orleans
+,,591,590,Southern Illinois University Carbondale
+,,592,601,Tata Institute of Fundamental Research
+,,593,565,Aalborg University
+,,594,598,Osaka Prefecture University
+,,595,563,Chang Gung University
+,,596,643,Northern Illinois University
+,,597,561,University of Trento
+,,598,617,Semmelweis University
+,,599,530,University of Science and Technology Beijing
+,,600,558,"National University of Ireland, Galway"
+,,601,834,Dankook University
+,,602,623,Istanbul University
+,,603,624,Tokyo University of Agriculture and Technology
+,,604,585,University of Montana - Missoula
+,,605,621,Queensland University of Technology
+,,606,647,Binghamton University
+,,607,730,Université de Namur
+,,608,523,University of Tasmania
+,,609,678,University of Pretoria
+,,610,572,Central China Normal University
+,,611,638,Indian Institute of Technology Roorkee
+,,612,595,Curtin University
+,,613,579,Deakin University
+,,614,689,Tilburg University
+,,615,578,Inha University
+,,616,609,University of New Orleans
+,,617,633,Paris-Est Créteil Val-de-Marne University
+,,618,680,University of L'Aquila
+,,619,628,Chungnam National University
+,,620,637,University of Salamanca
+,,621,591,University of Alaska Fairbanks
+,,622,675,University of Poitiers
+,,623,650,Albany Medical College
+,,624,698,"Birkbeck, University of London"
+,,625,613,Griffith University
+,,626,589,Federal University of São Paulo
+,,627,593,Carleton University
+,,628,658,Massey University
+,,629,511,Catholic University of Korea
+,,630,631,Open University (UK)
+,,631,641,University of Patras
+,,632,612,Universidade Nova de Lisboa
+,,633,616,Texas A&M Health Science Center
+,,634,636,Braunschweig University of Technology
+,,635,544,National Chung Hsing University
+,,636,645,La Trobe University
+,,637,718,Missouri University of Science and Technology
+,,638,655,University of Idaho
+,,639,625,Louisiana Tech University
+,,640,597,University of Portsmouth
+,,641,603,University of La Laguna
+,,642,605,Florida International University
+,,643,574,Medical University of Graz
+,,644,719,Howard University
+,,645,604,University of Hertfordshire
+,,646,635,State University of New York Upstate Medical University
+,,647,711,Royal College of Surgeons in Ireland
+,,648,695,National Technical University of Athens
+,,649,538,University of Windsor
+,,650,644,Rovira i Virgili University
+,,651,654,University of Burgundy
+,,652,608,Gunma University
+,,653,782,AGH University of Science and Technology
+,,654,670,Gifu University
+,,655,634,Hacettepe University
+,,656,639,Örebro University
+,,657,611,Memorial University of Newfoundland
+,,658,737,Kindai University
+,,659,606,University of Rhode Island
+,,660,681,University of Alicante
+,,661,761,New Jersey Institute of Technology
+,,662,618,Lille 2 University of Health and Law
+,,663,674,Keele University
+,,664,671,University of Jyväskylä
+,,665,710,Rochester Institute of Technology
+,,666,713,Sapporo Medical University
+,,667,679,Banaras Hindu University
+,,668,704,King Abdullah University of Science and Technology
+,,669,640,Northeast Normal University
+,,670,661,Portland State University
+,,671,663,University of Québec at Montreal
+,,672,586,East China Normal University
+,,673,667,University of Debrecen
+,,674,665,Loma Linda University
+,,675,656,Old Dominion University
+,,676,676,University of Insubria
+,,677,687,"University of Nevada, Las Vegas"
+,,678,649,Hong Kong Baptist University
+,,679,629,University of Minho
+,,680,690,University of Messina
+,,681,626,University of Texas at Arlington
+,,682,699,"University François Rabelais, Tours"
+,,683,664,"UNESP, São Paulo State University"
+,,684,727,Toho University
+,,685,642,Beijing University of Chemical Technology
+,,686,723,"Rutgers, The State University of New Jersey - Newark"
+,,687,715,Johannes Kepler University of Linz
+,,688,646,Warsaw University of Technology
+,,689,672,University of Paris 13
+,,690,666,University of Toyama
+,,691,592,University of Toledo
+,,692,686,University of Vigo
+,,693,692,University of Kent
+,,694,722,Jichi Medical University
+,,695,701,Roma Tre University
+,,696,875,Chung Yuan Christian University
+,,697,700,University of Haifa
+,,698,735,Åbo Akademi University
+,,699,729,Swansea University
+,,700,627,China Agricultural University
+,,701,662,Marche Polytechnic University
+,,702,668,"University of Maine, Orono"
+,,703,707,Heriot-Watt University
+,,704,717,Marquette University
+,,705,694,Loughborough University
+,,706,691,Kaiserslautern University of Technology
+,,707,720,Aston University
+,,708,673,University of Girona
+,,709,733,Hasselt University
+,,710,804,Nanjing University of Science and Technology
+,,711,743,"University of Natural Resources and Life Sciences, Vienna"
+,,712,731,University of Szeged
+,,713,615,Soochow University (Suzhou)
+,,714,660,University of the Balearic Islands
+,,715,706,Fuzhou University
+,,716,746,University of Memphis
+,,717,712,San Francisco State University
+,,718,762,East Carolina University
+,,719,739,University of Augsburg
+,,720,748,University of Missouri–St. Louis
+,,721,728,Kyoto Prefectural University of Medicine
+,,722,684,Shanghai University
+,,723,751,University of South Australia
+,,724,696,Liverpool John Moores University
+,,725,669,Graz University of Technology
+,,726,732,Kitasato University
+,,727,794,University of North Carolina at Charlotte
+,,728,747,"G. d'Annunzio University, Chieti-Pescara"
+,,729,709,University of Cantabria
+,,730,767,Miguel Hernández University of Elche
+,,731,659,Donghua University
+,,732,685,Comenius University in Bratislava
+,,733,752,University of Alabama in Huntsville
+,,734,780,Mie University
+,,735,784,University of Stirling
+,,736,850,Hunter College
+,,737,688,Swinburne University of Technology
+,,738,683,University of Ulster
+,,739,750,University of Évry Val d'Essonne
+,,740,703,University of Salerno
+,,741,744,National University of La Plata
+,,742,702,Masaryk University
+,,743,657,Yamaguchi University
+,,744,759,University of Yamanashi
+,,745,800,Showa University
+,,746,792,North Dakota State University - Main Campus
+,,747,778,"University of North Texas, Denton"
+,,748,754,University of Mississippi Medical Center
+,,749,768,University of Tehran
+,,750,740,"Paul Valéry University, Montpellier III"
+,,751,677,Wuhan University of Technology
+,,752,763,University of Hyogo
+,,753,832,The Catholic University of America
+,,754,758,University of Neuchâtel
+,,755,786,National Polytechnic Institute
+,,756,775,Jikei University School of Medicine
+,,757,841,University of Valladolid
+,,758,745,University of Calabria
+,,759,552,University of Lübeck
+,,760,771,Kurume University
+,,761,423,Peking Union Medical College
+,,762,760,Yamagata University
+,,763,734,University of Córdoba (Spain)
+,,764,741,University of Mons
+,,765,773,Saga University
+,,766,835,Clarkson University
+,,767,844,University of South Alabama
+,,768,813,Inje University
+,,769,797,University of Caen Lower Normandy
+,,770,738,University of Castilla–La Mancha
+,,771,716,Czech Technical University in Prague
+,,772,798,Saitama Medical University
+,,773,742,Istanbul Technical University
+,,774,757,Kaohsiung Medical University
+,,775,840,University of Electro-Communications
+,,776,770,Yeungnam University
+,,777,777,Jawaharlal Nehru Centre for Advanced Scientific Research
+,,778,610,"Putra University, Malaysia"
+,,779,772,Institut national des sciences Appliquées de Lyon
+,,780,822,University of Perpignan Via Domitia
+,,781,839,University of Miyazaki
+,,782,776,Second Military Medical University
+,,783,766,Northern Arizona University
+,,784,781,École Polytechnique de Montréal
+,,785,765,University of Salento
+,,786,862,Fukuoka University
+,,787,827,Nagoya Institute of Technology
+,,788,725,Ankara University
+,,789,769,Blaise Pascal University
+,,790,783,University of Electronic Science and Technology of China
+,,791,803,National Sun Yat-sen University
+,,792,831,University of Rouen
+,,793,809,Bowling Green State University
+,,794,789,Norwegian University of Life Sciences
+,,795,764,University of Picardie Jules Verne
+,,796,790,Michigan Technological University
+,,797,805,University of Concepción
+,,798,708,China Medical University (Taiwan)
+,,799,793,University of Hohenheim
+,,800,814,Aberystwyth University
+,,801,907,Wilfrid Laurier University
+,,802,796,Cairo University
+,,803,799,University of Murcia
+,,804,724,"Palacký University, Olomouc"
+,,805,807,Taipei Medical University
+,,806,821,University of Bradford
+,,807,847,King Fahd University of Petroleum and Minerals
+,,808,779,Ege University
+,,809,726,University of Belgrade
+,,,,University of Eastern Piedmont 
+,,811,819,Budapest University of Technology and Economics
+,,812,753,University of Salzburg
+,,813,884,University of Massachusetts Lowell
+,,814,808,Jaume I University
+,,815,774,Chongqing University
+,,816,749,Beijing Institute of Technology
+,,817,885,Manchester Metropolitan University
+,,818,795,Zhengzhou University
+,,819,843,Dublin City University
+,,820,853,"National University of Ireland, Maynooth"
+,,821,812,Kangwon National University
+,,822,874,"Royal Veterinary College, University of London"
+,,823,833,Wright State University - Dayton
+,,824,788,Capital Medical University
+,,825,824,University of Brighton
+,,826,845,Sofia University
+,,827,836,University of Regina
+,,828,802,Magna Græcia University of Catanzaro
+,,829,806,Chungbuk National University
+,,830,838,Kōchi University
+,,831,870,University of New Brunswick
+,,832,868,Sejong University
+,,833,697,Sharif University of Technology
+,,834,756,Chung-Ang University
+,,835,893,"Queens College, City University of New York"
+,,836,829,Murdoch University
+,,837,878,Chosun University
+,,838,791,Vilnius University
+,,839,820,University of Maribor
+,,840,926,Ritsumeikan University
+,,841,817,University of Sassari
+,,842,864,Nanjing Normal University
+,,843,816,University of Franche-Comté
+,,844,929,University of Texas at El Paso
+,,845,826,Rio de Janeiro State University
+,,846,955,Jinan University
+,,847,825,University of Massachusetts Boston
+,,848,849,University of Alcalá
+,,849,854,Tehran University of Medical Sciences
+,,850,855,University of the Ryukyus
+,,851,859,University of Angers
+,,852,915,Fluminense Federal University
+,,853,823,Florida Institute of Technology
+,,854,910,Trent University
+,,855,865,National Chung Cheng University
+,,856,842,Bilkent University
+,,857,932,National Taiwan Normal University
+,,858,909,Saitama University
+,,859,873,RMIT University
+,,860,863,Hamamatsu University School of Medicine
+,,861,785,University of Greifswald
+,,862,892,University of Pécs
+,,863,900,University of Fukui
+,,864,906,Oakland University
+,,865,810,Nanjing University of Technology
+,,866,815,"University of Technology, Sydney"
+,,867,897,University of North Carolina at Greensboro
+,,868,851,"All India Institute of Medical Sciences, New Delhi"
+,,869,887,Kyoto Institute of Technology
+,,870,846,Ocean University of China
+,,871,818,Chiang Mai University
+,,872,919,University of Camerino
+,,873,945,Hirosaki University
+,,874,913,University of North Dakota
+,,875,872,University of Extremadura
+,,876,908,Teikyo University
+,,877,828,Jiangnan University
+,,878,890,Adam Mickiewicz University in Poznań
+,,879,937,University of Waikato
+,,880,848,University of Veterinary Medicine Vienna
+,,881,930,University of Cádiz
+,,882,856,Florida Atlantic University
+,,883,858,Huazhong Agricultural University
+,,884,861,Brock University
+,,885,894,University of Lleida
+,,886,888,Shanghai Normal University
+,,887,880,Jean Monnet University
+,,888,903,Shimane University
+,,889,879,University of Orléans
+,,890,857,University of Siegen
+,,891,869,Makerere University
+,,892,830,"University of Wales, Trinity Saint David"
+,,893,916,National Taiwan University of Science and Technology
+,,894,920,University of Brasília
+,,895,896,University of Western Brittany
+,,896,866,Nanjing Agricultural University
+,,897,933,National University of Córdoba
+,,898,918,Federal University of Santa Catarina
+,,899,946,National Taiwan Ocean University
+,,900,852,Gazi University
+,,901,968,National University of Colombia
+,,902,935,University of Jaén
+,,903,837,Boğaziçi University
+,,904,923,Jadavpur University
+,,905,898,Pukyong National University
+,,906,882,University of Western Sydney
+,,907,871,Northeastern University (China)
+,,908,902,University of Mannheim
+,,909,876,University of Osnabrück
+,,910,942,Charles Darwin University
+,,911,925,University of Hyderabad
+,,912,877,Northwest University (China)
+,,913,901,University of Southern Mississippi
+,,914,921,University of Wrocław
+,,915,927,Carlos III University of Madrid
+,,916,985,Novosibirsk State University
+,,917,886,Nanjing Medical University
+,,918,911,Nicolaus Copernicus University in Toruń
+,,919,974,Federal University of Santa Maria
+,,920,,Chemnitz University of Technology
+,,921,889,Southwest University
+,,922,944,Wrocław University of Technology
+,,923,936,"University of California, Merced"
+,,924,950,United Arab Emirates University
+,,925,941,Federal University of São Carlos
+,,926,905,University of Thessaly
+,,927,922,University of Basilicata
+,,928,983,Feng Chia University
+,,929,934,Federal University of Paraná
+,,930,940,University of Almería
+,,931,952,Hallym University
+,,932,899,Fourth Military Medical University
+,,933,867,University of the Republic (Uruguay)
+,,934,954,Dokuz Eylül University
+,,935,895,Nanjing University of Aeronautics and Astronautics
+,,936,959,Public University of Navarre
+,,937,999,University of A Coruña
+,,938,914,Isfahan University of Technology
+,,939,811,University of New England (Australia)
+,,940,939,Federal University of Pernambuco
+,,941,947,Jiangsu University
+,,942,957,Third Military Medical University
+,,943,924,South China Normal University
+,,944,981,University of Limerick
+,,945,949,Xiangtan University
+,,946,943,Yangzhou University
+,,947,948,Northwestern Polytechnical University
+,,948,978,University of Reims Champagne-Ardenne
+,,949,970,Ibaraki University
+,,950,967,Chung Shan Medical University
+,,951,997,Alexandria University
+,,952,979,Yuan Ze University
+,,953,928,University of Cyprus
+,,954,964,University of Silesia
+,,955,963,Southern Medical University
+,,956,956,Shiraz University
+,,957,986,University of Bucharest
+,,958,988,Mansoura University
+,,959,958,Amirkabir University of Technology
+,,960,,Beijing Jiaotong University
+,,961,966,University of Valenciennes and Hainaut-Cambresis
+,,962,996,University of the Algarve
+,,963,980,"University of Chemistry and Technology, Prague"
+,,964,998,Federal University of Ceará
+,,965,965,Ain Shams University
+,,966,801,University of Oldenburg
+,,967,992,Federal University of Bahia
+,,968,972,Hunan Normal University
+,,969,,Western Michigan University
+,,970,860,University of Seoul
+,,971,960,Federico Santa María Technical University
+,,972,994,Ryerson University
+,,973,969,South China Agricultural University
+,,974,971,Fu Jen Catholic University
+,,975,1000,China Pharmaceutical University
+,,976,912,Tarbiat Modares University
+,,977,962,University of Puerto Rico at Mayagüez
+,,978,,National University of Rosario
+,,979,989,University of Pau and Pays de l'Adour
+,,980,991,Xidian University
+,,981,984,Zhejiang University of Technology
+,,982,982,China Medical University (PRC)
+,,983,961,Federal University of ABC
+,,984,,King Juan Carlos University
+,,985,977,Beijing University of Technology
+,,986,,Guangxi University
+,,987,,Northwest A&F University
+,,988,,Shanxi University
+,,989,,Tamkang University
+,,990,,Harbin Medical University
+,,991,,Zhejiang Normal University
+,,992,995,King Abdulaziz University
+,,993,,Iran University of Science and Technology
+,,994,,I-Shou University
+,,995,,University of Maine (Le Mans)
+,,996,,National Dong Hwa University
+,,997,,National Taipei University of Technology
+,,998,,Shaanxi Normal University
+,,999,,National University of Defense Technology
+,,1000,,Yanbian University
+,,,224,University of Montpellier
+,,,250,Moscow Institute of Physics and Technology
+,,,299,University of Bordeaux
+,,,476,University of Oklahoma Health Sciences Center
+,,,496,Renmin University of China
+,,,721,École normale supérieure de Cachan
+,,,755,National Research Nuclear University MEPhI
+,,,787,Jacobs University Bremen
+,,,881,École centrale de Lyon
+,,,883,Hefei University of Technology
+,,,891,University of Calcutta
+,,,904,China University of Geosciences (Wuhan)
+,,,917,University of Lethbridge
+,,,931,Shahid Beheshti University of Medical Sciences
+,,,938,University of Central Lancashire
+,,,951,Gachon University
+,,,953,Harbin Engineering University
+,,,973,Ulsan National Institute of Science and Technology
+,,,975,Shenzhen University
+,,,976,Tianjin Medical University
+,,,987,Babeș-Bolyai University
+,,,990,Henan Normal University
+,,,993,Southwest Jiaotong University
