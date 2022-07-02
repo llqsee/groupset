@@ -12,13 +12,9 @@ As shown in the following figure, sets (Low traffic, Medium traffic, High traffi
 We release a demo with multiple datasets as instance of GroupSet at https://llqsee.github.io/groupset/.
 
 ## Video
-We introduce what GroupSet can do and how GroupSet helps users explore temporal changes with a video:
+We introduce what GroupSet can do and how GroupSet helps users explore temporal changes with a video at https://drive.google.com/file/d/1VL0wGmmFFe6mzHbN3gU4vzZBgpuBVbft/view?usp=sharing.
 
-<!-- at https://drive.google.com/file/d/1VL0wGmmFFe6mzHbN3gU4vzZBgpuBVbft/view?usp=sharing. -->
 
-<video width="550" controls>
-  <source src="video/video.mp4" type="video/mp4">
-</video>
 
 ## Datasets
 
