@@ -10,5 +10,6 @@
     "soccerCumulative/soccerCumulative.json",
     "soccerSeasons/soccerSeason.json",
     "soccerRepeatTeam/soccer.json",
-    "soccerRank/soccerRank.json"
+    "soccerRank/soccerRank.json",
+    "trafficLess/trafficLess.json"
 ]

@@ -1,0 +1,95 @@
+{
+    "file": "trafficLess/trafficLess.csv",
+    "name": "TrafficLess",
+    "header": 1,
+    "separator": ",",
+    "id": "code",
+    "config": [
+      {
+        "n": 2,
+        "category": [
+          {
+            "edgeMin": -1,
+            "edgeMax": 3000,
+            "name": "Free flow"
+          },
+          {
+            "edgeMin": 3000,
+            "edgeMax": 6660,
+            "name": "Non-Free flow"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "category": [
+          {
+            "edgeMin": -1,
+            "edgeMax": 2000,
+            "name": "Free flow"
+          },
+          {
+            "edgeMin": 2000,
+            "edgeMax": 4000,
+            "name": "Non-free flow"
+          },
+          {
+            "edgeMin": 4000,
+            "edgeMax": 6660,
+            "name": "Busy"
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "category": [
+          {
+            "edgeMin": -1,
+            "edgeMax": 1500,
+            "name": "Free flow"
+          },
+          {
+            "edgeMin": 1500,
+            "edgeMax": 3000,
+            "name": "Non-free flow"
+          },
+          {
+            "edgeMin": 3000,
+            "edgeMax": 4500,
+            "name": "Busy"
+          },
+          {
+            "edgeMin": 4500,
+            "edgeMax": 66600,
+            "name": "Very busy"
+          }
+        ]
+      }
+    ],
+    "temporalAttributes": [],
+    "attributes": [
+      {
+        "name": "sens",
+        "type": "categorical"
+      },
+      {
+        "name": "etat",
+        "type": "categorical"
+      },
+      {
+        "name": "longueur",
+        "type": "quantitative"
+      },
+      {
+        "name": "fournisseur",
+        "type": "categorical"
+      },
+      {
+        "name": "^\\d+$",
+        "type": "regExp"
+      }
+    ],
+    "author": "",
+    "description": "",
+    "source": ""
+  }
